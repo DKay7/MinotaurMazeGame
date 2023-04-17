@@ -3,7 +3,7 @@
 #include "AssetManager.hpp"
 #include <memory>
 #include <SFML/Graphics/RenderWindow.hpp>
-
+#include <iostream>
 
 namespace game {
     class Context final {

@@ -8,7 +8,6 @@ namespace engine {
         State() {}
         virtual ~State() = default;
 
-        virtual void init() = 0;
         virtual void process_input(sf::Event& event) = 0;
         virtual void update() = 0;
         virtual void draw() = 0;

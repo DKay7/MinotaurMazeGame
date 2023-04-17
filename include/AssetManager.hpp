@@ -7,7 +7,7 @@
 namespace game
 {   
     enum class TEXTURE_ID {
-
+        MAIN_MENU_BG = 1 << 27,
     };
 
     enum class FONT_ID {

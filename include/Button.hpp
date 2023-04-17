@@ -1,20 +1,42 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-namespace engine
+namespace game
 {
    class Button final {
     public:
-        Button();
-        void draw(sf::RenderTarget* target);
-    private:
-        sf::RectangleShape shape;
-        sf::Font* font;
-        sf::Text text;
+        Button(sf::Vector2f position, sf::Vector2f size, 
+                   const sf::Font& font, std::string button_text, 
+                   sf::Color default_bg_color, sf::Color hover_bg_color, 
+                   sf::Color pressed_bg_color, sf::Color default_text_color, 
+                   sf::Color hover_text_color, sf::Color pressed_text_color);
+        
+        void draw(sf::RenderWindow& target);
+        void update(sf::Vector2f mouse_position);
+        bool is_pressed() const;
 
-        sf::Color active_color;
-        sf::Color hover_color;
-        sf::Color idle_color;
+        enum class BUTTON_STATE {
+            DEFAULT = 0,
+            HOVER   = 1,
+            PRESSED = 2,
+        };
+
+
+    private:
+        BUTTON_STATE state = BUTTON_STATE::DEFAULT;
+        sf::Color default_bg_color;
+        sf::Color hover_bg_color;
+        sf::Color pressed_bg_color;
+        
+        sf::Color default_text_color;
+        sf::Color hover_text_color;
+        sf::Color pressed_text_color;
+
+        sf::Vector2f position;
+        sf::RectangleShape shape;
+        sf::Text text;
+        
+        bool switch_text_color;
     }; 
 } // namespace engine
 

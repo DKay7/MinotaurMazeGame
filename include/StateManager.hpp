@@ -20,7 +20,7 @@ namespace engine {
         
         void add_state(std::unique_ptr<State> new_state, bool replace_current_state = false);
         void pop_state();
-        void process_state();
+        void process_state_change();
         std::unique_ptr<State>& get_current_state(); 
     };
 
