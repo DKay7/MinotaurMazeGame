@@ -1,20 +1,10 @@
-#include <SFML/Graphics.hpp>
+#include <Game.hpp>
 
 int main() {    
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Code flow game");
+    game::Game code_flow_game;
+    code_flow_game.run();
 
-    while (window.isOpen()) {
-        sf::Event event;
-        
-        while(window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-
-
-    }
-     
+    
     return 0;
 }
