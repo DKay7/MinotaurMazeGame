@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Components/AnimationComponent.hpp"
+#include "Components/MovementComponent.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -22,11 +23,12 @@ namespace game {
         void set_sprite_texture(const sf::Texture &texture);
         void set_position(const sf::Vector2f position);
         void create_animation_component(const sf::Texture &texture_sheet);
+        void create_movement_component(const float max_velocity, const float acceleration = 15, const float deceleration = 0.1);
 
     protected:
         std::unique_ptr<AnimationComponent> animation_component;
+        std::unique_ptr<MovementComponent> movement_component;
 
         sf::Sprite sprite;
-        float movement_speed = 100;
-    };
+     };
 }

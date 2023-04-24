@@ -1,5 +1,6 @@
 #include "Entities/Entity.hpp"
 #include "Components/AnimationComponent.hpp"
+#include "Components/MovementComponent.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <memory>
@@ -8,7 +9,10 @@ namespace game {
     Entity::Entity() { }
 
     void Entity::move(const float delta_time, sf::Vector2f direction) {
-        sprite.move(direction.x * movement_speed * delta_time, direction.y * movement_speed * delta_time);
+        if (movement_component) {
+            movement_component->move(delta_time, direction);
+            // sprite.move(movement_component->get_velocity() * delta_time);
+        }
     }
 
     void Entity::draw(sf::RenderTarget &target) {
@@ -27,6 +31,11 @@ namespace game {
         animation_component = std::make_unique<AnimationComponent>(sprite, texture_sheet);
     }
 
+    void Entity::create_movement_component(const float max_velocity, const float acceleration, 
+                                           const float deceleration) 
+    {
+        movement_component = std::make_unique<MovementComponent>(sprite, max_velocity, acceleration, deceleration);
+    }
 }
 
 

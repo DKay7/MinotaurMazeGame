@@ -11,7 +11,7 @@ namespace game {
     public:
         Player(sf::Vector2f position, const sf::Texture& texture_sheet);
         void update(const float delta_time) override;
-    
+
     };
 
 }
