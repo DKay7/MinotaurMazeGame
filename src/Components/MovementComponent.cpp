@@ -2,7 +2,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
-#include <iostream>
+#include <math.h>
 
 namespace game {
     MovementComponent::MovementComponent(sf::Sprite &sprite, float max_velocity, float acceleration, float deceleration): 
@@ -12,7 +12,7 @@ namespace game {
 
     void MovementComponent::move(const float& delta_time, const sf::Vector2f direction) {
         // accelerating sprite until it reaches max speed
-
+        
         velocity.x += acceleration * direction.x;
         velocity.y += acceleration * direction.y;
     }
@@ -36,9 +36,16 @@ namespace game {
             if (old_sign != speed_sign(speed))              \
                 speed = 0;
 
+        // just magic stuff to make diagonal speed looks better
+        if (velocity.x != 0 and velocity.y != 0) {
+            velocity.x = velocity.x / sqrt(2) * 1.25; 
+            velocity.y = velocity.y / sqrt(2) * 1.25;
+        }
+
         update_speed(velocity.x)
         update_speed(velocity.y)
-        
+
+
         sprite.move(velocity * delta_time);
 
         #undef speed_sign
@@ -49,4 +56,33 @@ namespace game {
     const sf::Vector2f& MovementComponent::get_velocity() const {
         return velocity;
     }
+
+    const bool MovementComponent::idle() const {
+
+        // we manually sets velosity to zero, so
+        // it's okay to comapre it even it's a float
+        return velocity.x == 0 and velocity.y == 0;
+    }
+
+    const bool MovementComponent::moving() const {
+        return !idle();
+    }
+
+    const bool MovementComponent::moving_left() const {
+        return velocity.x < 0;
+    }
+
+    const bool MovementComponent::moving_right() const {
+        return velocity.x > 0;
+    }
+
+    const bool MovementComponent::moving_up() const {
+        return velocity.y < 0;
+    }
+
+    const bool MovementComponent::moving_down() const {
+        return velocity.y > 0;
+    }
+
+
 }

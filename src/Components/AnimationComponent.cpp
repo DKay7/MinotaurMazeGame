@@ -14,6 +14,15 @@ namespace game {
     }
 
     void AnimationComponent::play(const ANIMATION_ID key, const float& delta_time) {
+
+        auto animation_ptr = animations[key].get();
+        if (last_animation != animation_ptr) {
+            if (last_animation)
+                last_animation->reset();
+
+            last_animation = animation_ptr;
+        }
+
         animations[key]->play(delta_time);
     }
 

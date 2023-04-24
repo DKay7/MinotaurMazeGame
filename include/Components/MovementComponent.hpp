@@ -14,7 +14,13 @@ namespace game {
         void move(const float& delta_time, const sf::Vector2f direction);
 
         const sf::Vector2f& get_velocity() const;
-
+        const bool idle() const;
+        const bool moving() const;
+        const bool moving_left() const;
+        const bool moving_right() const;
+        const bool moving_up() const;
+        const bool moving_down() const;
+        
     private:
         sf::Sprite& sprite;
         

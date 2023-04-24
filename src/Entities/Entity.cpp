@@ -9,10 +9,8 @@ namespace game {
     Entity::Entity() { }
 
     void Entity::move(const float delta_time, sf::Vector2f direction) {
-        if (movement_component) {
+        if (movement_component)
             movement_component->move(delta_time, direction);
-            // sprite.move(movement_component->get_velocity() * delta_time);
-        }
     }
 
     void Entity::draw(sf::RenderTarget &target) {

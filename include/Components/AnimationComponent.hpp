@@ -23,7 +23,7 @@ namespace game {
         class Animation final {
             public:
                 Animation(sf::Sprite &sprite_, const sf::Texture& texture_sheet, float time_per_frame, 
-                            sf::Vector2i start_frame, sf::Vector2i num_frames, sf::Vector2i frame_size): 
+                          sf::Vector2i start_frame, sf::Vector2i num_frames, sf::Vector2i frame_size): 
                         sprite(sprite_), texture_sheet(texture_sheet), time_per_frame(time_per_frame), frame_size(frame_size)
                 {   
                     start_rect = sf::IntRect(start_frame.x * frame_size.x, start_frame.y * frame_size.y, 
@@ -39,7 +39,9 @@ namespace game {
                 }
 
                 void play(const float& delta_time) {
-                    timer += 10 * delta_time; // mult by 10 just bc game timer is too slow
+                    timer += 10 * delta_time;   // mult by 10 just bc game timer is too slow
+                     
+                    sprite.setTextureRect(current_rect);
 
                     if (timer < time_per_frame)
                         return;
@@ -50,8 +52,8 @@ namespace game {
                     // reset animation
                     else
                         current_rect = start_rect;
+                
 
-                    sprite.setTextureRect(current_rect);
                 }
                 
                 void reset() {
@@ -60,20 +62,21 @@ namespace game {
                 }
                 
             private:
-            sf::Sprite &sprite;
-            const sf::Texture &texture_sheet;
+                sf::Sprite &sprite;
+                const sf::Texture &texture_sheet;
 
-            sf::Vector2i frame_size;
-            float time_per_frame = 0;
+                sf::Vector2i frame_size;
+                float time_per_frame = 0;
 
-            float timer = 0;
-            
-            sf::IntRect start_rect;
-            sf::IntRect current_rect;
-            sf::IntRect end_rect;
+                float timer = 0;
+                
+                sf::IntRect start_rect;
+                sf::IntRect current_rect;
+                sf::IntRect end_rect;
               
         };
 
+        Animation* last_animation = nullptr; // not owning pointer to last played animation
         sf::Sprite &sprite;
         const sf::Texture &texture_sheet;
         std::map<const ANIMATION_ID, std::unique_ptr<Animation>> animations;
