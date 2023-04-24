@@ -1,32 +1,26 @@
 #include "Game.hpp"
-#include "MainMenu.hpp"
+#include "States/MainMenu.hpp"
 #include "Constants.hpp"
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include <SFML/System/Clock.hpp>
+#include <memory>
 
 namespace game {
     Game::Game() {
-        context = std::make_shared<Context>();
+        context = std::make_unique<Context>();
         context->window->create(sf::VideoMode(Constants::window_width, Constants::window_height), Constants::game_title, sf::Style::Close);
-        
-        // TODO let's take a look on acuaision chain:
-        // context -> state manager -> menu -> context
-        // menu will never be destroyed until context is destroyed
-        // and context will not be destroyed until there's menu with reference to it
-        // i solved with weak ptr, but architecture is CRrInGe!1!11!! 
-        context->state_manager->add_state(std::make_unique<MainMenu>(context));
+        context->state_manager->add_state(std::make_unique<MainMenu>(context.get()));
     }   
 
     void Game::run() {
+        sf::Clock clock;
+
         while (context->window->isOpen()) {
             engine::StateManager &mgr = *context->state_manager;
-
             mgr.process_state_change();
-
             engine::State &state = *mgr.get_current_state();
 
             sf::Event event;
-
             while(context->window->pollEvent(event)) {
                 if (event.type == sf::Event::Closed) {
                     context->window->close();
@@ -35,7 +29,8 @@ namespace game {
                     state.process_input(event);
             }
 
-            state.update();
+            const float delta_time = clock.restart().asSeconds();
+            state.update(delta_time);
             state.draw();
         }
     }

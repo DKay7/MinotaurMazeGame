@@ -1,7 +1,7 @@
 #pragma once
 #include "State.hpp"
-#include "Context.hpp"
-#include "Button.hpp"
+#include "../Context.hpp"
+#include "../GUIElements/Button.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <memory>
@@ -9,12 +9,12 @@
 
 namespace game
 {
-    class MainMenu: public engine::State {
+    class MainMenu final: public engine::State {
     public:
-        MainMenu(std::shared_ptr<Context>& context_);
+        MainMenu(Context* context_);
 
         void process_input(sf::Event& event) override;
-        void update() override;
+        void update(const float delta_time) override;
         void draw() override;
 
     private:
@@ -24,7 +24,7 @@ namespace game
 
         sf::Sprite background;
 
-        std::weak_ptr<Context> cntx;
+        Context* context;
 
     };
 } // namespace game

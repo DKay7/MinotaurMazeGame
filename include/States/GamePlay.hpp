@@ -1,27 +1,27 @@
 #pragma once
 
 #include "Context.hpp"
-#include "State.hpp"
-#include "TextBox.hpp"
+#include "Entities/Entity.hpp"
+#include "Entities/Player.hpp"
+#include "States/State.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <array>
 #include <memory>
 
 
 namespace game {
-    class GamePlay: public engine::State {
+    class GamePlay final: public engine::State {
     public:
-        GamePlay(std::shared_ptr<Context>& context);
+        GamePlay(Context* context_);
         void process_input(sf::Event& event) override;
-        void update() override;
+        void update(const float delta_time) override;
         void draw() override;
         void pause() override;
         void start() override;
 
     private:
-        TextBox textBox;
-        std::weak_ptr<Context> cntx;
-        std::array<sf::Sprite, 15 * 15> game_map;
+        std::unique_ptr<Player> player;
+        Context* context;
     };
 
 

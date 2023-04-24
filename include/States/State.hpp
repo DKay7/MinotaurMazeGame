@@ -9,7 +9,7 @@ namespace engine {
         virtual ~State() = default;
 
         virtual void process_input(sf::Event& event) = 0;
-        virtual void update() = 0;
+        virtual void update(const float delta_time) = 0;
         virtual void draw() = 0;
 
         virtual void pause() {}

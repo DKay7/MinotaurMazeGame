@@ -1,5 +1,5 @@
 #include "Context.hpp"
-#include "AssetManager.hpp"
+#include "Managers/AssetManager.hpp"
 
 namespace game {
     Context::Context() {

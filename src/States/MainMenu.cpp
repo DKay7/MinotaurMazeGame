@@ -1,8 +1,8 @@
-#include "MainMenu.hpp"
-#include "AssetManager.hpp"
+#include "States/MainMenu.hpp"
+#include "Managers/AssetManager.hpp"
 #include "Constants.hpp"
-#include "Button.hpp"
-#include "GamePlay.hpp"
+#include "GUIElements/Button.hpp"
+#include "States/GamePlay.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -14,9 +14,8 @@
 
 namespace game
 {
-    MainMenu::MainMenu(std::shared_ptr<Context>& context_): cntx(context_)
+    MainMenu::MainMenu(Context* context_): context(context_)
     {
-        auto context = cntx.lock();
         auto font_load_result = context->asset_manager->add_font(FONT_ID::MAIN_FONT, Constants::main_font_path);
         
         if (!font_load_result)
@@ -53,30 +52,20 @@ namespace game
 
     void MainMenu::process_input(sf::Event& event) {
     
-        if (game_btn->is_pressed()) {
-            auto context = cntx.lock();
+        if (game_btn->is_pressed())
             context->state_manager->add_state(std::make_unique<GamePlay>(context), true);
-        }
 
-        if (exit_btn->is_pressed()) {
-            auto context = cntx.lock();
+        if (exit_btn->is_pressed()) 
             context->window->close();
-        }
     }
 
-    void MainMenu::update() {
-        auto context = cntx.lock();
-
+    void MainMenu::update(const float delta_time) {
         auto mouse_pos = context->window->mapPixelToCoords(sf::Mouse::getPosition(*context->window.get()));
         game_btn->update(mouse_pos);
         exit_btn->update(mouse_pos);
     }
 
     void MainMenu::draw() {
-            if(cntx.expired())
-                return;
-
-            auto context = cntx.lock();
             auto& window = context->window;
 
             window->clear();

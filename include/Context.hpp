@@ -1,6 +1,6 @@
 #pragma once
-#include "StateManager.hpp"
-#include "AssetManager.hpp"
+#include "Managers/StateManager.hpp"
+#include "Managers/AssetManager.hpp"
 #include <memory>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <iostream>

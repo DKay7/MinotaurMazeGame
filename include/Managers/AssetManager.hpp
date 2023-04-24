@@ -3,17 +3,10 @@
 #include <filesystem>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include "../Constants.hpp"
 
 namespace game
 {   
-    enum class TEXTURE_ID {
-        MAIN_MENU_BG = 1 << 27,
-    };
-
-    enum class FONT_ID {
-        MAIN_FONT = 1 << 17,
-    };
-
     class AssetManager final {
     public:
         AssetManager() {}

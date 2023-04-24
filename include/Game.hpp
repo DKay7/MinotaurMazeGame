@@ -1,15 +1,16 @@
 #pragma once
+#include <TGUI/Backends/SFML.hpp>
 #include <memory>
 #include "Context.hpp"
 
 namespace game {
-    class Game {
+    class Game final{
     public:
         Game();
         void run();
     
     private:
-        std::shared_ptr<Context> context;
+        std::unique_ptr<Context> context;
 
     };
 }

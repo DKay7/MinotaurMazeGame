@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include <State.hpp>
+#include "../States/State.hpp"
 
 namespace engine {
     class StateManager final {
