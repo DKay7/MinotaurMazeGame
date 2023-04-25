@@ -13,6 +13,8 @@ namespace game {
         void update(const float& delta_time);
         void move(const float& delta_time, const sf::Vector2f direction);
 
+        // getters
+        const float& get_max_velocity() const;
         const sf::Vector2f& get_velocity() const;
         const bool idle() const;
         const bool moving() const;
@@ -25,7 +27,7 @@ namespace game {
         sf::Sprite& sprite;
         
         float max_velocity = 0;
-        sf::Vector2f velocity = {0, 0};
+        sf::Vector2f velocity;
 
         float acceleration = 0;
         float deceleration = 0;

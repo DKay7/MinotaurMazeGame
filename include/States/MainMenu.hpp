@@ -19,7 +19,9 @@ namespace game
 
     private:
         std::unique_ptr<Button> game_btn;
+        std::unique_ptr<Button> edit_btn;
         std::unique_ptr<Button> exit_btn;
+        
         sf::Text game_title;
 
         sf::Sprite background;

@@ -3,6 +3,7 @@
 #include "Constants.hpp"
 #include "GUIElements/Button.hpp"
 #include "States/GamePlay.hpp"
+#include "States/MapEditor.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -38,30 +39,39 @@ namespace game
         auto center_pos = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.});
         game_title.setPosition(center_pos);
 
-        // TODO unique pointers
         center_pos.y += 75;
-        game_btn = std::make_unique<Button>(center_pos, sf::Vector2f(75, 35), main_font, "Play",
-                              sf::Color::Transparent, sf::Color::Transparent, sf::Color::Transparent, 
-                              sf::Color::White, sf::Color(100, 107, 99), sf::Color(46, 139, 87));
-        
+        game_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Play",
+                              Constants::button_bg_color, Constants::button_bg_color, Constants::button_bg_color, 
+                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
+
         center_pos.y += 35;
-        exit_btn = std::make_unique<Button>(center_pos, sf::Vector2f(75, 35), main_font, "Exit",
-                              sf::Color::Transparent, sf::Color::Transparent, sf::Color::Transparent, 
-                              sf::Color::White, sf::Color(100, 107, 99), sf::Color(46, 139, 87));
+        edit_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Editor",
+                              Constants::button_bg_color, Constants::button_bg_color, Constants::button_bg_color, 
+                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
+
+        center_pos.y += 35;
+        exit_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Exit",
+                              Constants::button_bg_color, Constants::button_bg_color, Constants::button_bg_color, 
+                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
+
     }
 
     void MainMenu::process_input(sf::Event& event) {
     
         if (game_btn->is_pressed())
             context->state_manager->add_state(std::make_unique<GamePlay>(context), true);
+        
+        if (edit_btn->is_pressed())
+            context->state_manager->add_state(std::make_unique<MapEditor>(context), true);
 
-        if (exit_btn->is_pressed()) 
+        if (exit_btn->is_pressed())
             context->window->close();
     }
 
     void MainMenu::update(const float delta_time) {
         auto mouse_pos = context->window->mapPixelToCoords(sf::Mouse::getPosition(*context->window.get()));
         game_btn->update(mouse_pos);
+        edit_btn->update(mouse_pos);
         exit_btn->update(mouse_pos);
     }
 
@@ -71,8 +81,10 @@ namespace game
             window->clear();
             window->draw(background);
 
-            game_btn->draw(*window.get());
-            exit_btn->draw(*window.get());
+            game_btn->draw(*window);
+            edit_btn->draw(*window);
+            exit_btn->draw(*window);
+
             window->draw(game_title);
             window->display();
 

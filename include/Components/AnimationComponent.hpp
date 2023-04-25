@@ -15,11 +15,10 @@ namespace game {
 
     public:
         AnimationComponent(sf::Sprite &sprite, const sf::Texture &texture_sheet);
-        void play(const ANIMATION_ID key, const float& delta_time);
+        void play(const ANIMATION_ID key, const float& delta_time, const float& muliplier=1, const float& max_muliplier=1);
         void add_animation(const ANIMATION_ID key, float time_per_frame, sf::Vector2i start_frame, 
                            sf::Vector2i num_frames, sf::Vector2i frame_size);
     private:
-
         class Animation final {
             public:
                 Animation(sf::Sprite &sprite_, const sf::Texture& texture_sheet, float time_per_frame, 
@@ -38,10 +37,10 @@ namespace game {
                     sprite.setTextureRect(start_rect);
                 }
 
-                void play(const float& delta_time) {
-                    timer += 10 * delta_time;   // mult by 10 just bc game timer is too slow
-                     
+                void play(const float& delta_time, const float& multiplier) {                     
                     sprite.setTextureRect(current_rect);
+
+                    timer += std::abs(multiplier) * 10 * delta_time;   // mult by 10 just bc game timer is too slow
 
                     if (timer < time_per_frame)
                         return;
@@ -52,8 +51,6 @@ namespace game {
                     // reset animation
                     else
                         current_rect = start_rect;
-                
-
                 }
                 
                 void reset() {

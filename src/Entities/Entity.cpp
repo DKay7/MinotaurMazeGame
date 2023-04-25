@@ -8,7 +8,7 @@
 namespace game {
     Entity::Entity() { }
 
-    void Entity::move(const float delta_time, sf::Vector2f direction) {
+    void Entity::move(const float& delta_time, sf::Vector2f direction) {
         if (movement_component)
             movement_component->move(delta_time, direction);
     }

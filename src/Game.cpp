@@ -22,9 +22,8 @@ namespace game {
 
             sf::Event event;
             while(context->window->pollEvent(event)) {
-                if (event.type == sf::Event::Closed) {
+                if (event.type == sf::Event::Closed)
                     context->window->close();
-                }
                 else
                     state.process_input(event);
             }

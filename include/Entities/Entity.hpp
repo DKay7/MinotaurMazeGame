@@ -19,7 +19,7 @@ namespace game {
 
         virtual void update(const float delta_time) = 0;
         virtual void draw(sf::RenderTarget& target);
-        virtual void move(const float delta_time, sf::Vector2f direction);
+        virtual void move(const float& delta_time, sf::Vector2f direction);
 
         void set_sprite_texture(const sf::Texture &texture);
         void set_position(const sf::Vector2f position);

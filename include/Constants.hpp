@@ -1,5 +1,7 @@
 #pragma once
 #include "string"
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <string>
 
@@ -29,6 +31,14 @@ namespace game
     struct Constants final  {   
         Constants();
         
+        // main menu buttons
+        inline static const sf::Vector2f button_size = {75, 35};
+        inline static const sf::Color button_bg_color    = sf::Color::Transparent;
+        inline static const sf::Color button_text_idle   = sf::Color::White;
+        inline static const sf::Color button_text_hover  = sf::Color(100, 107, 99);
+        inline static const sf::Color button_text_active = sf::Color(46, 139, 87);
+
+
         // window parameters
         inline static const int window_height = 720;
         inline static const int window_width  = 1280;
@@ -42,8 +52,9 @@ namespace game
 
         
         // movement parameters
-        inline static const float default_deceleration = 0.11;
-        inline static const float default_acceleration = 17;
+        inline static const float player_covement_max_speed = 250;
+        inline static const float default_acceleration = 900;
+        inline static const float default_deceleration = 600;
 
         // assets parameters
         inline static const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf";

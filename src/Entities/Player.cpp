@@ -2,6 +2,7 @@
 #include "Constants.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <cmath>
 #include <ctime>
 #include <memory>
 
@@ -11,7 +12,7 @@ namespace game {
         set_sprite_texture(texture_sheet);
         set_position(position);
         
-        create_movement_component(250.);
+        create_movement_component(Constants::player_covement_max_speed);
 
         create_animation_component(texture_sheet);
         
@@ -25,50 +26,39 @@ namespace game {
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_DOWN,  Constants::movement_tpf,  {16,   2}, {4, 0}, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_UP,   Constants::movement_tpf,  {16,  10}, {4, 0}, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_DOWN, Constants::movement_tpf,  {16,  14}, {4, 0}, Constants::default_frame_size);
-
-       
     }
 
     void Player::update(const float delta_time) {
+        
         movement_component->update(delta_time);
+
+        auto &max_speed = movement_component->get_max_velocity();
+        
+        #define play_move(condition, animation_id, speed)                                               \
+            else if((condition)) {                                                                      \
+                animation_component->play(ANIMATION_ID::animation_id, delta_time, (speed), max_speed);  \
+            }
+
+        #define get_dir(direction) \
+            movement_component->moving_##direction()
+        
+        #define get_speed(direction) \
+            (movement_component->get_velocity()).direction
+        
+        #define full_speed() \
+            std::sqrt(get_speed(x) * get_speed(x) + get_speed(y) * get_speed(y))
 
         if (movement_component->idle())
             animation_component->play(ANIMATION_ID::PLAYER_IDLE, delta_time);
-        else if (movement_component->moving_left() and movement_component->moving_up())
-            animation_component->play(ANIMATION_ID::PLAYER_MOVE_LEFT_UP, delta_time);
-        else if (movement_component->moving_left() and movement_component->moving_down())
-            animation_component->play(ANIMATION_ID::PLAYER_MOVE_LEFT_DOWN, delta_time);
-        else if (movement_component->moving_right() and movement_component->moving_up())
-            animation_component->play(ANIMATION_ID::PLAYER_MOVE_RIGHT_UP, delta_time);
-        else if (movement_component->moving_right() and movement_component->moving_down())
-            animation_component->play(ANIMATION_ID::PLAYER_MOVE_RIGHT_DOWN, delta_time);
+                
+        play_move(get_dir(left)  and get_dir(up),   PLAYER_MOVE_LEFT_UP,    full_speed())
+        play_move(get_dir(left)  and get_dir(down), PLAYER_MOVE_LEFT_DOWN,  full_speed())
+        play_move(get_dir(right) and get_dir(up),   PLAYER_MOVE_RIGHT_UP,   full_speed())
+        play_move(get_dir(right) and get_dir(down), PLAYER_MOVE_RIGHT_DOWN, full_speed())
 
-        else if (movement_component->moving_left())
-            animation_component->play(ANIMATION_ID::PLAYER_MOVE_LEFT, delta_time);
-        else if (movement_component->moving_right())
-            animation_component->play(ANIMATION_ID::PLAYER_MOVE_RIGHT, delta_time);
-        else if (movement_component->moving_down())
-            animation_component->play(ANIMATION_ID::PLAYER_MOVE_DOWN, delta_time);
-        else if (movement_component->moving_up())
-            animation_component->play(ANIMATION_ID::PLAYER_MOVE_UP, delta_time);
-
-        using kb = sf::Keyboard;
-        // TODO process inputs is GamePlay responsibility!
-        if (kb::isKeyPressed(kb::W)) {
-            move(delta_time, {0, -1});
-        }
-        
-        if (kb::isKeyPressed(kb::S)) {
-            move(delta_time, {0, 1});
-        }
-        
-        if (kb::isKeyPressed(kb::D)) {
-            move(delta_time, {1, 0});
-        }
-
-        if (kb::isKeyPressed(kb::A)) {
-            move(delta_time, {-1, 0});
-        }
-
+        play_move(get_dir(left),  PLAYER_MOVE_LEFT,  get_speed(x))
+        play_move(get_dir(right), PLAYER_MOVE_RIGHT, get_speed(x))
+        play_move(get_dir(up),    PLAYER_MOVE_UP,    get_speed(y))
+        play_move(get_dir(down),  PLAYER_MOVE_DOWN,  get_speed(y))            
     }
 }
