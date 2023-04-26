@@ -14,12 +14,7 @@ namespace game {
         animations[key] = std::make_unique<Animation>(sprite, texture_sheet, time_per_frame, start_frame, num_frames, frame_size);
     }
 
-    void AnimationComponent::play(const ANIMATION_ID key, const float& delta_time, const float& muliplier, const float& max_muliplier) {
-        if (max_muliplier == 0)
-            throw std::runtime_error("Animation speed max multiplier should be non-zero!\n");
-
-        // std::cout << muliplier << " " << max_muliplier << "\n";
-
+    void AnimationComponent::play(const ANIMATION_ID key, const float& delta_time) {
         auto animation_ptr = animations[key].get();
         if (last_animation != animation_ptr) {
             if (last_animation)
@@ -28,6 +23,6 @@ namespace game {
             last_animation = animation_ptr;
         }
 
-        animations[key]->play(delta_time, (muliplier / max_muliplier));
+        animations[key]->play(delta_time);
     }
 }

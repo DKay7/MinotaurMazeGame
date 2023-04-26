@@ -34,31 +34,25 @@ namespace game {
 
         auto &max_speed = movement_component->get_max_velocity();
         
-        #define play_move(condition, animation_id, speed)                                               \
-            else if((condition)) {                                                                      \
-                animation_component->play(ANIMATION_ID::animation_id, delta_time, (speed), max_speed);  \
+        #define play_move(condition, animation_id)                                  \
+            else if((condition)) {                                                  \
+                animation_component->play(ANIMATION_ID::animation_id, delta_time);  \
             }
 
         #define get_dir(direction) \
             movement_component->moving_##direction()
         
-        #define get_speed(direction) \
-            (movement_component->get_velocity()).direction
-        
-        #define full_speed() \
-            std::sqrt(get_speed(x) * get_speed(x) + get_speed(y) * get_speed(y))
-
         if (movement_component->idle())
             animation_component->play(ANIMATION_ID::PLAYER_IDLE, delta_time);
                 
-        play_move(get_dir(left)  and get_dir(up),   PLAYER_MOVE_LEFT_UP,    full_speed())
-        play_move(get_dir(left)  and get_dir(down), PLAYER_MOVE_LEFT_DOWN,  full_speed())
-        play_move(get_dir(right) and get_dir(up),   PLAYER_MOVE_RIGHT_UP,   full_speed())
-        play_move(get_dir(right) and get_dir(down), PLAYER_MOVE_RIGHT_DOWN, full_speed())
+        play_move(get_dir(left)  and get_dir(up),   PLAYER_MOVE_LEFT_UP)
+        play_move(get_dir(left)  and get_dir(down), PLAYER_MOVE_LEFT_DOWN)
+        play_move(get_dir(right) and get_dir(up),   PLAYER_MOVE_RIGHT_UP)
+        play_move(get_dir(right) and get_dir(down), PLAYER_MOVE_RIGHT_DOWN)
 
-        play_move(get_dir(left),  PLAYER_MOVE_LEFT,  get_speed(x))
-        play_move(get_dir(right), PLAYER_MOVE_RIGHT, get_speed(x))
-        play_move(get_dir(up),    PLAYER_MOVE_UP,    get_speed(y))
-        play_move(get_dir(down),  PLAYER_MOVE_DOWN,  get_speed(y))            
+        play_move(get_dir(left),  PLAYER_MOVE_LEFT)
+        play_move(get_dir(right), PLAYER_MOVE_RIGHT)
+        play_move(get_dir(up),    PLAYER_MOVE_UP)
+        play_move(get_dir(down),  PLAYER_MOVE_DOWN)            
     }
 }
