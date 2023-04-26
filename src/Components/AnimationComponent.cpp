@@ -9,7 +9,7 @@ namespace game {
     }
 
     void AnimationComponent::add_animation(const ANIMATION_ID key, float time_per_frame, sf::Vector2i start_frame, 
-                                           sf::Vector2i num_frames, sf::Vector2i frame_size) 
+                                           int num_frames, sf::Vector2i frame_size) 
     {
         animations[key] = std::make_unique<Animation>(sprite, texture_sheet, time_per_frame, start_frame, num_frames, frame_size);
     }

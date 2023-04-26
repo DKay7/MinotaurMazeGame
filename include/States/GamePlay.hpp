@@ -20,6 +20,7 @@ namespace game {
         void start() override;
 
     private:
+        bool paused = false;
         std::unique_ptr<Player> player;
         Context* context;
     };

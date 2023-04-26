@@ -13,19 +13,18 @@ namespace game {
         set_position(position);
         
         create_movement_component(Constants::player_covement_max_speed);
-
         create_animation_component(texture_sheet);
         
-        animation_component->add_animation(ANIMATION_ID::PLAYER_IDLE,       Constants::idle_tpf,      {4,   0}, {4, 0}, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT, Constants::movement_tpf,  {16, 12}, {4, 0}, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT,  Constants::movement_tpf,  {16,  4}, {4, 0}, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_UP,    Constants::movement_tpf,  {16,  8}, {4, 0}, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_DOWN,  Constants::movement_tpf,  {16,  0}, {4, 0}, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_IDLE,       Constants::idle_tpf,      {0, 8}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT, Constants::movement_tpf,  {0, 7}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT,  Constants::movement_tpf,  {0, 2}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_UP,    Constants::movement_tpf,  {0, 4}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_DOWN,  Constants::movement_tpf,  {0, 0}, 8, Constants::default_frame_size);
 
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_UP,    Constants::movement_tpf,  {16,   6}, {4, 0}, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_DOWN,  Constants::movement_tpf,  {16,   2}, {4, 0}, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_UP,   Constants::movement_tpf,  {16,  10}, {4, 0}, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_DOWN, Constants::movement_tpf,  {16,  14}, {4, 0}, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_UP,    Constants::movement_tpf,  {0, 3}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_DOWN,  Constants::movement_tpf,  {0, 1}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_UP,   Constants::movement_tpf,  {0, 5}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_DOWN, Constants::movement_tpf,  {0, 6}, 8, Constants::default_frame_size);
     }
 
     void Player::update(const float delta_time) {

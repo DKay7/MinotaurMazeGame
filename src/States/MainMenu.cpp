@@ -4,6 +4,7 @@
 #include "GUIElements/Button.hpp"
 #include "States/GamePlay.hpp"
 #include "States/MapEditor.hpp"
+#include "Utils/Utils.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -33,25 +34,19 @@ namespace game
         const auto& main_font = context->asset_manager->get_font(FONT_ID::MAIN_FONT);
         game_title.setFont(main_font);
         game_title.setString(Constants::main_menu_title); 
+        utils::center_text_on_window(game_title);
 
-        auto text_bounds = game_title.getLocalBounds();
-        game_title.setOrigin(text_bounds.width / 2, text_bounds.height / 2);
         auto center_pos = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.});
-        game_title.setPosition(center_pos);
-
         center_pos.y += 75;
-        game_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Play",
-                              Constants::button_bg_color, Constants::button_bg_color, Constants::button_bg_color, 
+        game_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Play", 
                               Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
 
         center_pos.y += 35;
         edit_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Editor",
-                              Constants::button_bg_color, Constants::button_bg_color, Constants::button_bg_color, 
                               Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
 
         center_pos.y += 35;
         exit_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Exit",
-                              Constants::button_bg_color, Constants::button_bg_color, Constants::button_bg_color, 
                               Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
 
     }

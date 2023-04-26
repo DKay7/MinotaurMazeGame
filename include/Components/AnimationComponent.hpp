@@ -17,27 +17,27 @@ namespace game {
         AnimationComponent(sf::Sprite &sprite, const sf::Texture &texture_sheet);
         void play(const ANIMATION_ID key, const float& delta_time);
         void add_animation(const ANIMATION_ID key, float time_per_frame, sf::Vector2i start_frame, 
-                           sf::Vector2i num_frames, sf::Vector2i frame_size);
+                           int num_frames, sf::Vector2i frame_size);
     private:
         class Animation final {
             public:
                 Animation(sf::Sprite &sprite_, const sf::Texture& texture_sheet, float time_per_frame, 
-                          sf::Vector2i start_frame, sf::Vector2i num_frames, sf::Vector2i frame_size): 
+                          sf::Vector2i start_frame, int num_frames, sf::Vector2i frame_size): 
                         sprite(sprite_), texture_sheet(texture_sheet), time_per_frame(time_per_frame), frame_size(frame_size)
                 {   
                     start_rect = sf::IntRect(start_frame.x * frame_size.x, start_frame.y * frame_size.y, 
                                              frame_size.x, frame_size.y);
                     current_rect = start_rect;
 
-                    end_rect = sf::IntRect((start_frame.x + num_frames.x) * frame_size.x, 
-                                           (start_frame.y + num_frames.y) * frame_size.y,
+                    end_rect = sf::IntRect((start_frame.x + num_frames - 1)   * frame_size.x, 
+                                           (start_frame.y)                    * frame_size.y,
                                            frame_size.x, frame_size.y);
 
                     sprite.setTexture(texture_sheet, true);
                     sprite.setTextureRect(start_rect);
                 }
 
-                void play(const float& delta_time) {                     
+                void play(const float& delta_time) {       
                     sprite.setTextureRect(current_rect);
 
                     timer += 10 * delta_time;   // mult by 10 just bc game timer is too slow

@@ -1,6 +1,7 @@
 #include "States/GamePlay.hpp"
 #include "Managers/AssetManager.hpp"
 #include "Constants.hpp"
+#include "States/GamePause.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -8,6 +9,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath>
 #include <exception>
+#include <ios>
 #include <memory>
 #include <stdexcept>
 
@@ -23,11 +25,16 @@ namespace game {
         player = std::make_unique<Player>(sf::Vector2f(0, 0), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
     }
 
-    void GamePlay::process_input(sf::Event& event) { }
+    void GamePlay::process_input(sf::Event& event) { 
+        using kb = sf::Keyboard;
+        if (kb::isKeyPressed(kb::Escape))
+            context->state_manager->add_state(std::make_unique<GamePause>(context));
+
+    }
 
     void GamePlay::update(const float delta_time) {
         using kb = sf::Keyboard;
-        
+
         if (kb::isKeyPressed(kb::W))
             player->move(delta_time, {0, -1});
 
@@ -44,19 +51,20 @@ namespace game {
     }
 
     void GamePlay::draw() {
+        std::cout << std::boolalpha << paused << "\n";
         auto &window = context->window;
         window->clear();
 
-        player->draw(*window.get());
+        player->draw(*window);
         window->display();
     }
 
     void GamePlay::pause() {
-
+        paused = true;
     }
 
     void GamePlay::start() {
-
+        paused = false;
     }
 
 

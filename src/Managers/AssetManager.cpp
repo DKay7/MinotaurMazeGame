@@ -20,7 +20,7 @@ namespace game
     }
 
     const sf::Texture& AssetManager::get_texture(const TEXTURE_ID texture_id) const {
-        return *textures.at(texture_id).get();
+        return *textures.at(texture_id);
     }
 
     bool AssetManager::add_texture(const TEXTURE_ID texture_id, const std::string& path_to_texture) {
