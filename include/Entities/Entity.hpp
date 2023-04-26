@@ -3,22 +3,26 @@
 #include "../Components/AnimationComponent.hpp"
 #include "Components/MovementComponent.hpp"
 #include "Constants.hpp"
+#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Transform.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <memory>
 
 namespace game {
-    class Entity {
+    class Entity: public sf::Drawable, public sf::Transformable {
 
     public:
         Entity();
         virtual ~Entity() = default;
 
         virtual void update(const float delta_time) = 0;
-        virtual void draw(sf::RenderTarget& target);
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         virtual void move(const float& delta_time, sf::Vector2f direction);
 
         void set_sprite_texture(const sf::Texture &texture);

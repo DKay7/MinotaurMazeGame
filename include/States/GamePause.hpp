@@ -2,6 +2,7 @@
 
 #include "Context.hpp"
 #include "States/State.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -17,8 +18,9 @@ namespace game {
             void draw() override;
 
         private:
+            
             bool end_pause = false;
-            sf::Sprite background;
+            sf::RenderTexture background;
             sf::Text pause_text;
             Context* context; // TODO maybe move context to State class 
     };

@@ -2,6 +2,8 @@
 #include "Components/AnimationComponent.hpp"
 #include "Components/MovementComponent.hpp"
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <memory>
 
@@ -13,8 +15,9 @@ namespace game {
             movement_component->move(delta_time, direction);
     }
 
-    void Entity::draw(sf::RenderTarget &target) {
-        target.draw(sprite);
+    void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+        states.transform *= getTransform();
+        target.draw(sprite, states);
     }
 
     void Entity::set_sprite_texture(const sf::Texture &texture_) {

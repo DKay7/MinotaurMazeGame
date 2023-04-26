@@ -1,5 +1,4 @@
 #pragma once
-#include <TGUI/Backends/SFML.hpp>
 #include <memory>
 #include "Context.hpp"
 

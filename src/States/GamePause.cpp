@@ -10,14 +10,23 @@
 namespace game {
     GamePause::GamePause(Context* context_): context(context_) {
 
-        background.setColor({255, 255, 255, 50});
-        background.setTexture(context->asset_manager->get_texture(TEXTURE_ID::MAIN_MENU_BG));
-        
+        background.create(Constants::window_width, Constants::window_height);
+
         pause_text.setFont(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
         pause_text.setString("PAUSED");
         pause_text.setCharacterSize(40);
 
         utils::center_text_on_window(pause_text);
+        const auto& main_font = context->asset_manager->get_font(FONT_ID::MAIN_FONT);
+
+        auto center_pos = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.});
+        center_pos.y += 75;
+        // resume_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Play", 
+        //                       Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
+
+        // center_pos.y += 35;
+        // back_to_menu_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Editor",
+        //                       Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
     }
     
     
@@ -25,20 +34,25 @@ namespace game {
         using kb = sf::Keyboard;
 
         if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
-            end_pause = true;
+            context->state_manager->pop_state();
     }
 
     void GamePause::update(const float delta_time) {
-        if(end_pause)
-            context->state_manager->pop_state();
+            
     }
 
     void GamePause::draw() {
         auto &window = context->window;
         
-        window->clear();
-        window->draw(background); 
-        window->draw(pause_text);
+        // window->clear();
+        background.clear(sf::Color::Transparent);
+        background.draw(pause_text);
+        background.display();
+        // window->draw(background);
+        const sf::Texture& texture = background.getTexture();
+        sf::Sprite bg_sprite(texture);
+
+        window->draw(bg_sprite);
         window->display();
     }
 

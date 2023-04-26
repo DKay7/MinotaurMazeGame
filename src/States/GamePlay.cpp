@@ -4,6 +4,7 @@
 #include "States/GamePause.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -27,7 +28,7 @@ namespace game {
 
     void GamePlay::process_input(sf::Event& event) { 
         using kb = sf::Keyboard;
-        if (kb::isKeyPressed(kb::Escape))
+        if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
             context->state_manager->add_state(std::make_unique<GamePause>(context));
 
     }
@@ -51,11 +52,11 @@ namespace game {
     }
 
     void GamePlay::draw() {
-        std::cout << std::boolalpha << paused << "\n";
+        
         auto &window = context->window;
         window->clear();
-
-        player->draw(*window);
+        window->draw(*player);
+        // player->draw(*window);
         window->display();
     }
 
