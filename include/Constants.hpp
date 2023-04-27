@@ -44,6 +44,7 @@ namespace game
         inline static const int window_width  = 1280;
         inline static const std::string main_menu_title = "Minotaur Maze";
         inline static const std::string game_title = "Minotaur Maze";
+        inline static const long int frame_limit = 60;
 
         // animation parameters
         inline static const sf::Vector2i default_frame_size = {48, 48};

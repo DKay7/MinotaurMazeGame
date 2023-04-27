@@ -1,4 +1,5 @@
 #include "GUIElements/Button.hpp"
+#include <SFML/Graphics/RenderStates.hpp>
 
 namespace game {
 
@@ -36,7 +37,8 @@ namespace game {
         );
     }
 
-    void Button::draw(sf::RenderWindow& target) {
+    void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+        states.transform *= getTransform();
         target.draw(shape);
         target.draw(text);
     }

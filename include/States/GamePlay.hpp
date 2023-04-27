@@ -18,6 +18,10 @@ namespace game {
         void draw() override;
         void pause() override;
         void start() override;
+        
+        #ifndef NDEBUG
+            std::string get_state_name() const override;
+        #endif 
 
     private:
         bool paused = false;

@@ -36,6 +36,9 @@ namespace game {
     void GamePlay::update(const float delta_time) {
         using kb = sf::Keyboard;
 
+        if (paused)
+            return;
+            
         if (kb::isKeyPressed(kb::W))
             player->move(delta_time, {0, -1});
 
@@ -68,6 +71,11 @@ namespace game {
         paused = false;
     }
 
+    #ifndef NDEBUG
+        std::string GamePlay::get_state_name() const {
+            return "GamePlay";
+        }
+    #endif
 
 } // namespace game
 

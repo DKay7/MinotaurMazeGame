@@ -14,6 +14,10 @@ namespace engine {
 
         virtual void pause() {}
         virtual void start() {}
+        
+        #ifndef NDEBUG
+            virtual std::string get_state_name() const = 0;
+        #endif
     };
 
 } // namespace engine

@@ -1,10 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 
 namespace game
 {
-   class Button final {
+   class Button final: public sf::Drawable, public sf::Transformable {
     public:
         Button(sf::Vector2f position, sf::Vector2f size, const sf::Font& font, 
                    std::string button_text, sf::Color default_text_color, 
@@ -13,7 +17,7 @@ namespace game
                    sf::Color hover_bg_color=sf::Color::Transparent, 
                    sf::Color pressed_bg_color=sf::Color::Transparent);
         
-        void draw(sf::RenderWindow& target);
+        void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         void update(sf::Vector2f mouse_position);
         bool is_pressed() const;
 

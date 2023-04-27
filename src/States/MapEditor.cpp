@@ -17,4 +17,10 @@ namespace game {
     void MapEditor::draw() {
         
     }
+
+    #ifndef NDEBUG
+        std::string MapEditor::get_state_name() const {
+            return "MapEditor";
+        }
+    #endif
 }

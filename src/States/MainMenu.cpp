@@ -8,9 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <algorithm>
-#include <assert.h>
-#include <iostream>
+#include <cstdint>
 #include <memory>
 #include <stdexcept>
 
@@ -52,19 +50,24 @@ namespace game
     }
 
     void MainMenu::process_input(sf::Event& event) {
-    
-        if (game_btn->is_pressed())
-            context->state_manager->add_state(std::make_unique<GamePlay>(context), true);
-        
-        if (edit_btn->is_pressed())
-            context->state_manager->add_state(std::make_unique<MapEditor>(context), true);
+        auto &state_mgr = context->state_manager;
 
-        if (exit_btn->is_pressed())
+        if (game_btn->is_pressed()) {
+            state_mgr->pop_state();
+            state_mgr->add_state(std::make_unique<GamePlay>(context));
+        }
+
+        else if (edit_btn->is_pressed()) {
+            state_mgr->pop_state();
+            state_mgr->add_state(std::make_unique<MapEditor>(context));
+        }
+
+        else if (exit_btn->is_pressed())
             context->window->close();
     }
 
     void MainMenu::update(const float delta_time) {
-        auto mouse_pos = context->window->mapPixelToCoords(sf::Mouse::getPosition(*context->window.get()));
+        auto mouse_pos = utils::get_mouse_position(*context->window);
         game_btn->update(mouse_pos);
         edit_btn->update(mouse_pos);
         exit_btn->update(mouse_pos);
@@ -76,13 +79,18 @@ namespace game
             window->clear();
             window->draw(background);
 
-            game_btn->draw(*window);
-            edit_btn->draw(*window);
-            exit_btn->draw(*window);
+            window->draw(*game_btn);
+            window->draw(*edit_btn);
+            window->draw(*exit_btn);
 
             window->draw(game_title);
             window->display();
-
     }
+
+    #ifndef NDEBUG
+        std::string MainMenu::get_state_name() const {
+            return "MainMenu";
+        }
+    #endif
 } // namespace game
 
