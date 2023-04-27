@@ -26,7 +26,7 @@ namespace game
         if (!texture_load_result)
             throw std::runtime_error("Can not find image file '" + Constants::main_menu_bg_image_path + "'");
         
-        background.setColor({255, 255, 255, 50});
+        background.setColor(Constants::bg_sprite_color);
         background.setTexture(context->asset_manager->get_texture(TEXTURE_ID::MAIN_MENU_BG));
 
         const auto& main_font = context->asset_manager->get_font(FONT_ID::MAIN_FONT);
@@ -35,17 +35,15 @@ namespace game
         utils::center_text_on_window(game_title);
 
         auto center_pos = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.});
-        center_pos.y += 75;
-        game_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Play", 
-                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
 
-        center_pos.y += 35;
-        edit_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Editor",
-                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
+        center_pos.y += Constants::button_size.y * 2;
+        game_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_play_bt_text);
 
-        center_pos.y += 35;
-        exit_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Exit",
-                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
+        center_pos.y += Constants::button_size.y;
+        edit_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_editor_bt_text);
+
+        center_pos.y += Constants::button_size.y;
+        exit_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_exit_bt_text);
 
     }
 

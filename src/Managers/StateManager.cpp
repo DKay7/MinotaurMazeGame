@@ -32,11 +32,8 @@ namespace engine {
             states_vector.back()->pause();
         
         while (!next_states.empty()) {
-            std::cout  << "b4 " << next_states.size()<< "\n";
-
             states_vector.push_back(std::move(next_states.back()));
             next_states.pop_back();
-            std::cout << "af " << next_states.size()<< "\n";
         }
         
         #ifdef DEBUG_STATE_MANAGER

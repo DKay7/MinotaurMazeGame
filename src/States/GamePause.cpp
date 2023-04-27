@@ -13,23 +13,22 @@
 namespace game {
     GamePause::GamePause(Context* context_): context(context_) {
 
-        background.create(Constants::window_width, Constants::window_height);
+        render_texture.create(Constants::window_width, Constants::window_height);
 
         pause_text.setFont(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
-        pause_text.setString("PAUSED");
-        pause_text.setCharacterSize(40);
+        pause_text.setString(Constants::pause_menu_title);
 
         utils::center_text_on_window(pause_text);
         const auto& main_font = context->asset_manager->get_font(FONT_ID::MAIN_FONT);
 
         auto center_pos = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.});
-        center_pos.y += 75;
-        resume_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Resume", 
-                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
 
-        center_pos.y += 35;
-        back_to_menu_btn = std::make_unique<Button>(center_pos, Constants::button_size, main_font, "Back to menu",
-                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
+        center_pos.y += Constants::button_size.y * 2;
+        resume_btn = utils::create_default_button(center_pos, main_font, Constants::pause_menu_resume_bt_text);
+
+
+        center_pos.y += Constants::button_size.y;
+        back_to_menu_btn = utils::create_default_button(center_pos, main_font, Constants::pause_menu_back_bt_text);
     }
     
     
@@ -59,14 +58,14 @@ namespace game {
     void GamePause::draw() {
         auto &window = context->window;
         
-        background.clear(sf::Color::Transparent);
-        background.draw(pause_text);
-        background.draw(*resume_btn);
-        background.draw(*back_to_menu_btn);
+        render_texture.clear(sf::Color::Transparent);
+        render_texture.draw(pause_text);
+        render_texture.draw(*resume_btn);
+        render_texture.draw(*back_to_menu_btn);
 
-        background.display();
+        render_texture.display();
         
-        const sf::Texture& texture = background.getTexture();
+        const sf::Texture& texture = render_texture.getTexture();
         bg_sprite.setTexture(texture);
 
         window->draw(bg_sprite);

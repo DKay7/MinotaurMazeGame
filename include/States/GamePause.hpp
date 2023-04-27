@@ -3,6 +3,7 @@
 #include "Context.hpp"
 #include "GUIElements/Button.hpp"
 #include "States/State.hpp"
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -28,9 +29,8 @@ namespace game {
             std::unique_ptr<Button> back_to_menu_btn;
 
             bool end_pause = false;
-
             sf::Sprite bg_sprite;
-            sf::RenderTexture background;
+            sf::RenderTexture render_texture;
             sf::Text pause_text;
             Context* context;
     };
