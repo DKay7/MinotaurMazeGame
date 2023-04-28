@@ -7,7 +7,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <map>
 #include <memory>
-#include <iostream>
 
 namespace game {
 

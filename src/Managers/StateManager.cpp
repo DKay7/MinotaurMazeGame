@@ -1,6 +1,8 @@
 #include "Managers/StateManager.hpp"
 #include <algorithm>
-#include <iostream>
+#ifdef DEBUG_STATE_MANAGER
+    #include <iostream>
+#endif
 #include <stdexcept>
 
 namespace engine {
@@ -52,7 +54,7 @@ namespace engine {
         return states_vector.back();
     } 
 
-    #ifndef NDEBUG
+    #ifdef DEBUG_STATE_MANAGER
         void StateManager::print_states() const {
             std::cout << "\n------------------------------------\n";
             std::cout << "CURRENT STATES:\n";

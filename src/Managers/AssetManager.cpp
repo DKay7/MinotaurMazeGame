@@ -1,6 +1,5 @@
 #include "Managers/AssetManager.hpp"
 
-#include <iostream>
 
 namespace game
 {

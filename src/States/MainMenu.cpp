@@ -29,21 +29,22 @@ namespace game
         background.setColor(Constants::bg_sprite_color);
         background.setTexture(context->asset_manager->get_texture(TEXTURE_ID::MAIN_MENU_BG));
 
-        const auto& main_font = context->asset_manager->get_font(FONT_ID::MAIN_FONT);
-        game_title.setFont(main_font);
-        game_title.setString(Constants::main_menu_title); 
-        utils::center_text_on_window(game_title);
+        
+        // const auto& main_font = context->asset_manager->get_font(FONT_ID::MAIN_FONT);
+        // game_title.setFont(main_font);
+        // game_title.setString(Constants::main_menu_title); 
+        // utils::center_text_on_window(game_title);
 
-        auto center_pos = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.});
+        // auto center_pos = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.});
 
-        center_pos.y += Constants::button_size.y * 2;
-        game_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_play_bt_text);
+        // center_pos.y += Constants::button_size.y * 2;
+        // game_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_play_bt_text);
 
-        center_pos.y += Constants::button_size.y;
-        edit_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_editor_bt_text);
+        // center_pos.y += Constants::button_size.y;
+        // edit_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_editor_bt_text);
 
-        center_pos.y += Constants::button_size.y;
-        exit_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_exit_bt_text);
+        // center_pos.y += Constants::button_size.y;
+        // exit_btn = utils::create_default_button(center_pos, main_font, Constants::main_menu_exit_bt_text);
 
     }
 

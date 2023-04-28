@@ -21,9 +21,9 @@ namespace utils {
         return window.mapPixelToCoords(sf::Mouse::getPosition(window));
     }
 
-    std::unique_ptr<game::Button> create_default_button(sf::Vector2f position, const sf::Font& font, std::string text) {
+    std::unique_ptr<gui::Button> create_default_button(sf::Vector2f position, const sf::Font& font, std::string text) {
         using Constants = game::Constants;
-        return std::make_unique<game::Button>(position, Constants::button_size, font, text, 
+        return std::make_unique<gui::Button>(position, Constants::button_size, font, text, 
                                               Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
     }
 }

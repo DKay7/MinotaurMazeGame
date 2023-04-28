@@ -29,7 +29,12 @@ namespace game
     };
     
     struct Constants final  {   
-        
+
+//--------------------------------------------------------------------------------
+        // map
+        static const int map_size = 100;
+        static const int layers_num = 3;
+        inline static const float grid_size = 50; 
 //--------------------------------------------------------------------------------
                 
         // main menu
@@ -78,7 +83,7 @@ namespace game
 //--------------------------------------------------------------------------------
 
         // assets parameters
-        inline static const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf";
+        inline static const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf"; // TODO solve issue with relative paths.
         inline static const std::string main_menu_bg_image_path = "../assets/images/backgrounds/main_menu_bg_image.jpg";
         inline static const std::string player_sheet_texture_path = "../assets/images/sprites/black_4.png";
     };

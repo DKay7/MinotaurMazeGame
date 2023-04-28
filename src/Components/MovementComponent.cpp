@@ -2,7 +2,6 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
-#include <iostream>
 #include <math.h>
 
 namespace game {

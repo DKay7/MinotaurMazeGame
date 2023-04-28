@@ -1,7 +1,7 @@
 #include "GUIElements/Button.hpp"
 #include <SFML/Graphics/RenderStates.hpp>
 
-namespace game {
+namespace gui {
 
     Button::Button(sf::Vector2f position, sf::Vector2f size, 
                    const sf::Font& font, std::string button_text, 

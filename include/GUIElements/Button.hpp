@@ -6,7 +6,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 
-namespace game
+namespace gui
 {
    class Button final: public sf::Drawable, public sf::Transformable {
     public:

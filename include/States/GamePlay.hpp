@@ -3,6 +3,7 @@
 #include "Context.hpp"
 #include "Entities/Entity.hpp"
 #include "Entities/Player.hpp"
+#include "Map/TileMap.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <array>
@@ -24,7 +25,7 @@ namespace game {
         #endif 
 
     private:
-        bool paused = false;
+        TileMap map;
         std::unique_ptr<Player> player;
         Context* context;
     };

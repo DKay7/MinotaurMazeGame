@@ -15,7 +15,7 @@
 #include <stdexcept>
 
 namespace game {
-    GamePlay::GamePlay(Context* context_) : context(context_) {
+    GamePlay::GamePlay(Context* context_) : context(context_), map({Constants::map_size, Constants::map_size}, Constants::layers_num) { //TODO remove
 
         auto& ass_mgr = context->asset_manager;
         auto texture_added = ass_mgr->add_texture(TEXTURE_ID::PLAYER_SHEET, Constants::player_sheet_texture_path);
@@ -28,6 +28,7 @@ namespace game {
 
     void GamePlay::process_input(sf::Event& event) { 
         using kb = sf::Keyboard;
+        
         if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
             context->state_manager->add_state(std::make_unique<GamePause>(context));
 
@@ -35,9 +36,6 @@ namespace game {
 
     void GamePlay::update(const float delta_time) {
         using kb = sf::Keyboard;
-
-        if (paused)
-            return;
             
         if (kb::isKeyPressed(kb::W))
             player->move(delta_time, {0, -1});
@@ -58,17 +56,15 @@ namespace game {
         
         auto &window = context->window;
         window->clear();
+        window->draw(map);
         window->draw(*player);
-        // player->draw(*window);
         window->display();
     }
 
     void GamePlay::pause() {
-        paused = true;
     }
 
     void GamePlay::start() {
-        paused = false;
     }
 
     #ifndef NDEBUG
