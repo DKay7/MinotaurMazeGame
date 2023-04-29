@@ -2,6 +2,7 @@
 
 #include "Context.hpp"
 #include "GUIElements/Button.hpp"
+#include "GUIElements/Menu.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -20,13 +21,11 @@ namespace game {
             void update(const float delta_time) override;
             void draw() override;
             
-            #ifndef NDEBUG
+            #ifdef DEBUG
                 std::string get_state_name() const override;
             #endif
         private:
-            
-            std::unique_ptr<Button> resume_btn;
-            std::unique_ptr<Button> back_to_menu_btn;
+            std::unique_ptr<gui::Menu> menu;
 
             bool end_pause = false;
             sf::Sprite bg_sprite;

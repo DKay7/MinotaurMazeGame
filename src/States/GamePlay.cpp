@@ -10,7 +10,6 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath>
 #include <exception>
-#include <ios>
 #include <memory>
 #include <stdexcept>
 
@@ -19,10 +18,6 @@ namespace game {
 
         auto& ass_mgr = context->asset_manager;
         auto texture_added = ass_mgr->add_texture(TEXTURE_ID::PLAYER_SHEET, Constants::player_sheet_texture_path);
-        
-        if (!texture_added)
-            throw std::runtime_error("Can not load texture '" + Constants::player_sheet_texture_path + "'");
-        
         player = std::make_unique<Player>(sf::Vector2f(0, 0), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
     }
 

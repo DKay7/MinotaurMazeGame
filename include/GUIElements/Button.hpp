@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Window/Event.hpp>
 
 namespace gui
 {
@@ -18,7 +19,8 @@ namespace gui
                    sf::Color pressed_bg_color=sf::Color::Transparent);
         
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-        void update(sf::Vector2f mouse_position);
+        void process_input(sf::Event& event, sf::Vector2f mouse_position);
+        void update();
         bool is_pressed() const;
 
         enum class BUTTON_STATE {

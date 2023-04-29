@@ -1,16 +1,18 @@
 #include "GUIElements/Button.hpp"
 #include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 namespace gui {
 
     Button::Button(sf::Vector2f position, sf::Vector2f size, 
                    const sf::Font& font, std::string button_text, 
                    sf::Color default_text_color, sf::Color hover_text_color, 
-                   sf::Color pressed_text_color, sf::Color default_bg_color, 
-                   sf::Color hover_bg_color,  sf::Color pressed_bg_color)
-               : default_bg_color(default_bg_color)
-               , hover_bg_color(hover_bg_color)
-               , pressed_bg_color(pressed_bg_color)
+                   sf::Color pressed_text_color, sf::Color default_bg_color_, 
+                   sf::Color hover_bg_color_,  sf::Color pressed_bg_color_)
+               : default_bg_color(default_bg_color_)
+               , hover_bg_color(hover_bg_color_)
+               , pressed_bg_color(pressed_bg_color_)
                , default_text_color(default_text_color)
                , hover_text_color(hover_text_color)
                , pressed_text_color(pressed_text_color)
@@ -43,18 +45,18 @@ namespace gui {
         target.draw(text);
     }
 
-    void Button::update(sf::Vector2f mouse_position) {
-        
+    void Button::process_input(sf::Event& event, sf::Vector2f mouse_position) {
         state = BUTTON_STATE::DEFAULT;
 
         if (shape.getGlobalBounds().contains(mouse_position)) {
             state = BUTTON_STATE::HOVER;
 
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                state = BUTTON_STATE::PRESSED;
-            }
+        if (event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Left)
+            state = BUTTON_STATE::PRESSED;
         }
-        
+    }
+
+    void Button::update() {
         switch (state) {
             case BUTTON_STATE::DEFAULT:
                 text.setFillColor(default_text_color);

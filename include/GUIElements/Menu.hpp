@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Context.hpp"
 #include "GUIElements/Button.hpp"
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <functional>
@@ -12,25 +14,28 @@
 #include <vector>
 
 namespace gui {
-    class Menu final: sf::Drawable {
+    class Menu final: public sf::Drawable {
     public:
         using callback_t = std::function<void()>;
 
-        Menu(sf::Vector2f position, const sf::Font& font, const std::string titile_text, const float button_indent);
+        Menu(const sf::Font& font, const std::string titile_text, const float button_indent, 
+             sf::Vector2f position = sf::Vector2f({game::Constants::window_width / 2.f , game::Constants::window_height / 2.}));
 
         void add_button(const std::string button_text, callback_t callback); // acepts button and set correct indent to it
-
+        
+        void process_input(sf::Event& event, sf::Vector2f mouse_pos);
         void update(const float delta_time);
+
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:
         using btn_container = std::pair<std::unique_ptr<Button>, callback_t>;
 
         const sf::Font& font;
-        sf::Text titile;
+        sf::Text title;
         const float button_indent;
         sf::Vector2f position;
-        std::vector<btn_container> buttons;
+        std::vector<std::pair<Button, callback_t>> buttons;
 
     };
 }

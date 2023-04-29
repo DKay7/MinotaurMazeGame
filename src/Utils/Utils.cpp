@@ -10,20 +10,19 @@
 
 namespace utils {
 
-    void center_text_on_window(sf::Text& text) {
+    void center_text_on_window(sf::Text& text, sf::Vector2f position) {
         auto text_bounds = text.getLocalBounds();
         text.setOrigin(text_bounds.width / 2, text_bounds.height / 2);
-        auto center_pos = sf::Vector2f({game::Constants::window_width / 2.f, game::Constants::window_height / 2.});
-        text.setPosition(center_pos);
+        text.setPosition(position);
     }
 
     const sf::Vector2f get_mouse_position(const sf::RenderWindow& window) {
         return window.mapPixelToCoords(sf::Mouse::getPosition(window));
     }
 
-    std::unique_ptr<gui::Button> create_default_button(sf::Vector2f position, const sf::Font& font, std::string text) {
+    gui::Button create_default_button(sf::Vector2f position, const sf::Font& font, std::string text) {
         using Constants = game::Constants;
-        return std::make_unique<gui::Button>(position, Constants::button_size, font, text, 
-                                              Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
+        return gui::Button(position, Constants::button_size, font, text, 
+                           Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active);
     }
 }

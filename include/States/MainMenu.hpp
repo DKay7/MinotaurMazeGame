@@ -1,37 +1,31 @@
 #pragma once
-#include "State.hpp"
 #include "../Context.hpp"
 #include "../GUIElements/Button.hpp"
+#include "GUIElements/Menu.hpp"
+#include "State.hpp"
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <memory>
-#include <SFML/Graphics/Text.hpp>
 
-namespace game
-{
-    class MainMenu final: public engine::State {
+namespace game {
+    class MainMenu final : public engine::State {
     public:
-        MainMenu(Context* context_);
+        MainMenu(Context *context_);
 
-        void process_input(sf::Event& event) override;
+        void process_input(sf::Event &event) override;
         void update(const float delta_time) override;
         void draw() override;
-        
-        #ifndef NDEBUG
-            std::string get_state_name() const override;
-        #endif
+
+    #ifdef DEBUG
+        std::string get_state_name() const override;
+    #endif
 
     private:
-        std::unique_ptr<Button> game_btn;
-        std::unique_ptr<Button> edit_btn;
-        std::unique_ptr<Button> exit_btn;
-        
-        sf::Text game_title;
+        std::unique_ptr<gui::Menu> menu;
 
         sf::Sprite background;
 
-        Context* context;
-
+        Context *context;
     };
 } // namespace game
-
