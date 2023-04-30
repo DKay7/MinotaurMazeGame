@@ -19,9 +19,10 @@ namespace gui {
         using callback_t = std::function<void()>;
 
         Menu(const sf::Font& font, const std::string titile_text, const float button_indent, 
-             sf::Vector2f position = sf::Vector2f({game::Constants::window_width / 2.f , game::Constants::window_height / 2.}));
+             sf::Vector2f position = sf::Vector2f({game::Constants::window_width / 2.f , game::Constants::window_height / 2.}),
+             bool centering = true);
 
-        void add_button(const std::string button_text, callback_t callback); // acepts button and set correct indent to it
+        void add_button(const std::string button_text, callback_t callback, bool centering=true);
         
         void process_input(sf::Event& event, sf::Vector2f mouse_pos);
         void update(const float delta_time);
@@ -31,6 +32,7 @@ namespace gui {
     private:
         using btn_container = std::pair<std::unique_ptr<Button>, callback_t>;
 
+    
         const sf::Font& font;
         sf::Text title;
         const float button_indent;

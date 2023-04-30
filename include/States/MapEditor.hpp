@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Context.hpp"
+#include "GUIElements/Menu.hpp"
+#include "Map/TileMap.hpp"
 #include "States/State.hpp"
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <memory>
 
 
@@ -21,6 +24,10 @@ namespace game {
         #endif
         
     private:
+        sf::RectangleShape mouse_selector_shape;
+        TileMap tile_map;
+        std::unique_ptr<gui::Menu> menu;
+
         Context* context;
     };
 }

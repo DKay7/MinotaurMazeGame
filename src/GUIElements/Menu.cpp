@@ -9,19 +9,23 @@
 #include <string>
 
 namespace gui {
-    Menu::Menu(const sf::Font& font, const std::string titile_text, const float button_indent, sf::Vector2f position_):
+    Menu::Menu(const sf::Font& font, const std::string titile_text, const float button_indent, sf::Vector2f position_, bool centering):
         position(position_), font(font), button_indent(button_indent)    
     {
         title.setString(titile_text);
         title.setFont(font);
-        utils::center_text_on_window(title, position);
+        
+        if (centering)
+            utils::center_text_on_window(title, position);
+        else
+            title.setPosition(position);
 
         position.y += 1.5 * button_indent;
     }
 
 
-    void Menu::add_button(const std::string button_text, callback_t callback) {
-        auto button = utils::create_default_button(position, font, button_text);
+    void Menu::add_button(const std::string button_text, callback_t callback, bool centering) {
+        auto button = utils::create_default_button(position, font, button_text, centering);
         position.y += button_indent;
 
         buttons.emplace_back(std::move(button), callback);

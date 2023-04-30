@@ -12,25 +12,24 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <memory>
 
-
 namespace game {
-    class GamePause: public engine::State {
-        public:
-            GamePause(Context* context_);
-            void process_input(sf::Event& event) override;
-            void update(const float delta_time) override;
-            void draw() override;
-            
-            #ifdef DEBUG
-                std::string get_state_name() const override;
-            #endif
-        private:
-            std::unique_ptr<gui::Menu> menu;
+    class GamePause : public engine::State {
+    public:
+        GamePause(Context *context_);
+        void process_input(sf::Event &event) override;
+        void update(const float delta_time) override;
+        void draw() override;
 
-            bool end_pause = false;
-            sf::Sprite bg_sprite;
-            sf::RenderTexture render_texture;
-            sf::Text pause_text;
-            Context* context;
+        #ifndef NDEBUG
+            std::string get_state_name() const override;
+        #endif
+    private:
+        std::unique_ptr<gui::Menu> menu;
+
+        bool end_pause = false;
+        sf::Sprite bg_sprite;
+        sf::RenderTexture render_texture;
+        sf::Text pause_text;
+        Context *context;
     };
-}
+} // namespace game

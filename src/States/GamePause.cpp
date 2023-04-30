@@ -63,7 +63,7 @@ namespace game {
         window->display();
     }
 
-    #ifdef DEBUG
+    #ifndef NDEBUG
         std::string GamePause::get_state_name() const { return "GamePause"; }
     #endif
 } // namespace game

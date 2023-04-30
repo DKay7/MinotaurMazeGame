@@ -32,19 +32,23 @@ namespace game
 
 //--------------------------------------------------------------------------------
         // map
-        static const int map_size = 100;
-        static const int layers_num = 3;
+        inline static const sf::Vector2u map_size = {100, 100};
+        inline static const int layers_num = 3;
         inline static const float grid_size = 50; 
 //--------------------------------------------------------------------------------
-                
-        // main menu
+
+        //buttons
+        inline static const int default_bt_text_size = 15;
         inline static const sf::Vector2f button_size = {75, 35};
         inline static const sf::Color button_bg_color    = sf::Color::Transparent;
         inline static const sf::Color button_text_idle   = sf::Color::White;
         inline static const sf::Color button_text_hover  = sf::Color(100, 107, 99);
         inline static const sf::Color button_text_active = sf::Color(46, 139, 87);
-        inline static const sf::Color bg_sprite_color = sf::Color(255, 255, 255, 50);
 
+//--------------------------------------------------------------------------------
+
+        // main menu
+        inline static const sf::Color bg_sprite_color = sf::Color(255, 255, 255, 50);
         inline static const std::string main_menu_title = "Minotaur Maze";
         inline static const std::string main_menu_play_bt_text   = "play";
         inline static const std::string main_menu_editor_bt_text = "editor";

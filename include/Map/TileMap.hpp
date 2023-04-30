@@ -14,14 +14,14 @@ namespace game {
 
     class TileMap final: public sf::Drawable {
     public:
-        TileMap(sf::Vector2u map_size, uint32_t layers_num, const float grid_size=Constants::grid_size);
+        TileMap(sf::Vector2f start_position_ = {0.f, 0.f}, sf::Vector2u map_size=Constants::map_size, uint32_t layers_num=Constants::layers_num, const float grid_size=Constants::grid_size);
 
         void update(const float delta_time);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     private:
         const float grid_size;
-
+        sf::Vector2f start_position;
         engine::TileMapCore map;
 
     };

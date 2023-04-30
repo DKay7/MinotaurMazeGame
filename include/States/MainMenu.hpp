@@ -17,7 +17,7 @@ namespace game {
         void update(const float delta_time) override;
         void draw() override;
 
-    #ifdef DEBUG
+    #ifndef NDEBUG
         std::string get_state_name() const override;
     #endif
 

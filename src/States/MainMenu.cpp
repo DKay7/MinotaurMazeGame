@@ -64,7 +64,7 @@ namespace game {
         window->display();
     }
 
-    #ifdef DEBUG
+    #ifndef NDEBUG
         std::string MainMenu::get_state_name() const { return "MainMenu"; }
     #endif
 } // namespace game

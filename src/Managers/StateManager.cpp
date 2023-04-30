@@ -1,7 +1,7 @@
 #include "Managers/StateManager.hpp"
 #include <algorithm>
 #ifdef DEBUG_STATE_MANAGER
-    #include <iostream>
+#include <iostream>
 #endif
 #include <stdexcept>
 
@@ -15,52 +15,53 @@ namespace engine {
         next_states.push_back(std::move(new_state));
     }
 
-    void StateManager::pop_state() {
-        ++pop_counter;
-    }
+    void StateManager::pop_state() { ++pop_counter; }
 
     void StateManager::process_state_change() {
-        #ifdef DEBUG_STATE_MANAGER
-            std::cout << "\nBEGINING OF PROCESS CHANGE\n";
-            print_states();
-        #endif
-        
-        while (pop_counter != 0 and !states_vector.empty()) {
-            states_vector.pop_back();
-            --pop_counter;
-        }
-        
-        if (!states_vector.empty())
-            states_vector.back()->pause();
-        
-        while (!next_states.empty()) {
-            states_vector.push_back(std::move(next_states.back()));
-            next_states.pop_back();
-        }
-        
-        #ifdef DEBUG_STATE_MANAGER
-            std::cout << "\nENDING OF PROCESS CHANGE\n";
-            print_states();
-        #endif
+    #ifdef DEBUG_STATE_MANAGER
+        std::cout << "\nBEGINING OF PROCESS CHANGE\n";
+        print_states();
+    #endif
 
-        if (!states_vector.empty())
-            states_vector.back()->start();
+    while (pop_counter != 0 and !states_vector.empty()) {
+        states_vector.pop_back();
+        --pop_counter;
     }
 
-    std::unique_ptr<State>& StateManager::get_current_state() {
-        if (states_vector.empty())
-            throw std::runtime_error("States vector is empty while you're trying to get current state");
+    if (!states_vector.empty())
+        states_vector.back()->pause();
 
-        return states_vector.back();
-    } 
+    while (!next_states.empty()) {
+        states_vector.push_back(std::move(next_states.back()));
+        next_states.pop_back();
+    }
+
+    #ifdef DEBUG_STATE_MANAGER
+        std::cout << "\nENDING OF PROCESS CHANGE\n";
+        print_states();
+    #endif
+
+    if (!states_vector.empty())
+        states_vector.back()->start();
+    }
+
+    std::unique_ptr<State> &StateManager::get_current_state() {
+    if (states_vector.empty())
+        throw std::runtime_error(
+            "States vector is empty while you're trying to get current state");
+
+    return states_vector.back();
+    }
 
     #ifdef DEBUG_STATE_MANAGER
         void StateManager::print_states() const {
             std::cout << "\n------------------------------------\n";
             std::cout << "CURRENT STATES:\n";
-            for (auto state_it = states_vector.rbegin(), state_et = states_vector.rend(); state_it != state_et; ++state_it) {
-                std::cout << "\t\t-> " << state_it->get()->get_state_name() << " [" << reinterpret_cast<void*>(state_it->get()) << "]\n";
+            for (auto state_it = states_vector.rbegin(), state_et = states_vector.rend();
+                state_it != state_et; ++state_it) {
+                std::cout << "\t\t-> " << state_it->get()->get_state_name() << " ["
+                        << reinterpret_cast<void *>(state_it->get()) << "]\n";
             }
         }
     #endif
-}
+} // namespace engine

@@ -2,14 +2,16 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include "Constants.hpp"
 
 namespace gui {
 
     Button::Button(sf::Vector2f position, sf::Vector2f size, 
                    const sf::Font& font, std::string button_text, 
                    sf::Color default_text_color, sf::Color hover_text_color, 
-                   sf::Color pressed_text_color, sf::Color default_bg_color_, 
-                   sf::Color hover_bg_color_,  sf::Color pressed_bg_color_)
+                   sf::Color pressed_text_color, bool centering,  
+                   sf::Color default_bg_color_, sf::Color hover_bg_color_, 
+                   sf::Color pressed_bg_color_)
                : default_bg_color(default_bg_color_)
                , hover_bg_color(hover_bg_color_)
                , pressed_bg_color(pressed_bg_color_)
@@ -20,19 +22,24 @@ namespace gui {
     {   
         shape.setSize(size);
 
-        auto shape_bounds = shape.getLocalBounds();
-        shape.setOrigin(shape_bounds.width / 2, shape_bounds.height / 2);
-        
+        if (centering) {
+            auto shape_bounds = shape.getLocalBounds();
+            shape.setOrigin(shape_bounds.width / 2, shape_bounds.height / 2);
+        }
+
         shape.setPosition(position);
         shape.setFillColor(default_bg_color);
 
         text.setFont(font);
         text.setString(button_text);
-        text.setCharacterSize(15);
+        text.setCharacterSize(game::Constants::default_bt_text_size);
         text.setFillColor(default_text_color);
 
-        auto text_bounds = text.getLocalBounds();
-        text.setOrigin(text_bounds.width / 2, text_bounds.height / 2);
+        if (centering) {
+            auto text_bounds = text.getLocalBounds();
+            text.setOrigin(text_bounds.width / 2, text_bounds.height / 2);
+        }
+        
         text.setPosition(
             shape.getPosition().x, 
             shape.getPosition().y 

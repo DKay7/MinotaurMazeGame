@@ -14,7 +14,7 @@
 #include <stdexcept>
 
 namespace game {
-    GamePlay::GamePlay(Context* context_) : context(context_), map({Constants::map_size, Constants::map_size}, Constants::layers_num) { //TODO remove
+    GamePlay::GamePlay(Context* context_) : context(context_), map() {
 
         auto& ass_mgr = context->asset_manager;
         auto texture_added = ass_mgr->add_texture(TEXTURE_ID::PLAYER_SHEET, Constants::player_sheet_texture_path);
