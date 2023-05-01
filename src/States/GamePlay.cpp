@@ -1,6 +1,7 @@
 #include "States/GamePlay.hpp"
 #include "Managers/AssetManager.hpp"
 #include "Constants.hpp"
+#include "Map/TileMap.hpp"
 #include "States/GamePause.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -14,7 +15,11 @@
 #include <stdexcept>
 
 namespace game {
-    GamePlay::GamePlay(Context* context_) : context(context_), map() {
+    GamePlay::GamePlay(Context* context_) : context(context_){
+        context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
+        map = std::make_unique<TileMap>(context->asset_manager->get_texture(TEXTURE_ID::TILE_SHEET), sf::Vector2f(0, 0), 
+                                            Constants::map_size, Constants::layers_num, Constants::grid_size);
+
 
         auto& ass_mgr = context->asset_manager;
         auto texture_added = ass_mgr->add_texture(TEXTURE_ID::PLAYER_SHEET, Constants::player_sheet_texture_path);
@@ -45,13 +50,14 @@ namespace game {
             player->move(delta_time, {-1, 0});
 
         player->update(delta_time);
+        map->update(delta_time);
     }
 
     void GamePlay::draw() {
         
         auto &window = context->window;
         window->clear();
-        window->draw(map);
+        window->draw(*map);
         window->draw(*player);
         window->display();
     }

@@ -7,10 +7,9 @@
 
 namespace engine {
     TileMapCore::TileMapCore(sf::Vector2u map_size, uint32_t layers_num):
-        map_size(map_size), layers_num(layers_num)
-    {
-        tilemap.reserve(map_size.x * map_size.y * layers_num);
-    }
+        map_size(map_size), layers_num(layers_num),
+        tilemap(map_size.x * map_size.y * layers_num)
+    { }
 
     void TileMapCore::insert(std::unique_ptr<game::Tile> tile, uint32_t x, uint32_t y, uint32_t layer_num) {
         tilemap[compute_coords(x, y, layer_num)] = std::move(tile);

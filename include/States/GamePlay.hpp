@@ -25,7 +25,7 @@ namespace game {
         #endif 
 
     private:
-        TileMap map;
+        std::unique_ptr<TileMap> map;
         std::unique_ptr<Player> player;
         Context* context;
     };

@@ -10,6 +10,7 @@ namespace game
     enum class TEXTURE_ID {
         MAIN_MENU_BG,
         PLAYER_SHEET,
+        TILE_SHEET,
     };
 
     enum class FONT_ID {
@@ -35,6 +36,7 @@ namespace game
         inline static const sf::Vector2u map_size = {100, 100};
         inline static const int layers_num = 3;
         inline static const float grid_size = 50; 
+        inline static const std::string tile_sheet_texture_path = "../assets/images/tiles/grass_sheet.png";
 //--------------------------------------------------------------------------------
 
         //buttons
