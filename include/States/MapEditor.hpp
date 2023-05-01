@@ -26,6 +26,8 @@ namespace game {
         #endif
         
     private:
+        void init_selector();
+
         void update_mouse_selector();
         void process_editor_input(sf::Event& event);
 

@@ -47,5 +47,8 @@ namespace game {
 
     const float TileMap::get_grid_size() const {
         return grid_size;
-    }    
+    } 
+    const sf::Texture& TileMap::get_texture_sheet() const {
+        return tilemap_texture_sheet;
+    }
 }

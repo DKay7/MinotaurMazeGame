@@ -19,7 +19,10 @@ namespace game {
 
         void update(const float delta_time);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
         const float get_grid_size() const;
+        const sf::Texture& get_texture_sheet() const;
+        
         void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect);
         void remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num);
         

@@ -31,14 +31,22 @@ namespace game {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state();
             state_mgr->add_state(std::make_unique<MainMenu>(context));
-        }, false);
+        }, false); // TODO Remove
         
-        mouse_selector_shape.setSize({Constants::grid_size, Constants::grid_size});
-        mouse_selector_shape.setFillColor(sf::Color::Transparent);
-        mouse_selector_shape.setOutlineColor(sf::Color::Cyan);
-        mouse_selector_shape.setOutlineThickness(3.f); //TODO remove
-
         tile_texture_rect = {0, 0, 64, 64}; // TODO remove;
+        init_selector();
+
+    }
+
+    void MapEditor::init_selector() {
+        auto grid_size = tile_map->get_grid_size();
+        mouse_selector_shape.setSize({grid_size, grid_size});
+        mouse_selector_shape.setFillColor({255, 255, 255, 150});
+        mouse_selector_shape.setOutlineColor(sf::Color::Cyan);
+        mouse_selector_shape.setOutlineThickness(1.f); //TODO remove
+
+        mouse_selector_shape.setTexture(&tile_map->get_texture_sheet());
+        mouse_selector_shape.setTextureRect(tile_texture_rect);
     }
 
     void MapEditor::process_input(sf::Event& event) {
@@ -53,8 +61,6 @@ namespace game {
             context->state_manager->add_state(std::make_unique<GamePause>(context));
         
         process_editor_input(event);
-
-
     }
 
     void MapEditor::process_editor_input(sf::Event& event) {
@@ -78,13 +84,17 @@ namespace game {
         using kb = sf::Keyboard;
 
         if (event.type == sf::Event::KeyPressed) {
+            auto texture_size = tile_map->get_texture_sheet().getSize();
+
             switch (event.key.code) {
                 case kb::R:
-                    tile_texture_rect.left += 64;
+                    tile_texture_rect.left = (tile_texture_rect.left + 64) % texture_size.x; // TODO REMOVE THIS CRINGE!!
                     break;
                 
                 case kb::E:
                     tile_texture_rect.left -= 64;
+                    tile_texture_rect.left = tile_texture_rect.left >= 0 ?  tile_texture_rect.left : (texture_size.x - 64);
+
                     break;
                 
                 default:
@@ -102,6 +112,7 @@ namespace game {
         mouse_pos_grid = utils::get_gridded_mouse(mouse_pos, grid_size);
 
         mouse_selector_shape.setPosition(mouse_pos_grid.x * grid_size, mouse_pos_grid.y * grid_size);
+        mouse_selector_shape.setTextureRect(tile_texture_rect);
     }
 
     void MapEditor::update(const float delta_time) {
