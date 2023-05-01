@@ -3,23 +3,30 @@
 #include "Map/Tile.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <cstdint>
+#include <memory>
 #include <vector>
 
 namespace engine {
     class TileMapCore final {
     public:
-        using tilemap_t = std::vector<game::Tile>;
+        using tilemap_t = std::vector<std::unique_ptr<game::Tile>>;
 
         TileMapCore(sf::Vector2u map_size, uint32_t layers_num);
-        void push_back(game::Tile tile);
+        void push_back(std::unique_ptr<game::Tile> tile);
         
-        game::Tile* operator[](uint32_t x, uint32_t y, uint32_t layer_num);
+        void insert(std::unique_ptr<game::Tile> tile, uint32_t x, uint32_t y, uint32_t layer_num);
+
+        std::unique_ptr<game::Tile>& operator[](uint32_t x, uint32_t y, uint32_t layer_num);
+        uint64_t compute_coords(uint32_t x, uint32_t y, uint32_t layer_num) const;
 
         tilemap_t::iterator begin();
         tilemap_t::iterator end();
 
         tilemap_t::const_iterator begin() const;
         tilemap_t::const_iterator end() const;
+
+        const sf::Vector2u get_size() const;
+        const uint32_t get_layers_num() const;
 
     private:
         sf::Vector2u map_size;

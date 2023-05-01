@@ -25,4 +25,11 @@ namespace utils {
         return gui::Button(position, Constants::button_size, font, text, 
                            Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active, centering);
     }
+
+    sf::Vector2u get_gridded_mouse(const sf::Vector2f mouse_pos, const float grid_size) {
+        return {
+            static_cast<unsigned>(mouse_pos.x) / static_cast<unsigned>(grid_size),
+            static_cast<unsigned>(mouse_pos.y) / static_cast<unsigned>(grid_size),
+        };
+    }
 }

@@ -5,11 +5,12 @@
 #include "Map/TileMap.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <memory>
 
 
 namespace game {
-    class MapEditor: public engine::State {
+    class MapEditor final: public engine::State {
     public:
         MapEditor(Context* context);
 
@@ -24,10 +25,15 @@ namespace game {
         #endif
         
     private:
+        void update_mouse_selector();
+        void process_editor_input(sf::Event& event);
+
         sf::RectangleShape mouse_selector_shape;
+        sf::Vector2u mouse_pos_grid;
+
         TileMap tile_map;
         std::unique_ptr<gui::Menu> menu;
-
+                
         Context* context;
     };
 }

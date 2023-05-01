@@ -18,7 +18,10 @@ namespace game {
 
         void update(const float delta_time);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
+        const float get_grid_size() const;
+        void add_tile(uint32_t x, uint32_t y, uint32_t layer_num);
+        void remove_tile(uint32_t x, uint32_t y, uint32_t layer_num);
+        
     private:
         const float grid_size;
         sf::Vector2f start_position;

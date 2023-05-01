@@ -13,7 +13,7 @@
 #include <memory>
 
 namespace game {
-    class GamePause : public engine::State {
+    class GamePause final: public engine::State {
     public:
         GamePause(Context *context_);
         void process_input(sf::Event &event) override;
