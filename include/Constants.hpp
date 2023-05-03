@@ -5,102 +5,105 @@
 #include <SFML/System/Vector2.hpp>
 #include <string>
 
-namespace game
-{
-    enum class TEXTURE_ID {
-        MAIN_MENU_BG,
-        PLAYER_SHEET,
-        TILE_SHEET,
-    };
+enum class TEXTURE_ID {
+    MAIN_MENU_BG,
+    PLAYER_SHEET,
+    TILE_SHEET,
+};
 
-    enum class FONT_ID {
-        MAIN_FONT,
-    };
+enum class FONT_ID {
+    MAIN_FONT,
+};
     
-    enum class ANIMATION_ID {
-        PLAYER_IDLE,
-        PLAYER_MOVE_LEFT,
-        PLAYER_MOVE_RIGHT,
-        PLAYER_MOVE_UP,
-        PLAYER_MOVE_DOWN,
-        PLAYER_MOVE_LEFT_UP,
-        PLAYER_MOVE_LEFT_DOWN,
-        PLAYER_MOVE_RIGHT_UP,
-        PLAYER_MOVE_RIGHT_DOWN,
-    };
+enum class ANIMATION_ID {
+    PLAYER_IDLE,
+    PLAYER_MOVE_LEFT,
+    PLAYER_MOVE_RIGHT,
+    PLAYER_MOVE_UP,
+    PLAYER_MOVE_DOWN,
+    PLAYER_MOVE_LEFT_UP,
+    PLAYER_MOVE_LEFT_DOWN,
+    PLAYER_MOVE_RIGHT_UP,
+    PLAYER_MOVE_RIGHT_DOWN,
+};
     
-    struct Constants final  {   
-
+namespace Constants  {   
 //--------------------------------------------------------------------------------
+
         // texture selector
-        inline static const sf::Color texture_selector_bg_color = {50, 50, 50, 100};
-        inline static const sf::Color texture_selector_outline_color = {255, 255, 255, 200};
-        inline static const float texture_selector_outline_thick = 1;
+        const sf::Color texture_selector_select_color = sf::Color::Red;
+        const sf::Color texture_selector_bg_color = {50, 50, 50, 100};
+        const sf::Color texture_selector_outline_color = {255, 255, 255, 200};
+        const float texture_selector_outline_thick = 1;
 //--------------------------------------------------------------------------------
 
         // map
-        inline static const sf::Vector2u map_size = {100, 100};
-        inline static const int layers_num = 3;
-        inline static const float grid_size = 50; 
+        const sf::Vector2u map_size = {100, 100};
+        const int layers_num = 3;
+        const float grid_size = 48; 
 
 //--------------------------------------------------------------------------------
 
         //buttons
-        inline static const int default_bt_text_size = 15;
-        inline static const sf::Vector2f button_size = {75, 35};
-        inline static const sf::Color button_bg_color    = sf::Color::Transparent;
-        inline static const sf::Color button_text_idle   = sf::Color::White;
-        inline static const sf::Color button_text_hover  = sf::Color(100, 107, 99);
-        inline static const sf::Color button_text_active = sf::Color(46, 139, 87);
+        const int default_bt_text_size = 15;
+        const sf::Vector2f button_size = {75, 35};
+        const sf::Color button_bg_color    = sf::Color::Transparent;
+        const sf::Color button_text_idle   = sf::Color::White;
+        const sf::Color button_text_hover  = {100, 107, 99};
+        const sf::Color button_text_active = {46, 139, 87};
 
 //--------------------------------------------------------------------------------
 
         // main menu
-        inline static const sf::Color bg_sprite_color = sf::Color(255, 255, 255, 50);
-        inline static const std::string main_menu_title = "Minotaur Maze";
-        inline static const std::string main_menu_play_bt_text   = "play";
-        inline static const std::string main_menu_editor_bt_text = "editor";
-        inline static const std::string main_menu_exit_bt_text   = "exit";
+        const sf::Color bg_sprite_color = {255, 255, 255, 50};
+        const std::string main_menu_title = "Minotaur Maze";
+        const std::string main_menu_play_bt_text   = "play";
+        const std::string main_menu_editor_bt_text = "editor";
+        const std::string main_menu_exit_bt_text   = "exit";
 
+//--------------------------------------------------------------------------------
+        
+        // map editor
+        const sf::Color mouse_rect_bg_color = {255, 255, 255, 150};
+        const sf::Color mouse_rect_outline_color = sf::Color::Cyan;
+        const sf::Vector2f selector_gui_pos = {20, 20};
 //--------------------------------------------------------------------------------
 
         //pause menu
-        inline static const std::string pause_menu_title            = "Paused";
-        inline static const std::string pause_menu_resume_bt_text   = "resume";
-        inline static const std::string pause_menu_back_bt_text     = "back to menu";
+        const std::string pause_menu_title            = "Paused";
+        const std::string pause_menu_resume_bt_text   = "resume";
+        const std::string pause_menu_back_bt_text     = "back to menu";
 
 //--------------------------------------------------------------------------------
 
         // window parameters
-        inline static const int window_height = 720;
-        inline static const int window_width  = 1280;
-        inline static const std::string game_title = "Minotaur Maze";
-        inline static const long int frame_limit = 60;
+        const int window_height = 720;
+        const int window_width  = 1280;
+        const std::string game_title = "Minotaur Maze";
+        const long int frame_limit = 60;
 
 //--------------------------------------------------------------------------------
 
         // animation parameters
-        inline static const sf::Vector2i default_frame_size = {48, 48};
-        inline static const float idle_tpf = 7;
-        inline static const float movement_tpf = 1.2;
+        const sf::Vector2i default_frame_size = {48, 48};
+        const float idle_tpf = 7;
+        const float movement_tpf = 1.2;
         
 //--------------------------------------------------------------------------------
         
         // movement parameters
-        inline static const float player_covement_max_speed = 250;
-        inline static const float default_acceleration = 900;
-        inline static const float default_deceleration = 600;
+        const float player_covement_max_speed = 250;
+        const float default_acceleration = 900;
+        const float default_deceleration = 600;
 
 //--------------------------------------------------------------------------------
 
         // assets parameters
         // TODO solve issue with relative paths.
         
-        inline static const std::string tile_sheet_texture_path = "../assets/images/tiles/grass_sheet.png";
-        inline static const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf"; 
-        inline static const std::string main_menu_bg_image_path = "../assets/images/backgrounds/main_menu_bg_image.jpg";
-        inline static const std::string player_sheet_texture_path = "../assets/images/sprites/black_4.png";
-    };
+        const std::string tile_sheet_texture_path = "../assets/images/tiles/Dung_tileset.png";
+        const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf"; 
+        const std::string main_menu_bg_image_path = "../assets/images/backgrounds/main_menu_bg_image.jpg";
+        const std::string player_sheet_texture_path = "../assets/images/sprites/black_4.png";
+}  // namespace constants
     
-
-} // namespace game

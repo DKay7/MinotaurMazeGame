@@ -32,7 +32,7 @@ namespace gui {
 
         text.setFont(font);
         text.setString(button_text);
-        text.setCharacterSize(game::Constants::default_bt_text_size);
+        text.setCharacterSize(Constants::default_bt_text_size);
         text.setFillColor(default_text_color);
 
         if (centering) {

@@ -7,7 +7,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cstdint>
-#include <iostream>
 #include <memory>
 #include <assert.h>
 
@@ -30,12 +29,9 @@ namespace game {
     }
 
     void TileMap::remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num) {
-        if (map[x, y, layer_num].get() == nullptr) {
-            std::cout << "NOT REMOVED\n";
+        if (map[x, y, layer_num].get() == nullptr)
             return;
-        }
 
-        std::cout << reinterpret_cast<void*>(map[x, y, layer_num].get()) << "\n";
         map[x, y, layer_num].reset();
     }
 

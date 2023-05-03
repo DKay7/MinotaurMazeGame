@@ -19,7 +19,7 @@ namespace gui {
         using callback_t = std::function<void()>;
 
         Menu(const sf::Font& font, const std::string titile_text, const float button_indent, 
-             sf::Vector2f position = sf::Vector2f({game::Constants::window_width / 2.f , game::Constants::window_height / 2.}),
+             sf::Vector2f position = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.}),
              bool centering = true);
 
         void add_button(const std::string button_text, callback_t callback, bool centering=true);

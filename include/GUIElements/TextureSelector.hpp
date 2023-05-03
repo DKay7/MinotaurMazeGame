@@ -13,11 +13,16 @@ namespace gui {
     class TextureSelector final: public sf::Drawable {
     
     public:
-        TextureSelector(const sf::Vector2f position, const sf::Vector2f size, 
-                        const sf::Texture &texture, const float grid_size);
+        TextureSelector(const sf::Vector2f position, const sf::Texture &texture, 
+                        const float grid_size);
 
-        void update(sf::Vector2f mouse_pos);
+        void update(sf::Vector2i mouse_global_pos);
         void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+
+        const bool active() const;
+        const sf::IntRect& get_texture_rect() const;
+        
+        void change_shown();
 
     private:
         const float grid_size;
@@ -26,6 +31,7 @@ namespace gui {
         sf::RectangleShape selector;
         sf::IntRect texture_rect;
         bool is_active = false;
+        bool is_shown = false;
 
         sf::Sprite sheet;
         sf::RectangleShape bounds;

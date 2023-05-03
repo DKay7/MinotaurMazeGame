@@ -21,7 +21,6 @@ namespace utils {
     }
 
     gui::Button create_default_button(sf::Vector2f position, const sf::Font& font, std::string text, bool centering) {
-        using Constants = game::Constants;
         return gui::Button(position, Constants::button_size, font, text, 
                            Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active, centering);
     }
