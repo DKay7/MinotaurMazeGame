@@ -40,7 +40,7 @@ namespace game {
     }
 
     void MapEditor::init_selector() {
-        texture_selector = std::make_unique<gui::TextureSelector>(sf::Vector2f(20, 20), sf::Vector2f(500, 500), tile_map->get_texture_sheet()); // TODO remove constants
+        texture_selector = std::make_unique<gui::TextureSelector>(sf::Vector2f(20, 20), sf::Vector2f(500, 500), tile_map->get_texture_sheet(), tile_map->get_grid_size()); // TODO remove constants
         
         auto grid_size = tile_map->get_grid_size();
         mouse_selector_shape.setSize({grid_size, grid_size});

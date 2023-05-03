@@ -4,12 +4,14 @@
 
 namespace gui {
     TextureSelector::TextureSelector(const sf::Vector2f position, const sf::Vector2f size, 
-                                     const sf::Texture &texture) {
+                                     const sf::Texture &texture, const float grid_size): 
+        grid_size(grid_size) 
+    {
         bounds.setSize(size);
         bounds.setPosition(position);
         bounds.setFillColor(game::Constants::texture_selector_bg_color);
         bounds.setOutlineColor(game::Constants::texture_selector_outline_color);
-        bounds.setOutlineThickness(1);
+        bounds.setOutlineThickness(game::Constants::texture_selector_outline_thick);
 
         sheet.setTexture(texture);
         sheet.setPosition(position);
@@ -31,6 +33,9 @@ namespace gui {
 
             sheet.setTextureRect(sf::IntRect(0, 0, sheet_width, bounds_height));
         }
+
+        selector.setPosition(position);
+        selector.setFillColor();
 
     }
     

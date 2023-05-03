@@ -35,14 +35,13 @@ namespace game
         // texture selector
         inline static const sf::Color texture_selector_bg_color = {50, 50, 50, 100};
         inline static const sf::Color texture_selector_outline_color = {255, 255, 255, 200};
-
+        inline static const float texture_selector_outline_thick = 1;
 //--------------------------------------------------------------------------------
 
         // map
         inline static const sf::Vector2u map_size = {100, 100};
         inline static const int layers_num = 3;
         inline static const float grid_size = 50; 
-        inline static const std::string tile_sheet_texture_path = "../assets/images/tiles/grass_sheet.png";
 
 //--------------------------------------------------------------------------------
 
@@ -95,7 +94,10 @@ namespace game
 //--------------------------------------------------------------------------------
 
         // assets parameters
-        inline static const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf"; // TODO solve issue with relative paths.
+        // TODO solve issue with relative paths.
+        
+        inline static const std::string tile_sheet_texture_path = "../assets/images/tiles/grass_sheet.png";
+        inline static const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf"; 
         inline static const std::string main_menu_bg_image_path = "../assets/images/backgrounds/main_menu_bg_image.jpg";
         inline static const std::string player_sheet_texture_path = "../assets/images/sprites/black_4.png";
     };
