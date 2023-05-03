@@ -32,11 +32,18 @@ namespace game
     struct Constants final  {   
 
 //--------------------------------------------------------------------------------
+        // texture selector
+        inline static const sf::Color texture_selector_bg_color = {50, 50, 50, 100};
+        inline static const sf::Color texture_selector_outline_color = {255, 255, 255, 200};
+
+//--------------------------------------------------------------------------------
+
         // map
         inline static const sf::Vector2u map_size = {100, 100};
         inline static const int layers_num = 3;
         inline static const float grid_size = 50; 
         inline static const std::string tile_sheet_texture_path = "../assets/images/tiles/grass_sheet.png";
+
 //--------------------------------------------------------------------------------
 
         //buttons
@@ -77,7 +84,6 @@ namespace game
         inline static const sf::Vector2i default_frame_size = {48, 48};
         inline static const float idle_tpf = 7;
         inline static const float movement_tpf = 1.2;
-
         
 //--------------------------------------------------------------------------------
         

@@ -2,6 +2,7 @@
 #include "Constants.hpp"
 #include "Context.hpp"
 #include "GUIElements/Menu.hpp"
+#include "GUIElements/TextureSelector.hpp"
 #include "Map/TileMap.hpp"
 #include "States/GamePause.hpp"
 #include "States/MainMenu.hpp"
@@ -26,12 +27,12 @@ namespace game {
                                             Constants::map_size, Constants::layers_num, Constants::grid_size);
 
 
-        menu = std::make_unique<gui::Menu>(context->asset_manager->get_font(FONT_ID::MAIN_FONT), "Map Editor", Constants::button_size.y, sf::Vector2f(0, 0), false);
-        menu->add_button("exit", [&](){
-            auto &state_mgr = context->state_manager;
-            state_mgr->pop_state();
-            state_mgr->add_state(std::make_unique<MainMenu>(context));
-        }, false); // TODO Remove
+        // menu = std::make_unique<gui::Menu>(context->asset_manager->get_font(FONT_ID::MAIN_FONT), "Map Editor", Constants::button_size.y, sf::Vector2f(0, 0), false);
+        // menu->add_button("exit", [&](){
+        //     auto &state_mgr = context->state_manager;
+        //     state_mgr->pop_state();
+        //     state_mgr->add_state(std::make_unique<MainMenu>(context));
+        // }, false); // TODO Remove
         
         tile_texture_rect = {0, 0, 64, 64}; // TODO remove;
         init_selector();
@@ -39,6 +40,8 @@ namespace game {
     }
 
     void MapEditor::init_selector() {
+        texture_selector = std::make_unique<gui::TextureSelector>(sf::Vector2f(20, 20), sf::Vector2f(500, 500), tile_map->get_texture_sheet()); // TODO remove constants
+        
         auto grid_size = tile_map->get_grid_size();
         mouse_selector_shape.setSize({grid_size, grid_size});
         mouse_selector_shape.setFillColor({255, 255, 255, 150});
@@ -55,7 +58,7 @@ namespace game {
         auto mouse_pos = utils::get_mouse_position(*context->window);
         auto grid_size = tile_map->get_grid_size();
 
-        menu->process_input(event, mouse_pos);
+        // menu->process_input(event, mouse_pos);
 
         if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
             context->state_manager->add_state(std::make_unique<GamePause>(context));
@@ -101,9 +104,6 @@ namespace game {
                     break;
             }
         }
-
-        std::cout << "LEFT: " << tile_texture_rect.left << "\n";
-
     }
 
     void MapEditor::update_mouse_selector() {
@@ -116,7 +116,7 @@ namespace game {
     }
 
     void MapEditor::update(const float delta_time) {
-        menu->update(delta_time);
+        // menu->update(delta_time);
         tile_map->update(delta_time);
         update_mouse_selector();
     }
@@ -125,16 +125,17 @@ namespace game {
         auto &window = context->window;
         window->clear();
         
-        sf::RectangleShape rect; // TODO remove
-        rect.setSize({7 * tile_map->get_grid_size(), Constants::window_height});
-        rect.setFillColor(sf::Color(9, 53, 54));
+        // sf::RectangleShape rect; // TODO remove
+        // rect.setSize({7 * tile_map->get_grid_size(), Constants::window_height});
+        // rect.setFillColor(sf::Color(9, 53, 54));
 
-        window->draw(rect);
-        window->draw(*menu);
+        // window->draw(rect);
+        // window->draw(*menu);
+        
         window->draw(*tile_map);   
-
+        
         window->draw(mouse_selector_shape);
-
+        window->draw(*texture_selector);
         window->display();
     }
 

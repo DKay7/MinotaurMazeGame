@@ -2,6 +2,7 @@
 
 #include "Context.hpp"
 #include "GUIElements/Menu.hpp"
+#include "GUIElements/TextureSelector.hpp"
 #include "Map/TileMap.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/Rect.hpp>
@@ -37,7 +38,8 @@ namespace game {
 
         std::unique_ptr<TileMap> tile_map;
         std::unique_ptr<gui::Menu> menu;
-                
+        std::unique_ptr<gui::TextureSelector> texture_selector;
+        
         Context* context;
     };
 }

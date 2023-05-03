@@ -18,6 +18,9 @@ namespace game {
     
     { /* constructor of map (TileMapCore class) already provides filling with nullptrs.*/ }
     
+    // TODO tilemap SHOULD know about texture rect size, cuz it stores the texture and know it's size
+    // so it should provide getter and setter of rectangle shape sizes.
+
     void TileMap::add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect) {
         if (map[x, y, layer_num].get() != nullptr)
             return;
