@@ -1,6 +1,6 @@
 #pragma once
-#include "../Context.hpp"
-#include "../GUIElements/Button.hpp"
+#include "Context.hpp"
+#include "GUIElements/Button.hpp"
 #include "GUIElements/Menu.hpp"
 #include "State.hpp"
 #include <SFML/Graphics/Sprite.hpp>

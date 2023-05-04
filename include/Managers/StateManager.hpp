@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <vector>
 #include <memory>
-#include "../States/State.hpp"
+#include "States/State.hpp"
 
 namespace engine {
     class StateManager final {

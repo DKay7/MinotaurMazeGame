@@ -11,13 +11,14 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath>
 #include <exception>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
 namespace game {
     GamePlay::GamePlay(Context* context_) : context(context_){
         context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
-        map = std::make_unique<TileMap>(context->asset_manager->get_texture(TEXTURE_ID::TILE_SHEET), sf::Vector2f(0, 0), 
+        map = std::make_unique<TileMap>(TEXTURE_ID::TILE_SHEET, context, sf::Vector2f(0, 0), 
                                             Constants::map_size, Constants::layers_num, Constants::grid_size);
 
 
@@ -30,7 +31,7 @@ namespace game {
         using kb = sf::Keyboard;
         
         if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
-            context->state_manager->add_state(std::make_unique<GamePause>(context));
+            context->state_manager->add_state(std::make_unique<GamePause>(context, [&]() {std::cout << "GAME SAVED\n";})); // TODO
 
     }
 

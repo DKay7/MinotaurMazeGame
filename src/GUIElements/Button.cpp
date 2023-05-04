@@ -2,6 +2,8 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <iostream>
+#include <string>
 #include "Constants.hpp"
 
 namespace gui {
@@ -53,17 +55,38 @@ namespace gui {
     }
 
     void Button::process_input(sf::Event& event, sf::Vector2f mouse_position) {
-        state = BUTTON_STATE::DEFAULT;
+        /*
+            The only method who are allowed to change button state -- Button::update(),
+            therefore, in here we just set flags for update method to proceed and change button state
+            Actually, if we change button state here, we may catch an error that process_input method
+            aren't called on each iteration of game cycle (so button state may not be changed on each iteration)
+            while update method are. That's why only update
+            method are allowed to change button state  
+        */
 
         if (shape.getGlobalBounds().contains(mouse_position)) {
-            state = BUTTON_STATE::HOVER;
+            was_hovered = true;
 
-        if (event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Left)
-            state = BUTTON_STATE::PRESSED;
+            if (event.type == sf::Event::MouseButtonReleased and event.mouseButton.button == sf::Mouse::Left)
+                was_pressed = true;
         }
+
+        else
+            was_hovered = false;
     }
 
     void Button::update() {
+        state = BUTTON_STATE::DEFAULT;
+        
+        if (was_hovered) {
+            state = BUTTON_STATE::HOVER;
+        }
+
+        if (was_pressed) {
+            state = BUTTON_STATE::PRESSED;
+            was_pressed = false;
+        }
+
         switch (state) {
             case BUTTON_STATE::DEFAULT:
                 text.setFillColor(default_text_color);
@@ -80,12 +103,9 @@ namespace gui {
                 shape.setFillColor(pressed_bg_color);
                 break;
         }
-
     } 
 
     bool Button::is_pressed() const {
         return state == BUTTON_STATE::PRESSED;
     }
-
-
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Components/AnimationComponent.hpp"
+#include "Components/AnimationComponent.hpp"
 #include "Components/MovementComponent.hpp"
 #include "Constants.hpp"
 #include <SFML/Graphics/Drawable.hpp>

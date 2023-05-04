@@ -6,6 +6,7 @@
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <iostream>
 #include <string>
 
 namespace gui {
@@ -40,9 +41,8 @@ namespace gui {
     void Menu::update(const float delta_time) {
         for (auto& [button, callback] : buttons) {
             button.update();
-            if (button.is_pressed()) {
+            if (button.is_pressed())
                 callback();
-            }
         }
     }
 

@@ -15,7 +15,7 @@
 namespace game {
     class GamePause final: public engine::State {
     public:
-        GamePause(Context *context_);
+        GamePause(Context *context_, std::function<void()> save_function);
         void process_input(sf::Event &event) override;
         void update(const float delta_time) override;
         void draw() override;
@@ -25,6 +25,8 @@ namespace game {
         #endif
     private:
         std::unique_ptr<gui::Menu> menu;
+        
+        std::function<void()> save_function;
 
         bool end_pause = false;
         sf::Sprite bg_sprite;

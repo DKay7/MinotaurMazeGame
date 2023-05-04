@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Constants.hpp"
+#include "Context.hpp"
 #include "Map/Tile.hpp"
 #include "Map/TileMapCore.hpp"
 #include <SFML/Graphics/Drawable.hpp>
@@ -15,7 +16,7 @@ namespace game {
 
     class TileMap final: public sf::Drawable {
     public:
-        TileMap(const sf::Texture& texture_sheet, sf::Vector2f start_position_ = {0.f, 0.f}, sf::Vector2u map_size=Constants::map_size, uint32_t layers_num=Constants::layers_num, const float grid_size=Constants::grid_size);
+        TileMap(const TEXTURE_ID map_texture_id, Context* context, sf::Vector2f start_position_ = {0.f, 0.f}, sf::Vector2u map_size=Constants::map_size, uint32_t layers_num=Constants::layers_num, const float grid_size=Constants::grid_size);
 
         void update(const float delta_time);
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -25,8 +26,10 @@ namespace game {
         
         void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect);
         void remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num);
+        void save_map_to_file() const;
         
     private:
+        const TEXTURE_ID map_texture_id;
         const sf::Texture& tilemap_texture_sheet;
         const float grid_size;
         sf::Vector2f start_position;

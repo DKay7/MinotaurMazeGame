@@ -32,6 +32,9 @@ namespace gui
 
 
     private:
+        bool was_pressed = false;
+        bool was_hovered = false;
+        
         BUTTON_STATE state = BUTTON_STATE::DEFAULT;
         sf::Color default_bg_color;
         sf::Color hover_bg_color;

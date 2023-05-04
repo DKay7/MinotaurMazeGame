@@ -17,7 +17,9 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Window.hpp>
+#include <iostream>
 #include <memory>
+#include <string>
 
 namespace game {
     MapEditor::MapEditor(Context *context_) : context(context_) {
@@ -25,7 +27,7 @@ namespace game {
         context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
 
         tile_map = std::make_unique<TileMap>(
-            context->asset_manager->get_texture(TEXTURE_ID::TILE_SHEET),
+            TEXTURE_ID::TILE_SHEET, context,
             sf::Vector2f(0, 0), Constants::map_size, Constants::layers_num,
             Constants::grid_size
         );
@@ -67,7 +69,7 @@ namespace game {
         auto grid_size = tile_map->get_grid_size();
 
         if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
-            context->state_manager->add_state(std::make_unique<GamePause>(context));
+            context->state_manager->add_state(std::make_unique<GamePause>( context, [&](){ tile_map->save_map_to_file(); } ));
 
         process_editor_input(event);
     }

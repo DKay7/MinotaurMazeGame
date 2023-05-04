@@ -9,10 +9,14 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <functional>
 #include <memory>
+#include <string>
 
 namespace game {
-    GamePause::GamePause(Context *context_) : context(context_) {
+    GamePause::GamePause(Context *context_, std::function<void()> save_function_):
+            context(context_), save_function(save_function_) 
+    {
 
         render_texture.create(Constants::window_width, Constants::window_height);
 
@@ -23,6 +27,12 @@ namespace game {
         menu->add_button(Constants::pause_menu_resume_bt_text, [&]() {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state();
+        });
+        
+        menu->add_button(Constants::pause_menu_save_bt_text, [&]() {
+            // auto &state_mgr = context->state_manager;
+            // state_mgr->pop_state();
+            save_function();
         });
 
         menu->add_button(Constants::pause_menu_back_bt_text, [&]() {

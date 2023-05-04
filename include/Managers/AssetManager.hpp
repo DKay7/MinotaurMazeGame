@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include "../Constants.hpp"
+#include "Constants.hpp"
 
 namespace game
 {   
