@@ -14,12 +14,16 @@ namespace game {
     public:
         Tile(const sf::Vector2f position, const float grid_size, 
              const sf::Texture& tile_texture, const sf::IntRect texture_rect);
+             
         virtual ~Tile() = default;
         
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         void update(const float delta_time);
         void set_texture(const sf::Texture &tile_texture);
         void set_texture_rect(const sf::IntRect texture_rect);
+
+        const sf::RectangleShape& get_shape() const;
+
 
     protected:
         sf::RectangleShape shape;

@@ -19,6 +19,8 @@ namespace game {
     {
 
         render_texture.create(Constants::window_width, Constants::window_height);
+        
+        // TODO Menu -> CRTP, Gamepause: Menu;
 
         menu = std::make_unique<gui::Menu>(
             context->asset_manager->get_font(FONT_ID::MAIN_FONT),
@@ -30,8 +32,6 @@ namespace game {
         });
         
         menu->add_button(Constants::pause_menu_save_bt_text, [&]() {
-            // auto &state_mgr = context->state_manager;
-            // state_mgr->pop_state();
             save_function();
         });
 

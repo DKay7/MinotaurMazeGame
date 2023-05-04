@@ -56,7 +56,7 @@ namespace gui {
 
     void Button::process_input(sf::Event& event, sf::Vector2f mouse_position) {
         /*
-            The only method who are allowed to change button state -- Button::update(),
+            The only method which are allowed to change button state -- Button::update(),
             therefore, in here we just set flags for update method to proceed and change button state
             Actually, if we change button state here, we may catch an error that process_input method
             aren't called on each iteration of game cycle (so button state may not be changed on each iteration)
@@ -78,9 +78,8 @@ namespace gui {
     void Button::update() {
         state = BUTTON_STATE::DEFAULT;
         
-        if (was_hovered) {
+        if (was_hovered) 
             state = BUTTON_STATE::HOVER;
-        }
 
         if (was_pressed) {
             state = BUTTON_STATE::PRESSED;

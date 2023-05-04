@@ -26,7 +26,7 @@ namespace game {
         
         void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect);
         void remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num);
-        void save_map_to_file() const;
+        void save_map_to_file(std::string filename="aboba.map") const;
         
     private:
         const TEXTURE_ID map_texture_id;

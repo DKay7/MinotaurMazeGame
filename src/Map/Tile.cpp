@@ -2,6 +2,7 @@
 #include "Map/Tile.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 
 namespace game {
@@ -25,12 +26,14 @@ namespace game {
         shape.setTextureRect(texture_rect);
     }
 
-    void Tile::update(const float delta_time) {
-
-    }
+    void Tile::update(const float delta_time) { }
 
     void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         target.draw(shape, states);
+    }
+
+    const sf::RectangleShape& Tile::get_shape() const {
+        return shape;
     }
 
 }

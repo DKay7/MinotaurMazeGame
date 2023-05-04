@@ -67,11 +67,13 @@ namespace game {
 
         auto mouse_pos = utils::get_mouse_position(*context->window);
         auto grid_size = tile_map->get_grid_size();
-
+        
         if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
-            context->state_manager->add_state(std::make_unique<GamePause>( context, [&](){ tile_map->save_map_to_file(); } ));
-
+            context->state_manager->add_state(std::make_unique<GamePause>( context, [&](){ std::cout << reinterpret_cast<void*>(tile_map.get()) << "\n"; tile_map->save_map_to_file(); } ));
+            // TODO -> save to state function;
+             
         process_editor_input(event);
+
     }
 
     void MapEditor::process_editor_input(sf::Event &event) {
