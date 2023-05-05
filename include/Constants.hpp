@@ -6,25 +6,25 @@
 #include <string>
 
 enum class TEXTURE_ID {
-    MAIN_MENU_BG,
-    PLAYER_SHEET,
-    TILE_SHEET,
+    MAIN_MENU_BG = 0,
+    PLAYER_SHEET = 1,
+    TILE_SHEET   = 2,
 };
 
 enum class FONT_ID {
-    MAIN_FONT,
+    MAIN_FONT = 0,
 };
     
 enum class ANIMATION_ID {
-    PLAYER_IDLE,
-    PLAYER_MOVE_LEFT,
-    PLAYER_MOVE_RIGHT,
-    PLAYER_MOVE_UP,
-    PLAYER_MOVE_DOWN,
-    PLAYER_MOVE_LEFT_UP,
-    PLAYER_MOVE_LEFT_DOWN,
-    PLAYER_MOVE_RIGHT_UP,
-    PLAYER_MOVE_RIGHT_DOWN,
+    PLAYER_IDLE             = 0,
+    PLAYER_MOVE_LEFT        = 1,
+    PLAYER_MOVE_RIGHT       = 2,
+    PLAYER_MOVE_UP          = 3,
+    PLAYER_MOVE_DOWN        = 4,
+    PLAYER_MOVE_LEFT_UP     = 5,
+    PLAYER_MOVE_LEFT_DOWN   = 6,
+    PLAYER_MOVE_RIGHT_UP    = 7,
+    PLAYER_MOVE_RIGHT_DOWN  = 8,
 };
     
 namespace Constants  {   

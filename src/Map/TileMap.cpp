@@ -109,8 +109,9 @@ namespace game {
         while (!in_file.eof()) {
             uint32_t x, y, layer_num;
             sf::IntRect texture_rect;
+            texture_rect.width = texture_rect.height = grid_size;
+
             in_file >> x >> y >> layer_num >> texture_rect.left >> texture_rect.top;
-            // std::cout << "READED TILE: x=" << x << " y=" << y << " l_n=" << layer_num << " "
             loaded_map->add_tile(x, y, layer_num, texture_rect);
         }
 
