@@ -5,26 +5,32 @@
 #include "States/State.hpp"
 
 namespace engine {
-    class StateManager final {
-    private:
-        std::vector<std::unique_ptr<State>> states_vector;
-        std::unique_ptr<State> next_state;  // we need this because we don't want to 
-                                            // push new state until current state is complete
-        
-        uint32_t pop_counter = 0;
-        std::vector<std::unique_ptr<State>> next_states;
-        
+    class StateManager final { 
     public:
         StateManager();
         
-        #ifndef NDEBUG
-            void print_states() const;
-        #endif
+        using state_vec_t = std::vector<std::unique_ptr<State>>;
 
         void add_state(std::unique_ptr<State> new_state);
         void pop_state();
         void process_state_change();
-        std::unique_ptr<State>& get_current_state(); 
+
+        const std::unique_ptr<State>& get_current_state() const;
+        const state_vec_t& get_states_vector() const;
+        
+        #ifndef NDEBUG
+            void print_states() const;
+        #endif
+    
+    private:
+        state_vec_t states_vector;
+                
+        /*
+            states vector may be updated only in "update" method in game cycle,
+            therefore, we need pop_counter and next_states to record future changes
+        */
+        uint32_t pop_counter = 0;
+        std::vector<std::unique_ptr<State>> next_states;
     };
 
 } // namespace engine

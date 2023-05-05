@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <sstream>
 
 namespace game {
     
@@ -35,5 +36,15 @@ namespace game {
     const sf::RectangleShape& Tile::get_shape() const {
         return shape;
     }
+
+    std::string Tile::serialize() const {
+        std::stringstream result_ss;
+        
+        auto& texture_rect = shape.getTextureRect();
+        result_ss << texture_rect.left  << " " << texture_rect.top;
+
+        return result_ss.str();
+    } 
+
 
 }

@@ -4,6 +4,7 @@
 #include "Entities/Entity.hpp"
 #include "Entities/Player.hpp"
 #include "Map/TileMap.hpp"
+#include "States/SaveableState.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <array>
@@ -11,7 +12,7 @@
 
 
 namespace game {
-    class GamePlay final: public engine::State {
+    class GamePlay final: public engine::SaveableState {
     public:
         GamePlay(Context* context_);
         void process_input(sf::Event& event) override;
@@ -19,6 +20,7 @@ namespace game {
         void draw() override;
         void pause() override;
         void start() override;
+        void save() override;
         
         #ifndef NDEBUG
             std::string get_state_name() const override;

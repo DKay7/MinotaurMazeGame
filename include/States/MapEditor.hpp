@@ -4,14 +4,14 @@
 #include "GUIElements/Menu.hpp"
 #include "GUIElements/TextureSelector.hpp"
 #include "Map/TileMap.hpp"
-#include "States/State.hpp"
+#include "States/SaveableState.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <memory>
 
 namespace game {
-    class MapEditor final : public engine::State {
+    class MapEditor final : public engine::SaveableState {
     public:
         MapEditor(Context *context);
 
@@ -20,7 +20,8 @@ namespace game {
         void draw() override;
         void pause() override;
         void start() override;
-
+        void save() override;
+        
         #ifndef NDEBUG
         std::string get_state_name() const override;
         #endif

@@ -21,6 +21,8 @@ namespace game {
         void update(const float delta_time);
         void set_texture(const sf::Texture &tile_texture);
         void set_texture_rect(const sf::IntRect texture_rect);
+        
+        std::string serialize() const;
 
         const sf::RectangleShape& get_shape() const;
 

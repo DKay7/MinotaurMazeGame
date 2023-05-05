@@ -31,7 +31,7 @@ namespace game {
         using kb = sf::Keyboard;
         
         if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
-            context->state_manager->add_state(std::make_unique<GamePause>(context, [&]() {std::cout << "GAME SAVED\n";})); // TODO
+            context->state_manager->add_state(std::make_unique<GamePause>(context));
 
     }
 
@@ -63,10 +63,12 @@ namespace game {
         window->display();
     }
 
-    void GamePlay::pause() {
-    }
+    void GamePlay::pause() { }
 
-    void GamePlay::start() {
+    void GamePlay::start() { }
+
+    void GamePlay::save() {
+        std::cout << "GAME SAVED\n";
     }
 
     #ifndef NDEBUG

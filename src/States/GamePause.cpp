@@ -2,6 +2,7 @@
 #include "Constants.hpp"
 #include "GUIElements/Menu.hpp"
 #include "States/MainMenu.hpp"
+#include "States/SaveableState.hpp"
 #include "Utils/Utils.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -14,13 +15,9 @@
 #include <string>
 
 namespace game {
-    GamePause::GamePause(Context *context_, std::function<void()> save_function_):
-            context(context_), save_function(save_function_) 
-    {
+    GamePause::GamePause(Context *context_):context(context_) {
 
         render_texture.create(Constants::window_width, Constants::window_height);
-        
-        // TODO Menu -> CRTP, Gamepause: Menu;
 
         menu = std::make_unique<gui::Menu>(
             context->asset_manager->get_font(FONT_ID::MAIN_FONT),
@@ -32,7 +29,10 @@ namespace game {
         });
         
         menu->add_button(Constants::pause_menu_save_bt_text, [&]() {
-            save_function();
+            auto &state_mgr = context->state_manager;
+            const auto& states_vec = state_mgr->get_states_vector();
+            const auto& prev_state = states_vec.rbegin()[1];
+            static_cast<engine::SaveableState*>(prev_state.get())->save();
         });
 
         menu->add_button(Constants::pause_menu_back_bt_text, [&]() {

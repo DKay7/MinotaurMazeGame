@@ -3,6 +3,7 @@
 #include "Context.hpp"
 #include "GUIElements/Button.hpp"
 #include "GUIElements/Menu.hpp"
+#include "States/SaveableState.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -15,7 +16,7 @@
 namespace game {
     class GamePause final: public engine::State {
     public:
-        GamePause(Context *context_, std::function<void()> save_function);
+        GamePause(Context *context_);
         void process_input(sf::Event &event) override;
         void update(const float delta_time) override;
         void draw() override;

@@ -1,4 +1,5 @@
 #include "Map/TileMap.hpp"
+#include "Constants.hpp"
 #include "Context.hpp"
 #include "Map/Tile.hpp"
 #include <SFML/Config.hpp>
@@ -13,6 +14,7 @@
 #include <memory>
 #include <assert.h>
 #include <stdexcept>
+#include <utility>
 
 namespace game {
     TileMap::TileMap(const TEXTURE_ID map_texture_id_, Context* context, sf::Vector2f start_position_, sf::Vector2u map_size, uint32_t layers_num, const float grid_size): 
@@ -22,7 +24,6 @@ namespace game {
     
     { /* constructor of map (TileMapCore class) already provides filling with nullptrs.*/ }
     
-
     void TileMap::add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect) {
         if (map[x, y, layer_num].get() != nullptr)
             return;
@@ -58,32 +59,62 @@ namespace game {
     void TileMap::save_map_to_file(std::string filename) const {
         /*
             Saves map in next format:
-            map_size_x map_size_y map_layers_num grid_size map_texture_id
-            tile1_x tile1_y tile1_height tile1_width
-            tile2_x tile2_y tile2_height tile2_width
+            start_position_x start_position_y map_size_x map_size_y map_layers_num grid_size map_texture_id
+            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y 
+            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y
             ...
         */
 
         std::ofstream save_file{filename};
+
         if (!save_file.is_open())
             throw std::runtime_error("Can not open file " + filename + " to save map");
 
-        save_file << map.get_size().x << " " << map.get_size().y << " " 
+        save_file << start_position.x << " " << start_position.y << " " 
+                  << map.get_size().x << " " << map.get_size().y << " " 
                   << map.get_layers_num() << " " << grid_size << " " 
                   << static_cast<int>(map_texture_id) << "\n";
         
-        for (auto& tile : map) {
-            if (!tile)
-                continue;
-                
-            auto tile_shape = tile->get_shape();
-            auto tile_shape_pos = tile_shape.getPosition();
-            auto tile_shape_size = tile_shape.getSize();
+        save_file << map.serialize();
+    }
 
-            save_file << tile_shape_pos.x << " " << tile_shape_pos.y << " "
-                      << tile_shape_size.x << " " << tile_shape_size.y << "\n";
+    std::unique_ptr<TileMap> load_map_from_file(std::string filename, Context* context) {
+        /*
+            Loads map in next format:
+            start_position_x start_position_y map_size_x map_size_y map_layers_num grid_size map_texture_id
+            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y 
+            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y
+            ...
+        */
+
+        std::ifstream in_file{filename};
+        
+        if (!in_file.is_open())
+            throw std::runtime_error("Can not open file " + filename + " to load map");
+
+        sf::Vector2f start_position;
+        sf::Vector2u map_size;
+        uint32_t layers_num;
+        float grid_size;
+        int map_texture_id;
+
+        in_file >> start_position.x >> start_position.y 
+                >> map_size.x >> map_size.y >> layers_num 
+                >> grid_size >> map_texture_id;
+        
+        std::unique_ptr<TileMap> loaded_map 
+            = std::make_unique<TileMap>(static_cast<TEXTURE_ID>(map_texture_id), context, 
+                                        start_position, map_size, layers_num, grid_size);
+
+        while (!in_file.eof()) {
+            uint32_t x, y, layer_num;
+            sf::IntRect texture_rect;
+            in_file >> x >> y >> layer_num >> texture_rect.left >> texture_rect.top;
+            // std::cout << "READED TILE: x=" << x << " y=" << y << " l_n=" << layer_num << " "
+            loaded_map->add_tile(x, y, layer_num, texture_rect);
         }
 
-        save_file << "\n";
+        return std::move(loaded_map);
     }
+
 }

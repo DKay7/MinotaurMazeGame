@@ -26,20 +26,12 @@ namespace game {
 
         context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
 
-        tile_map = std::make_unique<TileMap>(
-            TEXTURE_ID::TILE_SHEET, context,
-            sf::Vector2f(0, 0), Constants::map_size, Constants::layers_num,
-            Constants::grid_size
-        );
-
-        // menu =
-        // std::make_unique<gui::Menu>(context->asset_manager->get_font(FONT_ID::MAIN_FONT),
-        // "Map Editor", Constants::button_size.y, sf::Vector2f(0, 0), false);
-        // menu->add_button("exit", [&](){
-        //     auto &state_mgr = context->state_manager;
-        //     state_mgr->pop_state();
-        //     state_mgr->add_state(std::make_unique<MainMenu>(context));
-        // }, false); // TODO Remove
+        tile_map = load_map_from_file("aboba.map", context);
+        // tile_map = std::make_unique<TileMap>(
+        //     TEXTURE_ID::TILE_SHEET, context,
+        //     sf::Vector2f(0, 0), Constants::map_size, Constants::layers_num,
+        //     Constants::grid_size
+        // );
 
         tile_texture_rect =
             sf::IntRect(0, 0, tile_map->get_grid_size(), tile_map->get_grid_size());
@@ -69,8 +61,7 @@ namespace game {
         auto grid_size = tile_map->get_grid_size();
         
         if (event.type == sf::Event::KeyPressed and event.key.code == kb::Escape)
-            context->state_manager->add_state(std::make_unique<GamePause>( context, [&](){ std::cout << reinterpret_cast<void*>(tile_map.get()) << "\n"; tile_map->save_map_to_file(); } ));
-            // TODO -> save to state function;
+            context->state_manager->add_state(std::make_unique<GamePause>(context));
              
         process_editor_input(event);
 
@@ -139,6 +130,10 @@ namespace game {
 
     void MapEditor::start() {}
 
+    void MapEditor::save() {
+        tile_map->save_map_to_file();
+    }
+    
     #ifndef NDEBUG
         std::string MapEditor::get_state_name() const { return "MapEditor"; }
     #endif

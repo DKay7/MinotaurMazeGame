@@ -17,7 +17,8 @@ namespace engine {
         void insert(std::unique_ptr<game::Tile> tile, uint32_t x, uint32_t y, uint32_t layer_num);
 
         std::unique_ptr<game::Tile>& operator[](uint32_t x, uint32_t y, uint32_t layer_num);
-        uint64_t compute_coords(uint32_t x, uint32_t y, uint32_t layer_num) const;
+        uint64_t get_idx_from_coords(uint32_t x, uint32_t y, uint32_t layer_num) const;
+        std::tuple<uint32_t, uint32_t, uint32_t> get_coords_from_idx(uint64_t position) const;
 
         tilemap_t::iterator begin();
         tilemap_t::iterator end();
@@ -27,6 +28,8 @@ namespace engine {
 
         const sf::Vector2u get_size() const;
         const uint32_t get_layers_num() const;
+
+        std::string serialize() const;
 
     private:
         sf::Vector2u map_size;
