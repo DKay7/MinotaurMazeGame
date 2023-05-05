@@ -36,14 +36,22 @@ namespace gui {
             utils::center_text_on_window(text, position);
         }
         
+        text.setPosition(position);
+
         if (text.getLocalBounds().width > shape.getSize().x) {
             shape.setSize({text.getGlobalBounds().width + Constants::button_bg_indent, shape.getSize().y});
         }
 
-        shape.setPosition({
-            position.x - shape.getSize().x / 2.f,
-            position.y - shape.getSize().y / 2.f + text.getGlobalBounds().height / 2.f,
-        });
+        if (centering)
+            shape.setPosition({
+                position.x - shape.getSize().x / 2.f,
+                position.y - shape.getSize().y / 2.f + text.getGlobalBounds().height / 2.f
+            });
+        else 
+            shape.setPosition({
+                position.x,
+                position.y - shape.getSize().y / 2.f + text.getGlobalBounds().height
+            });
     }
 
     void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {

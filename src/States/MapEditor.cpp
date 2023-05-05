@@ -37,7 +37,14 @@ namespace game {
         
         init_texture_selector_gui();
 
-        // sidebar_menu = std::make_unique<gui::Menu>(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
+        sidebar_menu = 
+            std::make_unique<gui::Menu>(
+                context->asset_manager->get_font(FONT_ID::MAIN_FONT),
+                "Map Editor", sf::Color::Cyan,
+                sf::Vector2f(200, Constants::window_height), sf::Vector2f(0, 0),
+                Constants::menu_button_indent,
+                false
+            );
     }
 
     void MapEditor::init_texture_selector_gui() {
@@ -66,7 +73,7 @@ namespace game {
             context->state_manager->add_state(std::make_unique<GamePause>(context));
              
         process_editor_input(event);
-
+        sidebar_menu->process_input(event, mouse_pos);
     }
 
     void MapEditor::process_editor_input(sf::Event &event) {
@@ -105,7 +112,7 @@ namespace game {
     }
 
     void MapEditor::update(const float delta_time) {
-        // menu->update(delta_time);
+        sidebar_menu->update(delta_time);
 
         auto mouse_global_pos = sf::Mouse::getPosition(*context->window);
         texture_selector->update(mouse_global_pos);
@@ -118,6 +125,7 @@ namespace game {
         auto &window = context->window;
         window->clear();
 
+        window->draw(*sidebar_menu);
         window->draw(*tile_map);
 
         if (!texture_selector->active())

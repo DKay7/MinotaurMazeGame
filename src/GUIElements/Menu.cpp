@@ -19,18 +19,21 @@ namespace gui {
         title.setFont(font);
         
         background.setFillColor(bg_color);
-        background.setSize(size);
+        background.setSize({size.x, size.y + Constants::menu_bg_indent});
         
         if (centering)
             utils::center_text_on_window(title, position);
         else
             title.setPosition(position);
 
-        if (title.getGlobalBounds().width > background.getGlobalBounds().width)
+        if (title.getGlobalBounds().width > background.getGlobalBounds().width) {
+            std::cout << "RESIZE\n";
             background.setSize({title.getGlobalBounds().width + Constants::menu_bg_indent, background.getSize().y});
+        }
+
 
         background.setPosition({
-            position.x - background.getSize().x / 2.f, 
+            title.getGlobalBounds().left + title.getGlobalBounds().width / 2 - background.getSize().x / 2.f, 
             position.y - Constants::menu_bg_indent
         });
 
