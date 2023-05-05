@@ -5,6 +5,7 @@
 #include "Map/Tile.hpp"
 #include "Map/TileMapCore.hpp"
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -34,12 +35,14 @@ namespace game {
         void remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num);
         
         void save_map_to_file(std::string filename="aboba.map") const;
+        const sf::FloatRect& get_bounds() const;
         
     private:
         const TEXTURE_ID map_texture_id;
         const sf::Texture& tilemap_texture_sheet;
         const float grid_size;
         sf::Vector2f start_position;
+        sf::FloatRect tilemap_bounds;
         engine::TileMapCore map;
 
     };

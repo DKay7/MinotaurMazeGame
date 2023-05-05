@@ -26,11 +26,8 @@ namespace gui {
         else
             title.setPosition(position);
 
-        if (title.getGlobalBounds().width > background.getGlobalBounds().width) {
-            std::cout << "RESIZE\n";
+        if (title.getGlobalBounds().width > background.getGlobalBounds().width)
             background.setSize({title.getGlobalBounds().width + Constants::menu_bg_indent, background.getSize().y});
-        }
-
 
         background.setPosition({
             title.getGlobalBounds().left + title.getGlobalBounds().width / 2 - background.getSize().x / 2.f, 

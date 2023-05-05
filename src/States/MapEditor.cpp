@@ -17,6 +17,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Window.hpp>
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -25,12 +26,12 @@ namespace game {
 
         context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
 
-        tile_map = load_map_from_file("aboba.map", context);
-        // tile_map = std::make_unique<TileMap>(
-        //     TEXTURE_ID::TILE_SHEET, context,
-        //     sf::Vector2f(0, 0), Constants::map_size, Constants::layers_num,
-        //     Constants::grid_size
-        // );
+        // tile_map = load_map_from_file("aboba.map", context);
+        tile_map = std::make_unique<TileMap>(
+            TEXTURE_ID::TILE_SHEET, context,
+            sf::Vector2f(5 * Constants::grid_size, 0), Constants::map_size, Constants::layers_num,
+            Constants::grid_size
+        );
 
         tile_texture_rect =
             sf::IntRect(0, 0, tile_map->get_grid_size(), tile_map->get_grid_size());
@@ -40,8 +41,8 @@ namespace game {
         sidebar_menu = 
             std::make_unique<gui::Menu>(
                 context->asset_manager->get_font(FONT_ID::MAIN_FONT),
-                "Map Editor", sf::Color::Cyan,
-                sf::Vector2f(200, Constants::window_height), sf::Vector2f(0, 0),
+                "Map Editor", sf::Color(0, 34, 56, 100),
+                sf::Vector2f(5 * tile_map->get_grid_size(), Constants::window_height), sf::Vector2f(0, 0),
                 Constants::menu_button_indent,
                 false
             );
@@ -82,16 +83,15 @@ namespace game {
         if (event.type == sf::Event::MouseButtonPressed) {
             if (event.mouseButton.button == mouse::Left) {
 
-            if (texture_selector->active())
-                tile_texture_rect = texture_selector->get_texture_rect();
-            else
-                tile_map->add_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0,
-                                tile_texture_rect);
+                if (texture_selector->active())
+                    tile_texture_rect = texture_selector->get_texture_rect();
+                else
+                    tile_map->add_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0,
+                                    tile_texture_rect);
             }
 
-            if (event.mouseButton.button == mouse::Right and
-                !texture_selector->active())
-            tile_map->remove_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0);
+            if (event.mouseButton.button == mouse::Right and !texture_selector->active())
+                tile_map->remove_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0);
         }
 
         using kb = sf::Keyboard;
@@ -105,10 +105,19 @@ namespace game {
         auto grid_size = tile_map->get_grid_size();
         mouse_pos_grid = utils::get_gridded_mouse(mouse_pos, grid_size);
 
-        mouse_rectangle.setPosition(mouse_pos_grid.x * grid_size,
-                                    mouse_pos_grid.y * grid_size);
+        auto mouse_box = sf::FloatRect(
+            mouse_pos_grid.x * grid_size,
+            mouse_pos_grid.y * grid_size,
+            1, 1
+        );
+        
+        if (!tile_map->get_bounds().intersects(mouse_box))
+            return;
+
+        mouse_rectangle.setPosition(mouse_box.left, mouse_box.top);
 
         mouse_rectangle.setTextureRect(tile_texture_rect);
+
     }
 
     void MapEditor::update(const float delta_time) {

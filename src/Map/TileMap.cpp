@@ -19,7 +19,8 @@ namespace game {
     TileMap::TileMap(const TEXTURE_ID map_texture_id_, Context* context, sf::Vector2f start_position_, sf::Vector2u map_size, uint32_t layers_num, const float grid_size): 
             tilemap_texture_sheet(context->asset_manager->get_texture(map_texture_id_)), 
             start_position(start_position_), map(map_size, layers_num), 
-            grid_size(grid_size), map_texture_id(map_texture_id_) 
+            grid_size(grid_size), map_texture_id(map_texture_id_),
+            tilemap_bounds({start_position.x, start_position.y, map_size.x * grid_size, map_size.y * grid_size}) 
     
     { /* constructor of map (TileMapCore class) already provides filling with nullptrs.*/ }
     
@@ -27,7 +28,7 @@ namespace game {
         if (map[x, y, layer_num].get() != nullptr)
             return;
 
-        auto coord = sf::Vector2f(x * grid_size, y * grid_size);
+        auto coord = sf::Vector2f(x * grid_size + start_position.x, y * grid_size + start_position.y);
         map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect), x, y, layer_num);
     }
 
@@ -117,4 +118,7 @@ namespace game {
         return std::move(loaded_map);
     }
 
+    const sf::FloatRect& TileMap::get_bounds() const {
+        return tilemap_bounds;
+    }
 }
