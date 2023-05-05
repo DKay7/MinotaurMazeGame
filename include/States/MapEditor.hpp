@@ -30,8 +30,10 @@ namespace game {
         void init_texture_selector_gui();
 
         void update_mouse_rectangle();
-    void process_editor_input(sf::Event &event);
+        void process_editor_input(sf::Event &event);
 
+        std::unique_ptr<gui::Menu> sidebar_menu;
+        
         sf::RectangleShape mouse_rectangle;
         sf::IntRect tile_texture_rect;
         sf::Vector2u mouse_pos_grid;

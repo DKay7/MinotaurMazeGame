@@ -1,10 +1,13 @@
 #include "GUIElements/Button.hpp"
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
-#include <iostream>
 #include <string>
 #include "Constants.hpp"
+#include "Utils/Utils.hpp"
 
 namespace gui {
 
@@ -23,29 +26,24 @@ namespace gui {
                
     {   
         shape.setSize(size);
-
-        if (centering) {
-            auto shape_bounds = shape.getLocalBounds();
-            shape.setOrigin(shape_bounds.width / 2, shape_bounds.height / 2);
-        }
-
-        shape.setPosition(position);
-        shape.setFillColor(default_bg_color);
-
+        
         text.setFont(font);
         text.setString(button_text);
         text.setCharacterSize(Constants::default_bt_text_size);
         text.setFillColor(default_text_color);
-
+        
         if (centering) {
-            auto text_bounds = text.getLocalBounds();
-            text.setOrigin(text_bounds.width / 2, text_bounds.height / 2);
+            utils::center_text_on_window(text, position);
         }
         
-        text.setPosition(
-            shape.getPosition().x, 
-            shape.getPosition().y 
-        );
+        if (text.getLocalBounds().width > shape.getSize().x) {
+            shape.setSize({text.getGlobalBounds().width + Constants::button_bg_indent, shape.getSize().y});
+        }
+
+        shape.setPosition({
+            position.x - shape.getSize().x / 2.f,
+            position.y - shape.getSize().y / 2.f + text.getGlobalBounds().height / 2.f,
+        });
     }
 
     void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -106,5 +104,9 @@ namespace gui {
 
     bool Button::is_pressed() const {
         return state == BUTTON_STATE::PRESSED;
+    }
+
+    const sf::RectangleShape& Button::get_shape() const {
+        return shape;
     }
 }

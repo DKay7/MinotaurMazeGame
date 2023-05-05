@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Transformable.hpp>
@@ -23,6 +24,7 @@ namespace gui
         void process_input(sf::Event& event, sf::Vector2f mouse_position);
         void update();
         bool is_pressed() const;
+        const sf::RectangleShape& get_shape() const;
 
         enum class BUTTON_STATE {
             DEFAULT = 0,

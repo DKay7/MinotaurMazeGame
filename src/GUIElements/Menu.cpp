@@ -10,26 +10,46 @@
 #include <string>
 
 namespace gui {
-    Menu::Menu(const sf::Font& font, const std::string titile_text, const float button_indent, sf::Vector2f position_, bool centering):
+    Menu::Menu(const sf::Font& font, const std::string titile_text, sf::Color bg_color, 
+               sf::Vector2f size, sf::Vector2f position_,
+               const float button_indent, bool centering):
         position(position_), font(font), button_indent(button_indent)    
     {
         title.setString(titile_text);
         title.setFont(font);
+        
+        background.setFillColor(bg_color);
+        background.setSize(size);
         
         if (centering)
             utils::center_text_on_window(title, position);
         else
             title.setPosition(position);
 
-        position.y += 1.5 * button_indent;
-    }
+        if (title.getGlobalBounds().width > background.getGlobalBounds().width)
+            background.setSize({title.getGlobalBounds().width + Constants::menu_bg_indent, background.getSize().y});
 
+        background.setPosition({
+            position.x - background.getSize().x / 2.f, 
+            position.y - Constants::menu_bg_indent
+        });
+
+        position.y += title.getGlobalBounds().height + Constants::menu_bg_indent + 2 * button_indent;
+    }
 
     void Menu::add_button(const std::string button_text, callback_t callback, bool centering) {
         auto button = utils::create_default_button(position, font, button_text, centering);
-        position.y += button_indent;
+        position.y += button.get_shape().getSize().y + button_indent;
+
+        if (button.get_shape().getSize().x > background.getSize().x) {
+            background.setSize({button.get_shape().getSize().x,  background.getSize().x});
+        }
 
         buttons.emplace_back(std::move(button), callback);
+
+        if (position.y > background.getSize().y)
+            background.setSize({background.getSize().x, position.y - title.getPosition().y + Constants::menu_bg_indent});
+        
     } 
 
     void Menu::process_input(sf::Event& event, sf::Vector2f mouse_pos) {
@@ -48,6 +68,8 @@ namespace gui {
 
     void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         
+        target.draw(background, states);
+
         target.draw(title, states);
         
         for (auto& [button, callback] : buttons)

@@ -21,7 +21,7 @@ namespace game {
 
         menu = std::make_unique<gui::Menu>(
             context->asset_manager->get_font(FONT_ID::MAIN_FONT),
-            Constants::pause_menu_title, Constants::button_size.y);
+            Constants::pause_menu_title);
 
         menu->add_button(Constants::pause_menu_resume_bt_text, [&]() {
             auto &state_mgr = context->state_manager;

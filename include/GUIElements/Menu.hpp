@@ -1,9 +1,12 @@
 #pragma once
 
+#include "Constants.hpp"
 #include "Context.hpp"
 #include "GUIElements/Button.hpp"
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
@@ -18,9 +21,13 @@ namespace gui {
     public:
         using callback_t = std::function<void()>;
 
-        Menu(const sf::Font& font, const std::string titile_text, const float button_indent, 
+        Menu(const sf::Font& font, const std::string titile_text="",
+             sf::Color bg_color=sf::Color::Transparent,
+             sf::Vector2f size = sf::Vector2f({Constants::window_width / 4.f , Constants::window_height / 4.}),
              sf::Vector2f position = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.}),
+             const float button_indent=Constants::menu_button_indent, 
              bool centering = true);
+
 
         void add_button(const std::string button_text, callback_t callback, bool centering=true);
         
@@ -35,6 +42,9 @@ namespace gui {
     
         const sf::Font& font;
         sf::Text title;
+
+        sf::RectangleShape background;
+
         const float button_indent;
         sf::Vector2f position;
         std::vector<std::pair<Button, callback_t>> buttons;

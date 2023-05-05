@@ -51,7 +51,12 @@ namespace Constants  {
         const sf::Color button_text_idle   = sf::Color::White;
         const sf::Color button_text_hover  = {100, 107, 99};
         const sf::Color button_text_active = {46, 139, 87};
+        const int button_bg_indent = 20;
 
+//--------------------------------------------------------------------------------
+        //menu gui element
+        const int menu_bg_indent = 20;
+        const int menu_button_indent = 10;
 //--------------------------------------------------------------------------------
 
         // main menu

@@ -17,7 +17,6 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Window.hpp>
-#include <iostream>
 #include <memory>
 #include <string>
 
@@ -35,7 +34,10 @@ namespace game {
 
         tile_texture_rect =
             sf::IntRect(0, 0, tile_map->get_grid_size(), tile_map->get_grid_size());
+        
         init_texture_selector_gui();
+
+        // sidebar_menu = std::make_unique<gui::Menu>(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
     }
 
     void MapEditor::init_texture_selector_gui() {
