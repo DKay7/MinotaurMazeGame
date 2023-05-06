@@ -3,7 +3,10 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <string>
+
+//--------------------------------------------------------------------------------
 
 enum class TEXTURE_ID {
     MAIN_MENU_BG = 0,
@@ -11,9 +14,15 @@ enum class TEXTURE_ID {
     TILE_SHEET   = 2,
 };
 
+//--------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------
+
 enum class FONT_ID {
     MAIN_FONT = 0,
 };
+
+//--------------------------------------------------------------------------------
     
 enum class ANIMATION_ID {
     PLAYER_IDLE             = 0,
@@ -26,7 +35,22 @@ enum class ANIMATION_ID {
     PLAYER_MOVE_RIGHT_UP    = 7,
     PLAYER_MOVE_RIGHT_DOWN  = 8,
 };
+
+//--------------------------------------------------------------------------------
+
+enum class KEYBINDS: int {    
+    MOVE_UP     =  sf::Keyboard::W,
+    MOVE_DOWN   =  sf::Keyboard::S,
+    MOVE_LEFT   =  sf::Keyboard::A,
+    MOVE_RIGHT  =  sf::Keyboard::D,
     
+    OPEN_PAUSE       =  sf::Keyboard::Escape,
+    OPEN_TILE_PICKER = sf::Keyboard::Tab,
+
+};
+
+//--------------------------------------------------------------------------------
+
 namespace Constants  {   
 //--------------------------------------------------------------------------------
 

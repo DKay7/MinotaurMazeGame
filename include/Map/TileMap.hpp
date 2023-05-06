@@ -14,11 +14,11 @@
 #include <string>
 #include <vector>
 
-namespace game {
+namespace map {
 
     class TileMap final: public sf::Drawable {
     public:
-        TileMap(const TEXTURE_ID map_texture_id, Context* context, 
+        TileMap(const TEXTURE_ID map_texture_id, game_engine::Context* context, 
                 sf::Vector2f start_position_ = {0.f, 0.f}, 
                 sf::Vector2u map_size=Constants::map_size, 
                 uint32_t layers_num=Constants::layers_num, 
@@ -43,10 +43,11 @@ namespace game {
         const float grid_size;
         sf::Vector2f start_position;
         sf::FloatRect tilemap_bounds;
-        engine::TileMapCore map;
+        map_engine::TileMapCore map;
 
     };
 
-    std::unique_ptr<TileMap> load_map_from_file(std::string filename, Context* context);
+    std::unique_ptr<TileMap> 
+    load_map_from_file(std::string filename, game_engine::Context* context);
 
 }

@@ -15,8 +15,8 @@
 #include <stdexcept>
 #include <utility>
 
-namespace game {
-    TileMap::TileMap(const TEXTURE_ID map_texture_id_, Context* context, sf::Vector2f start_position_, sf::Vector2u map_size, uint32_t layers_num, const float grid_size): 
+namespace map {
+    TileMap::TileMap(const TEXTURE_ID map_texture_id_, game_engine::Context* context, sf::Vector2f start_position_, sf::Vector2u map_size, uint32_t layers_num, const float grid_size): 
             tilemap_texture_sheet(context->asset_manager->get_texture(map_texture_id_)), 
             start_position(start_position_), map(map_size, layers_num), 
             grid_size(grid_size), map_texture_id(map_texture_id_),
@@ -78,7 +78,7 @@ namespace game {
         save_file << map.serialize();
     }
 
-    std::unique_ptr<TileMap> load_map_from_file(std::string filename, Context* context) {
+    std::unique_ptr<TileMap> load_map_from_file(std::string filename, game_engine::Context* context) {
         /*
             Loads map in next format:
             start_position_x start_position_y map_size_x map_size_y map_layers_num grid_size map_texture_id

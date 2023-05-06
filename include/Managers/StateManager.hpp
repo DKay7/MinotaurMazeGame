@@ -4,18 +4,18 @@
 #include <memory>
 #include "States/State.hpp"
 
-namespace engine {
+namespace managers {
     class StateManager final { 
     public:
         StateManager();
         
-        using state_vec_t = std::vector<std::unique_ptr<State>>;
+        using state_vec_t = std::vector<std::unique_ptr<states_engine::State>>;
 
-        void add_state(std::unique_ptr<State> new_state);
+        void add_state(std::unique_ptr<states_engine::State> new_state);
         void pop_state();
         void process_state_change();
 
-        const std::unique_ptr<State>& get_current_state() const;
+        const std::unique_ptr<states_engine::State>& get_current_state() const;
         const state_vec_t& get_states_vector() const;
         
         #ifndef NDEBUG
@@ -30,7 +30,7 @@ namespace engine {
             therefore, we need pop_counter and next_states to record future changes
         */
         uint32_t pop_counter = 0;
-        std::vector<std::unique_ptr<State>> next_states;
+        state_vec_t next_states;
     };
 
 } // namespace engine

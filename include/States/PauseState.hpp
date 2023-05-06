@@ -14,9 +14,9 @@
 #include <memory>
 
 namespace game {
-    class GamePause final: public engine::State {
+    class GamePause final: public states_engine::State {
     public:
-        GamePause(Context *context_);
+        GamePause(game_engine::Context *context_);
         void process_input(sf::Event &event) override;
         void update(const float delta_time) override;
         void draw() override;
@@ -33,6 +33,6 @@ namespace game {
         sf::Sprite bg_sprite;
         sf::RenderTexture render_texture;
         sf::Text pause_text;
-        Context *context;
+        game_engine::Context *context;
     };
 } // namespace game

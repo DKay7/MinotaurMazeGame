@@ -5,7 +5,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include "Constants.hpp"
 
-namespace game
+namespace managers
 {   
     class AssetManager final {
     public:

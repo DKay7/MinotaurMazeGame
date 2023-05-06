@@ -5,13 +5,13 @@
 #endif
 #include <stdexcept>
 
-namespace engine {
+namespace managers {
     StateManager::StateManager() {
         states_vector.reserve(5);
         next_states.reserve(2);
     }
 
-    void StateManager::add_state(std::unique_ptr<State> new_state) {
+    void StateManager::add_state(std::unique_ptr<states_engine::State> new_state) {
         next_states.push_back(std::move(new_state));
     }
 
@@ -45,7 +45,7 @@ namespace engine {
             states_vector.back()->start();
     }
 
-    const std::unique_ptr<State> &StateManager::get_current_state() const {
+    const std::unique_ptr<states_engine::State> &StateManager::get_current_state() const {
         if (states_vector.empty())
             throw std::runtime_error("States vector is empty while you're trying to get current state");
 

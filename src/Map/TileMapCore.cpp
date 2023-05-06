@@ -9,17 +9,17 @@
 #include <string>
 #include <tuple>
 
-namespace engine {
+namespace map_engine {
     TileMapCore::TileMapCore(sf::Vector2u map_size, uint32_t layers_num):
         map_size(map_size), layers_num(layers_num),
         tilemap(map_size.x * map_size.y * layers_num)
     { }
 
-    void TileMapCore::insert(std::unique_ptr<game::Tile> tile, uint32_t x, uint32_t y, uint32_t layer_num) {
+    void TileMapCore::insert(std::unique_ptr<map::Tile> tile, uint32_t x, uint32_t y, uint32_t layer_num) {
         tilemap[get_idx_from_coords(x, y, layer_num)] = std::move(tile);
     }
     
-    std::unique_ptr<game::Tile>& TileMapCore::operator[](uint32_t x, uint32_t y, uint32_t layer_num) {
+    std::unique_ptr<map::Tile>& TileMapCore::operator[](uint32_t x, uint32_t y, uint32_t layer_num) {
         return tilemap[get_idx_from_coords(x, y, layer_num)];
     }
     
@@ -51,7 +51,7 @@ namespace engine {
         return layers_num;
     }
 
-    void TileMapCore::push_back(std::unique_ptr<game::Tile> tile) {
+    void TileMapCore::push_back(std::unique_ptr<map::Tile> tile) {
         tilemap.push_back(std::move(tile));
     }
 

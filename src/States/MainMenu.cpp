@@ -14,7 +14,7 @@
 
 
 namespace game {
-    MainMenu::MainMenu(Context *context_) : context(context_) {
+    MainMenu::MainMenu(game_engine::Context *context_) : context(context_) {
 
 
         context->asset_manager->add_font(FONT_ID::MAIN_FONT, Constants::main_font_path);

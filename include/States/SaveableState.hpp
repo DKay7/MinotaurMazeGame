@@ -2,7 +2,7 @@
 
 #include "States/State.hpp"
 
-namespace engine {
+namespace states_engine {
     class SaveableState: public State {
         public:
             SaveableState() { }

@@ -6,7 +6,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <sstream>
 
-namespace game {
+namespace map {
     
     Tile::Tile(const sf::Vector2f position, const float grid_size, 
                const sf::Texture &tile_texture, const sf::IntRect texture_rect) {

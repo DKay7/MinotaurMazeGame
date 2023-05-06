@@ -11,9 +11,9 @@
 #include <memory>
 
 namespace game {
-    class MapEditor final : public engine::SaveableState {
+    class MapEditor final : public states_engine::SaveableState {
     public:
-        MapEditor(Context *context);
+        MapEditor(game_engine::Context *context);
 
         void process_input(sf::Event &event) override;
         void update(const float delta_time) override;
@@ -38,9 +38,9 @@ namespace game {
         sf::IntRect tile_texture_rect;
         sf::Vector2u mouse_pos_grid;
         
-        std::unique_ptr<TileMap> tile_map;
+        std::unique_ptr<map::TileMap> tile_map;
         std::unique_ptr<gui::TextureSelector> texture_selector;
 
-        Context *context;
+        game_engine::Context *context;
     };
 } // namespace game

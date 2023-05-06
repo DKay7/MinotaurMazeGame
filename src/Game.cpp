@@ -9,7 +9,7 @@
 
 namespace game {
     Game::Game() {
-        context = std::make_unique<Context>();
+        context = std::make_unique<game_engine::Context>();
         context->window->create(sf::VideoMode(Constants::window_width, Constants::window_height), Constants::game_title, sf::Style::Close);
         context->window->setFramerateLimit(Constants::frame_limit);
         context->state_manager->add_state(std::make_unique<MainMenu>(context.get()));
@@ -21,9 +21,9 @@ namespace game {
 
 
         while (context->window->isOpen()) {
-            engine::StateManager &mgr = *context->state_manager;
+            auto &mgr = *context->state_manager;
             mgr.process_state_change();
-            engine::State &state = *mgr.get_current_state();
+            auto &state = *mgr.get_current_state();
 
 
             sf::Event event;

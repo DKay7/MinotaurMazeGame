@@ -2,7 +2,7 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics.hpp>
 
-namespace engine {
+namespace states_engine {
     class State {
     public:
         State() {}

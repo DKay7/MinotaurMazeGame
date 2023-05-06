@@ -2,8 +2,7 @@
 #include <stdexcept>
 
 
-namespace game
-{
+namespace managers {
     const sf::Font& AssetManager::get_font(const FONT_ID font_id) const {
         return *fonts.at(font_id);
     }

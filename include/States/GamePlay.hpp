@@ -12,9 +12,9 @@
 
 
 namespace game {
-    class GamePlay final: public engine::SaveableState {
+    class GamePlay final: public states_engine::SaveableState {
     public:
-        GamePlay(Context* context_);
+        GamePlay(game_engine::Context* context_);
         void process_input(sf::Event& event) override;
         void update(const float delta_time) override;
         void draw() override;
@@ -28,9 +28,9 @@ namespace game {
         #endif 
 
     private:
-        std::unique_ptr<TileMap> map;
+        std::unique_ptr<map::TileMap> map;
         std::unique_ptr<Player> player;
-        Context* context;
+        game_engine::Context* context;
     };
 
 

@@ -4,14 +4,14 @@
 #include <memory>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-namespace game {
+namespace game_engine {
     class Context final {
 
     public:
         Context();
-        std::unique_ptr<engine::StateManager> state_manager;
+        std::unique_ptr<managers::StateManager> state_manager;
         std::unique_ptr<sf::RenderWindow> window;
-        std::unique_ptr<AssetManager> asset_manager;
+        std::unique_ptr<managers::AssetManager> asset_manager;
     };
 
 } // namespace game 

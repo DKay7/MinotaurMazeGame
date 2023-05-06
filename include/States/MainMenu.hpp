@@ -9,9 +9,9 @@
 #include <memory>
 
 namespace game {
-    class MainMenu final : public engine::State {
+    class MainMenu final : public states_engine::State {
     public:
-        MainMenu(Context *context_);
+        MainMenu(game_engine::Context *context_);
 
         void process_input(sf::Event &event) override;
         void update(const float delta_time) override;
@@ -26,6 +26,6 @@ namespace game {
 
         sf::Sprite background;
 
-        Context *context;
+        game_engine::Context *context;
     };
 } // namespace game

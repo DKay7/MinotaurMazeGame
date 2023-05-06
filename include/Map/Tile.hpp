@@ -9,7 +9,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 
-namespace game {
+namespace map {
     class Tile: public sf::Drawable {
     public:
         Tile(const sf::Vector2f position, const float grid_size, 

@@ -21,11 +21,11 @@
 #include <string>
 
 namespace game {
-    MapEditor::MapEditor(Context *context_) : context(context_) {
+    MapEditor::MapEditor(game_engine::Context *context_) : context(context_) {
 
         context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
 
-        tile_map = std::make_unique<TileMap>(
+        tile_map = std::make_unique<map::TileMap>(
             TEXTURE_ID::TILE_SHEET, context,
             sf::Vector2f(0, 0), Constants::map_size, Constants::layers_num,
             Constants::grid_size
@@ -130,7 +130,7 @@ namespace game {
 
     void MapEditor::load() {
         tile_map.reset();
-        tile_map = load_map_from_file("aboba.map", context);
+        tile_map = map::load_map_from_file("aboba.map", context);
     }
 
     #ifndef NDEBUG
