@@ -21,6 +21,7 @@ namespace game {
         void pause() override;
         void start() override;
         void save() override;
+        void load() override;
         
         #ifndef NDEBUG
             std::string get_state_name() const override;

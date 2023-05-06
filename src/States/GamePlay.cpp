@@ -71,6 +71,10 @@ namespace game {
         std::cout << "GAME SAVED\n";
     }
 
+    void GamePlay::load() {
+        std::cout << "GAME LOADED\n";
+    }
+
     #ifndef NDEBUG
         std::string GamePlay::get_state_name() const {
             return "GamePlay";

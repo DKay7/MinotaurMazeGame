@@ -8,7 +8,6 @@
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <iostream>
 #include <string>
 
 namespace gui {
@@ -28,10 +27,8 @@ namespace gui {
         else
             title.setPosition(position);
 
-        if (title.getGlobalBounds().width > background.getGlobalBounds().width) {
-            std::cout << "RESIZED\n";
+        if (title.getGlobalBounds().width > background.getGlobalBounds().width)
             background.setSize({title.getGlobalBounds().width + Constants::menu_bg_indent, background.getSize().y});
-        }
 
         if (centering)
             background.setPosition({

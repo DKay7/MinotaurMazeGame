@@ -82,13 +82,6 @@ namespace Constants  {
     const sf::Color mouse_rect_bg_color = {255, 255, 255, 150};
     const sf::Color mouse_rect_outline_color = sf::Color::Cyan;
     const sf::Vector2f selector_gui_pos = {40, 40};
-    const std::string map_editor_menu_title = "Map Editor";
-    const sf::Color map_editor_menu_bg_color = sf::Color(0, 34, 56, 50);
-    const sf::Vector2f map_editor_menu_size = { 7 * Constants::grid_size, Constants::window_height };
-    const sf::Vector2f map_editor_menu_position = { 0, 0 };
-    const std::string map_editor_menu_save_bt_text = "save";
-    const std::string map_editor_menu_load_bt_text = "load";
-    const std::string map_editor_menu_exit_bt_text = "exit";
 
 //--------------------------------------------------------------------------------
 
@@ -96,6 +89,7 @@ namespace Constants  {
     const std::string pause_menu_title            = "Paused";
     const std::string pause_menu_resume_bt_text   = "resume";
     const std::string pause_menu_save_bt_text     = "save";
+    const std::string pause_menu_load_bt_text     = "load";
     const std::string pause_menu_back_bt_text     = "back to menu";
 
 //--------------------------------------------------------------------------------
