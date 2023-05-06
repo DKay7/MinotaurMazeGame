@@ -1,4 +1,4 @@
-#include "States/GamePause.hpp"
+#include "States/PauseState.hpp"
 #include "Constants.hpp"
 #include "GUIElements/Menu.hpp"
 #include "States/MainMenu.hpp"
@@ -11,8 +11,10 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <string>
+#include <type_traits>
 
 namespace game {
     GamePause::GamePause(Context *context_):context(context_) {
@@ -27,21 +29,29 @@ namespace game {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state();
         });
-        
-        menu->add_button(Constants::pause_menu_save_bt_text, [&]() {
-            auto &state_mgr = context->state_manager;
-            const auto& states_vec = state_mgr->get_states_vector();
-            const auto& prev_state = states_vec.rbegin()[1];
-            static_cast<engine::SaveableState*>(prev_state.get())->save();
-        });
 
-        menu->add_button(Constants::pause_menu_load_bt_text, [&]() {
-            auto &state_mgr = context->state_manager;
-            const auto& states_vec = state_mgr->get_states_vector();
-            const auto& prev_state = states_vec.rbegin()[1];
-            static_cast<engine::SaveableState*>(prev_state.get())->load();
-        });
-        
+        // Because we are in constructor of the pause state
+        // pause state is not currently in states vector,
+        // therefore, current state = state where pause state was called from
+        const auto& caller_state = context->state_manager->get_current_state();
+
+        // FIXME Sorry I don't know how to do it without dynamic_cast ;C
+        // checks if state is saveable to add "save" and "load" buttons
+        if (dynamic_cast<engine::SaveableState*>(caller_state.get())) {
+            menu->add_button(Constants::pause_menu_save_bt_text, [&]() {
+                auto &state_mgr = context->state_manager;
+                const auto& states_vec = state_mgr->get_states_vector();
+                const auto& prev_state = states_vec.rbegin()[1]; // getting previous state
+                static_cast<engine::SaveableState*>(prev_state.get())->save();
+            });
+
+            menu->add_button(Constants::pause_menu_load_bt_text, [&]() {
+                auto &state_mgr = context->state_manager;
+                const auto& states_vec = state_mgr->get_states_vector();
+                const auto& prev_state = states_vec.rbegin()[1]; // getting previous state
+                static_cast<engine::SaveableState*>(prev_state.get())->load();
+            });
+        }
         menu->add_button(Constants::pause_menu_back_bt_text, [&]() {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state(); // popping pause state

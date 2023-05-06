@@ -2,7 +2,7 @@
 #include "Managers/AssetManager.hpp"
 #include "Constants.hpp"
 #include "Map/TileMap.hpp"
-#include "States/GamePause.hpp"
+#include "States/PauseState.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Sprite.hpp>

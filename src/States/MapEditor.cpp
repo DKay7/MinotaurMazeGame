@@ -5,7 +5,7 @@
 #include "GUIElements/TextureSelector.hpp"
 #include "Map/Tile.hpp"
 #include "Map/TileMap.hpp"
-#include "States/GamePause.hpp"
+#include "States/PauseState.hpp"
 #include "States/MainMenu.hpp"
 #include "Utils/Utils.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
