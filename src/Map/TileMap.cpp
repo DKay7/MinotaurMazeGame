@@ -28,7 +28,7 @@ namespace game {
         if (map[x, y, layer_num].get() != nullptr)
             return;
 
-        auto coord = sf::Vector2f(x * grid_size + start_position.x, y * grid_size + start_position.y);
+        auto coord = sf::Vector2f(x * grid_size, y * grid_size);
         map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect), x, y, layer_num);
     }
 

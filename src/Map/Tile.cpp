@@ -10,7 +10,7 @@ namespace game {
     
     Tile::Tile(const sf::Vector2f position, const float grid_size, 
                const sf::Texture &tile_texture, const sf::IntRect texture_rect) {
-
+        
         shape.setPosition(position);
         shape.setSize({grid_size, grid_size});
 

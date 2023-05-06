@@ -35,6 +35,9 @@ namespace gui {
         void update(const float delta_time);
 
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    
+        const sf::Vector2f& get_size() const;
+        const sf::FloatRect get_bounds() const;
 
     private:
         using btn_container = std::pair<std::unique_ptr<Button>, callback_t>;

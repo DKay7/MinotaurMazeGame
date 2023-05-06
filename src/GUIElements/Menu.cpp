@@ -3,6 +3,8 @@
 #include "GUIElements/Button.hpp"
 #include "Utils/Utils.hpp"
 #include "Context.hpp"
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Sleep.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -18,21 +20,29 @@ namespace gui {
         title.setString(titile_text);
         title.setFont(font);
         
-        background.setFillColor(bg_color);
         background.setSize({size.x, size.y + Constants::menu_bg_indent});
+        background.setFillColor(bg_color);
         
         if (centering)
             utils::center_text_on_window(title, position);
         else
             title.setPosition(position);
 
-        if (title.getGlobalBounds().width > background.getGlobalBounds().width)
+        if (title.getGlobalBounds().width > background.getGlobalBounds().width) {
+            std::cout << "RESIZED\n";
             background.setSize({title.getGlobalBounds().width + Constants::menu_bg_indent, background.getSize().y});
+        }
 
-        background.setPosition({
-            title.getGlobalBounds().left + title.getGlobalBounds().width / 2 - background.getSize().x / 2.f, 
-            position.y - Constants::menu_bg_indent
-        });
+        if (centering)
+            background.setPosition({
+                title.getGlobalBounds().left + title.getGlobalBounds().width / 2 - background.getSize().x / 2.f, 
+                position.y - Constants::menu_bg_indent
+            });
+        else
+            background.setPosition({
+                position.x,
+                position.y
+            });
 
         position.y += title.getGlobalBounds().height + Constants::menu_bg_indent + 2 * button_indent;
     }
@@ -56,6 +66,14 @@ namespace gui {
         for (auto& [button, callback] : buttons) {
             button.process_input(event, mouse_pos);
         }
+    }
+
+    const sf::Vector2f& Menu::get_size() const {
+        return background.getSize();
+    }
+
+    const sf::FloatRect Menu::get_bounds() const {
+        return background.getGlobalBounds();
     }
 
     void Menu::update(const float delta_time) {

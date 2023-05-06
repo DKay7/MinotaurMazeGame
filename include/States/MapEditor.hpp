@@ -28,6 +28,7 @@ namespace game {
 
     private:
         void init_texture_selector_gui();
+        void init_size_menu();
 
         void update_mouse_rectangle();
         void process_editor_input(sf::Event &event);
@@ -37,9 +38,9 @@ namespace game {
         sf::RectangleShape mouse_rectangle;
         sf::IntRect tile_texture_rect;
         sf::Vector2u mouse_pos_grid;
-
+        bool mouse_rect_active;
+        
         std::unique_ptr<TileMap> tile_map;
-        std::unique_ptr<gui::Menu> menu;
         std::unique_ptr<gui::TextureSelector> texture_selector;
 
         Context *context;
