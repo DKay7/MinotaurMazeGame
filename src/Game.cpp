@@ -19,7 +19,6 @@ namespace game {
     void Game::run() {
         sf::Clock clock;
 
-
         while (context->window->isOpen()) {
             auto &mgr = *context->state_manager;
             mgr.process_state_change();
