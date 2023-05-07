@@ -12,17 +12,30 @@
 #include <fstream>
 #include <memory>
 #include <assert.h>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 #include <utility>
 
 namespace map {
-    TileMap::TileMap(const TEXTURE_ID map_texture_id_, game_engine::Context* context, sf::Vector2f start_position_, sf::Vector2u map_size, uint32_t layers_num, const float grid_size): 
+    TileMap::TileMap(const TEXTURE_ID map_texture_id_, game_engine::Context* context, 
+                     sf::Vector2f start_position_, sf::Vector2u map_size, 
+                     uint32_t layers_num, const float grid_size): 
             tilemap_texture_sheet(context->asset_manager->get_texture(map_texture_id_)), 
             start_position(start_position_), map(map_size, layers_num), 
-            grid_size(grid_size), map_texture_id(map_texture_id_),
-            tilemap_bounds({start_position.x, start_position.y, map_size.x * grid_size, map_size.y * grid_size}) 
+            grid_size(grid_size), map_texture_id(map_texture_id_)
     
-    { /* constructor of map (TileMapCore class) already provides filling with nullptrs.*/ }
+    { 
+        /* constructor of map (TileMapCore class) already provides filling with nullptrs.*/ 
+        tilemap_bounds = sf::RectangleShape(
+            static_cast<sf::Vector2f>(map_size) * grid_size
+        );
+
+        tilemap_bounds.setPosition(start_position);
+        tilemap_bounds.setFillColor(sf::Color::Transparent); // TODO
+        tilemap_bounds.setOutlineColor(sf::Color::Magenta);
+        tilemap_bounds.setOutlineThickness(3.f);
+    }
     
     void TileMap::add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect) {
         if (map[x, y, layer_num].get() != nullptr)
@@ -46,6 +59,61 @@ namespace map {
             if (tile)
                 target.draw(*tile, states);
         }
+        target.draw(tilemap_bounds);
+    }
+
+    std::string TileMap::serialize() const {
+        /*
+            Saves map in next format:
+            start_position_x start_position_y map_size_x map_size_y map_layers_num grid_size map_texture_id
+            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y 
+            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y
+            ...
+        */
+
+        std::stringstream result_ss;
+
+        result_ss << start_position.x << " " << start_position.y << " " 
+                  << map.get_size().x << " " << map.get_size().y << " " 
+                  << map.get_layers_num() << " " << grid_size << " " 
+                  << static_cast<int>(map_texture_id) << "\n";
+        
+        result_ss << map.serialize();
+
+        return result_ss.str();
+    }
+    
+    TileMap TileMap::deserialize(std::stringstream file_content, game_engine::Context* context) {
+        /*
+            Loads map in next format:
+            start_position_x start_position_y map_size_x map_size_y map_layers_num grid_size map_texture_id
+            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y 
+            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y
+            ...
+        */
+
+        sf::Vector2f start_position;
+        sf::Vector2u map_size;
+        uint32_t layers_num;
+        float grid_size;
+        int map_texture_id;
+
+        file_content >> start_position.x >> start_position.y 
+                     >> map_size.x >> map_size.y >> layers_num 
+                     >> grid_size >> map_texture_id;
+        
+        TileMap loaded_map 
+            = TileMap(static_cast<TEXTURE_ID>(map_texture_id), context,
+                      start_position, map_size, layers_num, grid_size);
+
+        uint32_t x, y, layer_num;
+        sf::IntRect texture_rect;
+        texture_rect.width = texture_rect.height = grid_size;
+        while (file_content >> x >> y >> layer_num >> texture_rect.left >> texture_rect.top) {
+            loaded_map.add_tile(x, y, layer_num, texture_rect);
+        }
+
+        return loaded_map;
     }
 
     const float TileMap::get_grid_size() const {
@@ -56,69 +124,7 @@ namespace map {
         return tilemap_texture_sheet;
     }
 
-    void TileMap::save_map_to_file(std::string filename) const {
-        /*
-            Saves map in next format:
-            start_position_x start_position_y map_size_x map_size_y map_layers_num grid_size map_texture_id
-            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y 
-            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y
-            ...
-        */
-
-        std::ofstream save_file{filename};
-
-        if (!save_file.is_open())
-            throw std::runtime_error("Can not open file " + filename + " to save map");
-
-        save_file << start_position.x << " " << start_position.y << " " 
-                  << map.get_size().x << " " << map.get_size().y << " " 
-                  << map.get_layers_num() << " " << grid_size << " " 
-                  << static_cast<int>(map_texture_id) << "\n";
-        
-        save_file << map.serialize();
-    }
-
-    std::unique_ptr<TileMap> load_map_from_file(std::string filename, game_engine::Context* context) {
-        /*
-            Loads map in next format:
-            start_position_x start_position_y map_size_x map_size_y map_layers_num grid_size map_texture_id
-            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y 
-            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y
-            ...
-        */
-
-        std::ifstream in_file{filename};
-        
-        if (!in_file.is_open())
-            throw std::runtime_error("Can not open file " + filename + " to load map");
-
-        sf::Vector2f start_position;
-        sf::Vector2u map_size;
-        uint32_t layers_num;
-        float grid_size;
-        int map_texture_id;
-
-        in_file >> start_position.x >> start_position.y 
-                >> map_size.x >> map_size.y >> layers_num 
-                >> grid_size >> map_texture_id;
-        
-        std::unique_ptr<TileMap> loaded_map 
-            = std::make_unique<TileMap>(static_cast<TEXTURE_ID>(map_texture_id), context, 
-                                        start_position, map_size, layers_num, grid_size);
-
-        while (!in_file.eof()) {
-            uint32_t x, y, layer_num;
-            sf::IntRect texture_rect;
-            texture_rect.width = texture_rect.height = grid_size;
-
-            in_file >> x >> y >> layer_num >> texture_rect.left >> texture_rect.top;
-            loaded_map->add_tile(x, y, layer_num, texture_rect);
-        }
-
-        return std::move(loaded_map);
-    }
-
-    const sf::FloatRect& TileMap::get_bounds() const {
-        return tilemap_bounds;
+    const sf::FloatRect TileMap::get_bounds() const {
+        return tilemap_bounds.getGlobalBounds();
     }
 }

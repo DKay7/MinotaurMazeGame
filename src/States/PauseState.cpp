@@ -2,7 +2,8 @@
 #include "Constants.hpp"
 #include "GUIElements/Menu.hpp"
 #include "States/MainMenu.hpp"
-#include "States/SaveableState.hpp"
+#include "Interfaces/SaveableInterface.hpp"
+#include "States/SaveableLoadableState.hpp"
 #include "Utils/Utils.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
@@ -37,21 +38,23 @@ namespace game {
 
         // FIXME Sorry I don't know how to do it without dynamic_cast ;C
         // checks if state is saveable to add "save" and "load" buttons
-        if (dynamic_cast<states_engine::SaveableState*>(caller_state.get())) {
+        if (dynamic_cast<states_engine::SaveableLoadableState*>(caller_state.get())) {
             menu->add_button(Constants::pause_menu_save_bt_text, [&]() {
-                auto &state_mgr = context->state_manager;
+                auto &state_mgr = context->state_manager;   
                 const auto& states_vec = state_mgr->get_states_vector();
                 const auto& prev_state = states_vec.rbegin()[1]; // getting previous state
-                static_cast<states_engine::SaveableState*>(prev_state.get())->save();
+                dynamic_cast<states_engine::SaveableLoadableState*>(prev_state.get())->save_state("aboba.map"); // TODO
             });
 
             menu->add_button(Constants::pause_menu_load_bt_text, [&]() {
                 auto &state_mgr = context->state_manager;
                 const auto& states_vec = state_mgr->get_states_vector();
                 const auto& prev_state = states_vec.rbegin()[1]; // getting previous state
-                static_cast<states_engine::SaveableState*>(prev_state.get())->load();
+
+                dynamic_cast<states_engine::SaveableLoadableState*>(prev_state.get())->load_state("aboba.map"); // TODO
             });
         }
+        
         menu->add_button(Constants::pause_menu_back_bt_text, [&]() {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state(); // popping pause state

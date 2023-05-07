@@ -15,7 +15,7 @@
 #include <memory>
 
 namespace game {
-    class Entity: public sf::Drawable, public sf::Transformable {
+    class Entity: public sf::Drawable {
 
     public:
         Entity();
@@ -24,9 +24,12 @@ namespace game {
         virtual void update(const float delta_time) = 0;
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
         virtual void move(const float& delta_time, sf::Vector2f direction);
+    
+        virtual const sf::Vector2f& get_position() const;
 
         void set_sprite_texture(const sf::Texture &texture);
         void set_position(const sf::Vector2f position);
+
         void create_animation_component(const sf::Texture &texture_sheet);
         void create_movement_component(const float max_velocity, const float acceleration = Constants::default_acceleration, const float deceleration = Constants::default_deceleration);
 

@@ -38,7 +38,7 @@ enum class ANIMATION_ID {
 
 //--------------------------------------------------------------------------------
 
-enum class KEYBINDS: int {    
+enum KEYBINDS: int {  // TODO maybe fix here!
     MOVE_UP     =  sf::Keyboard::W,
     MOVE_DOWN   =  sf::Keyboard::S,
     MOVE_LEFT   =  sf::Keyboard::A,
@@ -47,6 +47,10 @@ enum class KEYBINDS: int {
     OPEN_PAUSE       =  sf::Keyboard::Escape,
     OPEN_TILE_PICKER = sf::Keyboard::Tab,
 
+    MOVE_VIEW_UP        = sf::Keyboard::W,
+    MOVE_VIEW_DOWN      = sf::Keyboard::S,
+    MOVE_VIEW_LEFT      = sf::Keyboard::A,
+    MOVE_VIEW_RIGHT     = sf::Keyboard::D,
 };
 
 //--------------------------------------------------------------------------------
@@ -106,7 +110,9 @@ namespace Constants  {
     const sf::Color mouse_rect_bg_color = {255, 255, 255, 150};
     const sf::Color mouse_rect_outline_color = sf::Color::Cyan;
     const sf::Vector2f selector_gui_pos = {40, 40};
-
+    const int mouse_text_size = 12;
+    const float mouse_text_indent = 7;
+    
 //--------------------------------------------------------------------------------
 
     //pause menu
@@ -129,6 +135,11 @@ namespace Constants  {
     const float player_covement_max_speed = 250;
     const float default_acceleration = 900;
     const float default_deceleration = 600;
+
+//--------------------------------------------------------------------------------
+    // camera state
+    const float view_move = 20.f;
+
 
 //--------------------------------------------------------------------------------
 

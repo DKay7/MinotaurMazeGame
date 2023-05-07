@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Interfaces/SaveableInterface.hpp"
 #include "Map/Tile.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <cstdint>
@@ -7,7 +8,7 @@
 #include <vector>
 
 namespace map_engine {
-    class TileMapCore final {
+    class TileMapCore final: public interfaces::Saveable<TileMapCore> {
     public:
         using tilemap_t = std::vector<std::unique_ptr<map::Tile>>;
 
@@ -29,7 +30,9 @@ namespace map_engine {
         const sf::Vector2u get_size() const;
         const uint32_t get_layers_num() const;
 
+        // staticly inherited from Saveable CRTP class
         std::string serialize() const;
+        
 
     private:
         sf::Vector2u map_size;

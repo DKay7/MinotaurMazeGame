@@ -3,7 +3,7 @@
 #include "Context.hpp"
 #include "GUIElements/Button.hpp"
 #include "GUIElements/Menu.hpp"
-#include "States/SaveableState.hpp"
+#include "Interfaces/SaveableInterface.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>

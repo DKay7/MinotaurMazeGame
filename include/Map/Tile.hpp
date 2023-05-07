@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Interfaces/SaveableInterface.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -10,7 +11,7 @@
 
 
 namespace map {
-    class Tile: public sf::Drawable {
+    class Tile: public sf::Drawable, public interfaces::Saveable<Tile> {
     public:
         Tile(const sf::Vector2f position, const float grid_size, 
              const sf::Texture& tile_texture, const sf::IntRect texture_rect);

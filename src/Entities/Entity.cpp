@@ -16,9 +16,13 @@ namespace game {
     }
 
     void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-        states.transform *= getTransform();
         target.draw(sprite, states);
     }
+
+    const sf::Vector2f& Entity::get_position() const{
+        return sprite.getPosition();
+    }
+
 
     void Entity::set_sprite_texture(const sf::Texture &texture_) {
         sprite.setTexture(texture_);

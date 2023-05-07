@@ -3,6 +3,7 @@
 #include "Context.hpp"
 #include "GUIElements/Menu.hpp"
 #include "GUIElements/TextureSelector.hpp"
+#include "Managers/KeybindsManager.hpp"
 #include "Map/Tile.hpp"
 #include "Map/TileMap.hpp"
 #include "States/PauseState.hpp"
@@ -17,26 +18,37 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Window.hpp>
+#include <algorithm>
 #include <memory>
+#include <sstream>
 #include <string>
+#include <utility>
 
 namespace game {
-    MapEditor::MapEditor(game_engine::Context *context_) : context(context_) {
+    MapEditor::MapEditor(game_engine::Context *context_, std::unique_ptr<map::TileMap> tile_map_) : context(context_) {
 
         context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
 
-        tile_map = std::make_unique<map::TileMap>(
-            TEXTURE_ID::TILE_SHEET, context,
-            sf::Vector2f(0, 0), Constants::map_size, Constants::layers_num,
-            Constants::grid_size
-        );
+        if (tile_map_)
+            tile_map = std::move(tile_map_);
+        else
+            tile_map = std::make_unique<map::TileMap>(
+                TEXTURE_ID::TILE_SHEET, context,
+                sf::Vector2f(0, 0), Constants::map_size, Constants::layers_num,
+                Constants::grid_size
+            );
 
         tile_texture_rect =
             sf::IntRect(0, 0, tile_map->get_grid_size(), tile_map->get_grid_size());
         
+        mouse_coords_text.setFont(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
+        mouse_coords_text.setCharacterSize(Constants::mouse_text_size);
+
         init_texture_selector_gui();
     }
 
+//----------------------------------------INIT METHODS----------------------------------------
+    
     void MapEditor::init_texture_selector_gui() {
         texture_selector = std::make_unique<gui::TextureSelector>(
             Constants::selector_gui_pos, tile_map->get_texture_sheet(),
@@ -53,6 +65,8 @@ namespace game {
         mouse_rectangle.setTextureRect(tile_texture_rect);
     }
 
+//----------------------------------------INPUT PROCESSING----------------------------------------
+
     void MapEditor::process_input(sf::Event &event) {
         using kb = sf::Keyboard;
 
@@ -63,6 +77,7 @@ namespace game {
             context->state_manager->add_state(std::make_unique<GamePause>(context));
              
         process_editor_input(event);
+        process_view_move_input(event);
     }
 
     void MapEditor::process_editor_input(sf::Event &event) {
@@ -88,15 +103,7 @@ namespace game {
             texture_selector->change_shown();
     }
 
-    void MapEditor::update_mouse_rectangle() {
-        auto mouse_pos = utils::get_mouse_position(*context->window);
-
-        auto grid_size = tile_map->get_grid_size();
-        mouse_pos_grid = utils::get_gridded_mouse(mouse_pos, grid_size);
-
-        mouse_rectangle.setPosition(mouse_pos_grid.x * grid_size, mouse_pos_grid.y * grid_size);
-        mouse_rectangle.setTextureRect(tile_texture_rect);
-    }
+//----------------------------------------UPDATING----------------------------------------
 
     void MapEditor::update(const float delta_time) {
         auto mouse_global_pos = sf::Mouse::getPosition(*context->window);
@@ -104,34 +111,78 @@ namespace game {
         tile_map->update(delta_time);
 
         update_mouse_rectangle();
+        update_mouse_text();
+        update_view(delta_time);
     }
+
+    void MapEditor::update_mouse_rectangle() {
+        context->window->setView(view);
+        auto mouse_pos_view = utils::get_mouse_position(*context->window);
+
+        context->window->setView(context->window->getDefaultView());
+        
+        auto grid_size = tile_map->get_grid_size();
+        mouse_pos_grid = utils::get_gridded_mouse(mouse_pos_view, grid_size);
+
+        mouse_rectangle.setPosition(mouse_pos_grid.x * grid_size, mouse_pos_grid.y * grid_size);
+        mouse_rectangle.setTextureRect(tile_texture_rect);
+    }
+
+    void MapEditor::update_mouse_text() {
+        auto mouse_pos = utils::get_mouse_position(*context->window);
+
+        std::stringstream mouse_text_ss;
+        mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y << " [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y << "]";
+        mouse_coords_text.setString(mouse_text_ss.str());
+
+        mouse_coords_text.setPosition({
+            mouse_pos.x + Constants::mouse_text_indent, mouse_pos.y - Constants::mouse_text_indent
+        });
+    }
+
+//----------------------------------------DRAWING----------------------------------------
 
     void MapEditor::draw() {
         auto &window = context->window;
         window->clear();
 
+        window->setView(view);
         window->draw(*tile_map);
 
         if (!texture_selector->active())
             window->draw(mouse_rectangle);
 
+        window->setView(window->getDefaultView());
         window->draw(*texture_selector);
+        window->draw(mouse_coords_text);
 
         window->display();
     }
     
-    void MapEditor::pause() {}
+//----------------------------------------PAUSE----------------------------------------
+    
+    void MapEditor::pause() {
+        context->window->setView(context->window->getDefaultView());
+    }
 
     void MapEditor::start() {}
 
-    void MapEditor::save() {
-        tile_map->save_map_to_file();
+//----------------------------------------SERIALIZATION----------------------------------------
+
+    std::string MapEditor::serialize() const {
+        return tile_map->serialize();
     }
 
-    void MapEditor::load() {
+    void MapEditor::deserialize(std::stringstream file_content) {
         tile_map.reset();
-        tile_map = map::load_map_from_file("aboba.map", context);
+        
+        tile_map = std::make_unique<map::TileMap>(
+            map::TileMap::deserialize(std::move(file_content), context)
+        );
+
     }
+
+//----------------------------------------DEBUG----------------------------------------
 
     #ifndef NDEBUG
         std::string MapEditor::get_state_name() const { return "MapEditor"; }

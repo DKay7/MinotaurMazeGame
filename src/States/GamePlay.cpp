@@ -15,6 +15,7 @@
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <utility>
 
 namespace game {
     GamePlay::GamePlay(game_engine::Context* context_) : context(context_){
@@ -28,7 +29,9 @@ namespace game {
         player = std::make_unique<Player>(sf::Vector2f(0, 0), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
     }
 
-    void GamePlay::process_input(sf::Event& event) { 
+//-------------------------------------PROCESS INPUT-------------------------------------------
+
+    void GamePlay::process_input(sf::Event &event) { 
         using kb = sf::Keyboard;
         
         if (event.type == sf::Event::KeyPressed and 
@@ -37,6 +40,10 @@ namespace game {
             context->state_manager->add_state(std::make_unique<GamePause>(context));
 
     }
+
+    void GamePlay::process_view_move_input(sf::Event &event) { }
+
+//-------------------------------------UPDATE-------------------------------------------
 
     void GamePlay::update(const float delta_time) {
         using kb = sf::Keyboard;
@@ -56,28 +63,51 @@ namespace game {
 
         player->update(delta_time);
         map->update(delta_time);
+        update_view(delta_time);
     }
+
+    void GamePlay::update_view(const float delta_time) {
+        view.setCenter(player->get_position());
+
+    }
+
+//-------------------------------------DRAW-------------------------------------------
 
     void GamePlay::draw() {
         
         auto &window = context->window;
         window->clear();
+        window->setView(view);
+
         window->draw(*map);
         window->draw(*player);
         window->display();
     }
 
-    void GamePlay::pause() { }
+//-------------------------------------PAUSE-------------------------------------------
+
+    void GamePlay::pause() {
+        context->window->setView(context->window->getDefaultView());
+    }
 
     void GamePlay::start() { }
 
-    void GamePlay::save() {
+//-------------------------------------SERIALIZATION-------------------------------------------
+
+    std::string GamePlay::serialize() const {
         std::cout << "GAME SAVED\n";
+        return map->serialize();
     }
 
-    void GamePlay::load() {
+    void GamePlay::deserialize(std::stringstream file_content) {
         std::cout << "GAME LOADED\n";
+        map.reset();
+        map = std::make_unique<map::TileMap>(
+            map::TileMap::deserialize(std::move(file_content), context)
+        );
     }
+
+//-------------------------------------DEBUG-------------------------------------------
 
     #ifndef NDEBUG
         std::string GamePlay::get_state_name() const {
