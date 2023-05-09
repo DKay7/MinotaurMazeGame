@@ -20,6 +20,9 @@ namespace game {
         sf::Clock clock;
 
         while (context->window->isOpen()) {
+            if (!context->window->hasFocus())
+                continue;
+
             auto &mgr = *context->state_manager;
             mgr.process_state_change();
             auto &state = *mgr.get_current_state();

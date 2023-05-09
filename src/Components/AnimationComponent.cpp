@@ -1,7 +1,7 @@
 #include "Components/AnimationComponent.hpp"
 #include <stdexcept>
 
-namespace game {
+namespace components {
     AnimationComponent::AnimationComponent(sf::Sprite &sprite, const sf::Texture &texture_sheet):
         sprite(sprite), texture_sheet(texture_sheet)
     {

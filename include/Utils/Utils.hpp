@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Constants.hpp"
+#include "Entities/Entity.hpp"
 #include "GUIElements/Button.hpp"
+#include "Map/TileMap.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -12,5 +14,5 @@ namespace utils {
     const sf::Vector2f get_mouse_position(const sf::RenderWindow& window);
     gui::Button create_default_button(sf::Vector2f position, const sf::Font& font, std::string text, bool centering=true);
     sf::Vector2u get_gridded_mouse(const sf::Vector2f mouse_pos, const float grid_size);
-    
+    const bool is_movement_allowed(const sf::Vector2f& position, const map::TileMap* map, const sf::Vector2f& direction);
 }

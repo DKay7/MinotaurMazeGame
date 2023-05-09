@@ -8,7 +8,7 @@
 #include <map>
 #include <memory>
 
-namespace game {
+namespace components {
 
     class AnimationComponent final {
 

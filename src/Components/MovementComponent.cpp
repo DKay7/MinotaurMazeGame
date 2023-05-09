@@ -4,7 +4,7 @@
 #include <cmath>
 #include <math.h>
 
-namespace game {
+namespace components {
     MovementComponent::MovementComponent(sf::Sprite &sprite, float max_velocity, float acceleration, float deceleration): 
         sprite(sprite), max_velocity(max_velocity), velocity({0, 0}), 
         acceleration(acceleration), deceleration(deceleration)

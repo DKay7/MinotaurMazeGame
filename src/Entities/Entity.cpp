@@ -17,29 +17,28 @@ namespace game {
 
     void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         target.draw(sprite, states);
+
+        if (hitbox_component)
+            target.draw(*hitbox_component);
     }
 
     const sf::Vector2f& Entity::get_position() const{
+        if (hitbox_component)
+            return hitbox_component->get_position();
+        
         return sprite.getPosition();
     }
 
 
     void Entity::set_sprite_texture(const sf::Texture &texture_) {
-        sprite.setTexture(texture_);
+        sprite.setTexture(texture_, true);
     }
 
     void Entity::set_position(sf::Vector2f position) {
-        sprite.setPosition(position);
-    }
-    
-    void Entity::create_animation_component(const sf::Texture &texture_sheet) {
-        animation_component = std::make_unique<AnimationComponent>(sprite, texture_sheet);
-    }
-
-    void Entity::create_movement_component(const float max_velocity, const float acceleration, 
-                                           const float deceleration) 
-    {
-        movement_component = std::make_unique<MovementComponent>(sprite, max_velocity, acceleration, deceleration);
+        if (hitbox_component)
+            hitbox_component->set_position(position);
+        else
+            sprite.setPosition(position);
     }
 }
 

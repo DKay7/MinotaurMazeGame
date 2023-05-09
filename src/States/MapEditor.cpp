@@ -165,7 +165,9 @@ namespace game {
         context->window->setView(context->window->getDefaultView());
     }
 
-    void MapEditor::start() {}
+    void MapEditor::start() {
+        
+    }
 
 //----------------------------------------SERIALIZATION----------------------------------------
 

@@ -1,6 +1,8 @@
 #include "Entities/Player.hpp"
+#include "Components/HitboxComponent.hpp"
 #include "Constants.hpp"
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath>
 #include <ctime>
@@ -12,9 +14,18 @@ namespace game {
         set_sprite_texture(texture_sheet);
         set_position(position);
         
-        create_movement_component(Constants::player_covement_max_speed);
-        create_animation_component(texture_sheet);
+        animation_component = std::make_unique<components::AnimationComponent>(sprite, texture_sheet);
         
+        movement_component = std::make_unique<components::MovementComponent>(
+            sprite, Constants::player_movement_max_speed, 
+            Constants::default_acceleration, Constants::default_deceleration
+        );
+
+        hitbox_component = std::make_unique<components::HitboxComponent>(
+            sprite, Constants::player_hitbox_offset, 
+            static_cast<sf::Vector2f>(Constants::default_frame_size)
+        );   
+
         animation_component->add_animation(ANIMATION_ID::PLAYER_IDLE,       Constants::idle_tpf,      {0, 8}, 8, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT, Constants::movement_tpf,  {0, 7}, 8, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT,  Constants::movement_tpf,  {0, 2}, 8, Constants::default_frame_size);
@@ -30,6 +41,7 @@ namespace game {
     void Player::update(const float delta_time) {
         
         movement_component->update(delta_time);
+        hitbox_component->update(delta_time);
 
         auto &max_speed = movement_component->get_max_velocity();
         

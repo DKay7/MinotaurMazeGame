@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Components/AnimationComponent.hpp"
+#include "Components/HitboxComponent.hpp"
 #include "Components/MovementComponent.hpp"
 #include "Constants.hpp"
 #include <SFML/Graphics/Drawable.hpp>
@@ -22,20 +23,18 @@ namespace game {
         virtual ~Entity() = default;
 
         virtual void update(const float delta_time) = 0;
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         virtual void move(const float& delta_time, sf::Vector2f direction);
     
         virtual const sf::Vector2f& get_position() const;
-
+         
         void set_sprite_texture(const sf::Texture &texture);
         void set_position(const sf::Vector2f position);
 
-        void create_animation_component(const sf::Texture &texture_sheet);
-        void create_movement_component(const float max_velocity, const float acceleration = Constants::default_acceleration, const float deceleration = Constants::default_deceleration);
-
     protected:
-        std::unique_ptr<AnimationComponent> animation_component;
-        std::unique_ptr<MovementComponent> movement_component;
+        std::unique_ptr<components::AnimationComponent> animation_component;
+        std::unique_ptr<components::MovementComponent> movement_component;
+        std::unique_ptr<components::HitboxComponent> hitbox_component;
 
         sf::Sprite sprite;
      };

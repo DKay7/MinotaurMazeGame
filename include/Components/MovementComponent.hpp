@@ -4,7 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 
 
-namespace game {
+namespace components {
     class MovementComponent final {
 
     public:

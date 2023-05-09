@@ -1,7 +1,10 @@
 #include "Utils/Utils.hpp"
 #include "Constants.hpp"
+#include "Entities/Entity.hpp"
 #include "GUIElements/Button.hpp"
+#include "Map/TileMap.hpp"
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Shape.hpp>
@@ -37,5 +40,9 @@ namespace utils {
             static_cast<unsigned>(mouse_pos.x) / static_cast<unsigned>(grid_size),
             static_cast<unsigned>(mouse_pos.y) / static_cast<unsigned>(grid_size),
         };
+    }
+    
+    const bool is_movement_allowed(const sf::Vector2f& position, const map::TileMap* map, const sf::Vector2f& direction) {
+        return map->get_bounds().contains(position);
     }
 }

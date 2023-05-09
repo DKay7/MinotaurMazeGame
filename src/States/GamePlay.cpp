@@ -4,6 +4,7 @@
 #include "Managers/KeybindsManager.hpp"
 #include "Map/TileMap.hpp"
 #include "States/PauseState.hpp"
+#include "Utils/Utils.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -49,17 +50,27 @@ namespace game {
         using kb = sf::Keyboard;
         using managers::get_keybind;
 
-        if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_UP)))
-            player->move(delta_time, {0, -1});
-
-        if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_DOWN)))
-            player->move(delta_time, {0, 1});
+        #define move_player(key_code, direction_x, direction_y)                                     \
+            if (kb::isKeyPressed(get_keybind(KEYBINDS::key_code)) and                               \
+                utils::is_movement_allowed(player->get_position(), map.get(), {direction_x, direction_y}))    \
+                player->move(delta_time, {direction_x, direction_y});
         
-        if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_RIGHT)))
-            player->move(delta_time, {1, 0});
+        move_player(MOVE_UP,    0, -1)
+        move_player(MOVE_DOWN,  0,  1)
+        move_player(MOVE_RIGHT, 1,  0)
+        move_player(MOVE_LEFT, -1,  0)
 
-        if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_LEFT)))
-            player->move(delta_time, {-1, 0});
+        // if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_UP)))
+        //     player->move(delta_time, {0, -1});
+
+        // if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_DOWN)))
+        //     player->move(delta_time, {0, 1});
+        
+        // if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_RIGHT)))
+        //     player->move(delta_time, {1, 0});
+
+        // if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_LEFT)))
+        //     player->move(delta_time, {-1, 0});
 
         player->update(delta_time);
         map->update(delta_time);
