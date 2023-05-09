@@ -5,7 +5,7 @@
 #include <SFML/System/Vector2.hpp>
 
 
-namespace game {
+namespace entities {
     class Player final: public Entity  {
 
     public:

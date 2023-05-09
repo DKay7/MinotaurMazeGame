@@ -19,6 +19,22 @@ namespace map {
         
     }
 
+//----------------------------------------GETTERS----------------------------------------
+
+    const sf::RectangleShape& Tile::get_shape() const {
+        return shape;
+    }
+
+    const bool Tile::intersects(sf::FloatRect bounds) const {
+        return shape.getGlobalBounds().intersects(bounds);
+    }
+
+    const bool Tile::is_collidable() const {
+        return collidable;
+    }
+
+//----------------------------------------SETTERS----------------------------------------
+    
     void Tile::set_texture(const sf::Texture &tile_texture) {
         shape.setTexture(&tile_texture);
     }
@@ -27,15 +43,21 @@ namespace map {
         shape.setTextureRect(texture_rect);
     }
 
+    void Tile::set_collidable(const bool collidable_) {
+        collidable = collidable_;
+    }
+
+//----------------------------------------UPDATING----------------------------------------
+
     void Tile::update(const float delta_time) { }
+
+//----------------------------------------DRAWING----------------------------------------
 
     void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         target.draw(shape, states);
     }
 
-    const sf::RectangleShape& Tile::get_shape() const {
-        return shape;
-    }
+//----------------------------------------SAVING----------------------------------------
 
     std::string Tile::serialize() const {
         std::stringstream result_ss;

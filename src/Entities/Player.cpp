@@ -8,7 +8,7 @@
 #include <ctime>
 #include <memory>
 
-namespace game {
+namespace entities {
     Player::Player(sf::Vector2f position, const sf::Texture& texture_sheet) {
 
         set_sprite_texture(texture_sheet);

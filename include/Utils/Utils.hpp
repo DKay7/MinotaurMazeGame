@@ -13,6 +13,5 @@ namespace utils {
     void center_shape_on_window(sf::Shape& shape, sf::Vector2f position);
     const sf::Vector2f get_mouse_position(const sf::RenderWindow& window);
     gui::Button create_default_button(sf::Vector2f position, const sf::Font& font, std::string text, bool centering=true);
-    sf::Vector2u get_gridded_mouse(const sf::Vector2f mouse_pos, const float grid_size);
-    const bool is_movement_allowed(const sf::Vector2f& position, const map::TileMap* map, const sf::Vector2f& direction);
+    sf::Vector2i get_gridded_mouse(const sf::Vector2f mouse_pos, const float grid_size);
 }

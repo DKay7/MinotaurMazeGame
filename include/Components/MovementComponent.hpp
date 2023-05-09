@@ -23,6 +23,11 @@ namespace components {
         const bool moving_up() const;
         const bool moving_down() const;
         
+        // setters
+        void stop_x();
+        void stop_y();
+        void stop();
+        
     private:
         sf::Sprite& sprite;
         

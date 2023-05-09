@@ -64,6 +64,19 @@ namespace components {
         return velocity;
     }
 
+    void MovementComponent::stop_x() {
+        velocity.x = 0;
+    }
+
+    void MovementComponent::stop_y() {
+        velocity.y = 0;
+    }
+
+    void MovementComponent::stop() {
+        stop_x();
+        stop_y();
+    }
+
     const bool MovementComponent::idle() const {
 
         // we manually sets velosity to zero, so

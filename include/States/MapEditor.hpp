@@ -50,7 +50,8 @@ namespace game {
         sf::Text mouse_coords_text;
         sf::RectangleShape mouse_rectangle;
         sf::IntRect tile_texture_rect;
-        sf::Vector2u mouse_pos_grid;
+        sf::Vector2i mouse_pos_grid;
+        bool mouse_picker_active = true;
         
         std::unique_ptr<map::TileMap> tile_map;
         std::unique_ptr<gui::TextureSelector> texture_selector;

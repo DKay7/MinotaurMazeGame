@@ -35,14 +35,10 @@ namespace utils {
                            Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active, centering);
     }
 
-    sf::Vector2u get_gridded_mouse(const sf::Vector2f mouse_pos, const float grid_size) {
+    sf::Vector2i get_gridded_mouse(const sf::Vector2f mouse_pos, const float grid_size) {
         return {
-            static_cast<unsigned>(mouse_pos.x) / static_cast<unsigned>(grid_size),
-            static_cast<unsigned>(mouse_pos.y) / static_cast<unsigned>(grid_size),
+            static_cast<int>(mouse_pos.x) / static_cast<int>(grid_size),
+            static_cast<int>(mouse_pos.y) / static_cast<int>(grid_size),
         };
-    }
-    
-    const bool is_movement_allowed(const sf::Vector2f& position, const map::TileMap* map, const sf::Vector2f& direction) {
-        return map->get_bounds().contains(position);
     }
 }

@@ -42,7 +42,7 @@ namespace game {
 
     private:
         std::unique_ptr<map::TileMap> map;
-        std::unique_ptr<Player> player;
+        std::unique_ptr<entities::Player> player;
         game_engine::Context *context;
     };
 

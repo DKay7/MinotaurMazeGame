@@ -34,8 +34,7 @@ namespace game {
         else
             tile_map = std::make_unique<map::TileMap>(
                 TEXTURE_ID::TILE_SHEET, context,
-                sf::Vector2f(0, 0), Constants::map_size, Constants::layers_num,
-                Constants::grid_size
+                Constants::map_size, Constants::layers_num, Constants::grid_size
             );
 
         tile_texture_rect =
@@ -88,12 +87,12 @@ namespace game {
 
                 if (texture_selector->active())
                     tile_texture_rect = texture_selector->get_texture_rect();
-                else
+                else if (mouse_picker_active)
                     tile_map->add_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0,
                                     tile_texture_rect);
             }
 
-            if (event.mouseButton.button == mouse::Right and !texture_selector->active())
+            if (event.mouseButton.button == mouse::Right and !texture_selector->active() and mouse_picker_active)
                 tile_map->remove_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0);
         }
 
@@ -118,21 +117,38 @@ namespace game {
     void MapEditor::update_mouse_rectangle() {
         context->window->setView(view);
         auto mouse_pos_view = utils::get_mouse_position(*context->window);
-
         context->window->setView(context->window->getDefaultView());
         
         auto grid_size = tile_map->get_grid_size();
-        mouse_pos_grid = utils::get_gridded_mouse(mouse_pos_view, grid_size);
+        
+        // checks that mouse rectangle inside the actual tilemap
+        // if not, mouse rectangle is not updated
+        // we can't use "contains" method here because of 
+        // strict less sign (<) in last two lines (contains uses non-strict (<=) ones)
 
-        mouse_rectangle.setPosition(mouse_pos_grid.x * grid_size, mouse_pos_grid.y * grid_size);
-        mouse_rectangle.setTextureRect(tile_texture_rect);
+        mouse_picker_active = 
+            mouse_pos_view.x >= 0 and
+            mouse_pos_view.y >= 0 and
+            mouse_pos_view.x < tile_map->get_map_size().x * grid_size and
+            mouse_pos_view.y < tile_map->get_map_size().y * grid_size;
+
+        if (mouse_picker_active) {
+            mouse_pos_grid = utils::get_gridded_mouse(mouse_pos_view, grid_size);
+            mouse_rectangle.setPosition(mouse_pos_grid.x * grid_size, mouse_pos_grid.y * grid_size);
+            mouse_rectangle.setTextureRect(tile_texture_rect);
+        }
     }
 
     void MapEditor::update_mouse_text() {
+        context->window->setView(view);
+        auto mouse_pos_view = utils::get_mouse_position(*context->window);
+        context->window->setView(context->window->getDefaultView());
         auto mouse_pos = utils::get_mouse_position(*context->window);
 
         std::stringstream mouse_text_ss;
-        mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y << " [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y << "]";
+        mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y 
+                      << " {" << mouse_pos_view.x << ":" << mouse_pos_view.y << "}" 
+                      << " [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y << "]";
         mouse_coords_text.setString(mouse_text_ss.str());
 
         mouse_coords_text.setPosition({

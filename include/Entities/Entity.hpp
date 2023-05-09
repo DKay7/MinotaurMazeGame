@@ -15,7 +15,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <memory>
 
-namespace game {
+namespace entities {
     class Entity: public sf::Drawable {
 
     public:
@@ -25,9 +25,13 @@ namespace game {
         virtual void update(const float delta_time) = 0;
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         virtual void move(const float& delta_time, sf::Vector2f direction);
-    
+
+        // getters
         virtual const sf::Vector2f& get_position() const;
-         
+        const sf::FloatRect get_global_bounds() const;
+        components::MovementComponent* get_movement_component() const;
+
+        // setters         
         void set_sprite_texture(const sf::Texture &texture);
         void set_position(const sf::Vector2f position);
 

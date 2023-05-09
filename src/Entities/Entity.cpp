@@ -2,12 +2,13 @@
 #include "Components/AnimationComponent.hpp"
 #include "Components/MovementComponent.hpp"
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <memory>
 
-namespace game {
+namespace entities {
     Entity::Entity() { }
 
     void Entity::move(const float& delta_time, sf::Vector2f direction) {
@@ -22,6 +23,12 @@ namespace game {
             target.draw(*hitbox_component);
     }
 
+//----------------------------------------GETTERS----------------------------------------
+    
+    components::MovementComponent* Entity::get_movement_component() const {
+        return movement_component.get();
+    }
+
     const sf::Vector2f& Entity::get_position() const{
         if (hitbox_component)
             return hitbox_component->get_position();
@@ -29,7 +36,15 @@ namespace game {
         return sprite.getPosition();
     }
 
+    const sf::FloatRect Entity::get_global_bounds() const {
+        if (hitbox_component)
+            return hitbox_component->get_global_bounds();
 
+        return sprite.getGlobalBounds();
+    }
+    
+    //----------------------------------------SETTERS----------------------------------------
+    
     void Entity::set_sprite_texture(const sf::Texture &texture_) {
         sprite.setTexture(texture_, true);
     }

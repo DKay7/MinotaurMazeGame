@@ -2,6 +2,7 @@
 
 #include "Constants.hpp"
 #include "Context.hpp"
+#include "Entities/Entity.hpp"
 #include "Interfaces/SaveableInterface.hpp"
 #include "Interfaces/LoadableInterface.hpp"
 #include "Map/Tile.hpp"
@@ -24,19 +25,24 @@ namespace map {
                          public interfaces::Loadable<TileMap> {
     public:
         TileMap(const TEXTURE_ID map_texture_id_, game_engine::Context* context,
-                sf::Vector2f start_position_ = {0.f, 0.f}, 
                 sf::Vector2u map_size=Constants::map_size, 
                 uint32_t layers_num=Constants::layers_num, 
                 const float grid_size=Constants::grid_size);
 
-
+        // updating
         void update(const float delta_time);
+        void update_world_bounds_collision(entities::Entity& entity);
+        void update_tiles_collision(entities::Entity& entity);
+
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+        // getters
         const float get_grid_size() const;
+        const sf::Vector2u get_map_size() const;
         const sf::Texture& get_texture_sheet() const;
-        const sf::FloatRect get_bounds() const;
+        const sf::FloatRect get_global_bounds() const;
         
+        // add/remove tiles
         void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect);
         void remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num);
         
@@ -49,7 +55,6 @@ namespace map {
         const TEXTURE_ID map_texture_id;
 
         const float grid_size;
-        sf::Vector2f start_position;
         sf::RectangleShape tilemap_bounds;
         
         map_engine::TileMapCore map;

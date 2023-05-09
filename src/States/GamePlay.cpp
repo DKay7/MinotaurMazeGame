@@ -21,13 +21,13 @@
 namespace game {
     GamePlay::GamePlay(game_engine::Context* context_) : context(context_){
         context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
-        map = std::make_unique<map::TileMap>(TEXTURE_ID::TILE_SHEET, context, sf::Vector2f(0, 0), 
-                                             Constants::map_size, Constants::layers_num, Constants::grid_size);
+        map = std::make_unique<map::TileMap>(TEXTURE_ID::TILE_SHEET, context, Constants::map_size, 
+                                             Constants::layers_num, Constants::grid_size);
 
 
         auto& ass_mgr = context->asset_manager;
         auto texture_added = ass_mgr->add_texture(TEXTURE_ID::PLAYER_SHEET, Constants::player_sheet_texture_path);
-        player = std::make_unique<Player>(sf::Vector2f(0, 0), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
+        player = std::make_unique<entities::Player>(sf::Vector2f(0, 0), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
     }
 
 //-------------------------------------PROCESS INPUT-------------------------------------------
@@ -50,29 +50,19 @@ namespace game {
         using kb = sf::Keyboard;
         using managers::get_keybind;
 
-        #define move_player(key_code, direction_x, direction_y)                                     \
-            if (kb::isKeyPressed(get_keybind(KEYBINDS::key_code)) and                               \
-                utils::is_movement_allowed(player->get_position(), map.get(), {direction_x, direction_y}))    \
-                player->move(delta_time, {direction_x, direction_y});
-        
+        #define move_player(key_code, direction_x, direction_y)         \
+            if (kb::isKeyPressed(get_keybind(KEYBINDS::key_code)))      \
+                player->move(delta_time, {direction_x, direction_y});   \
+
         move_player(MOVE_UP,    0, -1)
         move_player(MOVE_DOWN,  0,  1)
         move_player(MOVE_RIGHT, 1,  0)
         move_player(MOVE_LEFT, -1,  0)
 
-        // if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_UP)))
-        //     player->move(delta_time, {0, -1});
-
-        // if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_DOWN)))
-        //     player->move(delta_time, {0, 1});
-        
-        // if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_RIGHT)))
-        //     player->move(delta_time, {1, 0});
-
-        // if (kb::isKeyPressed(get_keybind(KEYBINDS::MOVE_LEFT)))
-        //     player->move(delta_time, {-1, 0});
-
         player->update(delta_time);
+        map->update_world_bounds_collision(*player);
+        map->update_tiles_collision(*player);
+        
         map->update(delta_time);
         update_view(delta_time);
     }
