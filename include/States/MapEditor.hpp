@@ -52,7 +52,8 @@ namespace game {
         sf::IntRect tile_texture_rect;
         sf::Vector2i mouse_pos_grid;
         bool mouse_picker_active = true;
-        
+        bool tile_collidable = false;
+
         std::unique_ptr<map::TileMap> tile_map;
         std::unique_ptr<gui::TextureSelector> texture_selector;
 

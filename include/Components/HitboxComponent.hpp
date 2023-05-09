@@ -6,6 +6,7 @@
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Transform.hpp>
 #include <SFML/System/Vector2.hpp>
 
 namespace components {
@@ -15,7 +16,7 @@ namespace components {
         HitboxComponent(sf::Sprite& sprite, sf::Vector2f offset, sf::Vector2f size);
 
         // getters
-        const sf::Vector2f& get_position() const;
+        const sf::Vector2f get_position() const;
         const sf::FloatRect get_global_bounds() const;
         const bool intersects(const sf::FloatRect& rect) const;
         const sf::FloatRect& get_next_position(const sf::Vector2f& delta_pos);
@@ -23,8 +24,11 @@ namespace components {
         // setters
         void set_position(const sf::Vector2f& position);
 
-        // update & draw
-        void update(const float delta_time);
+        // update
+        void update_position();
+        void update_rotation(const sf::Vector2f movement_direction);
+
+        // draw
         void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:

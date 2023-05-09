@@ -11,9 +11,12 @@
 namespace entities {
     Entity::Entity() { }
 
-    void Entity::move(const float& delta_time, sf::Vector2f direction) {
+    void Entity::move(const float& delta_time, const sf::Vector2f direction) {
         if (movement_component)
             movement_component->move(delta_time, direction);
+        if (hitbox_component)
+            hitbox_component->update_rotation(direction);
+
     }
 
     void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -29,7 +32,7 @@ namespace entities {
         return movement_component.get();
     }
 
-    const sf::Vector2f& Entity::get_position() const{
+    const sf::Vector2f Entity::get_position() const{
         if (hitbox_component)
             return hitbox_component->get_position();
         

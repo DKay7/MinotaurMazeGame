@@ -23,7 +23,7 @@ namespace entities {
 
         hitbox_component = std::make_unique<components::HitboxComponent>(
             sprite, Constants::player_hitbox_offset, 
-            static_cast<sf::Vector2f>(Constants::default_frame_size)
+            Constants::player_hitbox_size
         );   
 
         animation_component->add_animation(ANIMATION_ID::PLAYER_IDLE,       Constants::idle_tpf,      {0, 8}, 8, Constants::default_frame_size);
@@ -41,7 +41,7 @@ namespace entities {
     void Player::update(const float delta_time) {
         
         movement_component->update(delta_time);
-        hitbox_component->update(delta_time);
+        hitbox_component->update_position();
 
         auto &max_speed = movement_component->get_max_velocity();
         

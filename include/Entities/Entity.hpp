@@ -24,11 +24,12 @@ namespace entities {
 
         virtual void update(const float delta_time) = 0;
         virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-        virtual void move(const float& delta_time, sf::Vector2f direction);
+        virtual void move(const float& delta_time, const sf::Vector2f direction);
 
         // getters
-        virtual const sf::Vector2f& get_position() const;
+        virtual const sf::Vector2f get_position() const;
         const sf::FloatRect get_global_bounds() const;
+        const sf::FloatRect get_global_hitbox() const;
         components::MovementComponent* get_movement_component() const;
 
         // setters         

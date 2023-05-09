@@ -19,6 +19,7 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Window.hpp>
 #include <algorithm>
+#include <ios>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -89,11 +90,17 @@ namespace game {
                     tile_texture_rect = texture_selector->get_texture_rect();
                 else if (mouse_picker_active)
                     tile_map->add_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0,
-                                    tile_texture_rect);
+                                       tile_texture_rect, tile_collidable);
             }
 
-            if (event.mouseButton.button == mouse::Right and !texture_selector->active() and mouse_picker_active)
-                tile_map->remove_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0);
+            if (!texture_selector->active() and mouse_picker_active) {
+                if (event.mouseButton.button == mouse::Right)
+                    tile_map->remove_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0);
+
+                if (event.mouseButton.button == mouse::Middle)
+                    tile_collidable = !tile_collidable;
+            }
+
         }
 
         using kb = sf::Keyboard;
@@ -147,8 +154,9 @@ namespace game {
 
         std::stringstream mouse_text_ss;
         mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y 
-                      << " {" << mouse_pos_view.x << ":" << mouse_pos_view.y << "}" 
-                      << " [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y << "]";
+                      << " {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}" 
+                      << " [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y  << "]"
+                      << " collision: [" << std::boolalpha << tile_collidable << "]";
         mouse_coords_text.setString(mouse_text_ss.str());
 
         mouse_coords_text.setPosition({

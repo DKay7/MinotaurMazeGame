@@ -14,6 +14,7 @@
 #include <iostream>
 #include <memory>
 #include <assert.h>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -39,12 +40,13 @@ namespace map {
 
 //----------------------------------------ADD/REMOVE TILES----------------------------------------
     
-    void TileMap::add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect) {
+    void TileMap::add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, 
+                          const sf::IntRect texture_rect, const bool collidable) {
         if (map[x, y, layer_num].get() != nullptr)
             return;
 
         auto coord = sf::Vector2f(x * grid_size, y * grid_size);
-        map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect), x, y, layer_num);
+        map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect, collidable), x, y, layer_num);
     }
 
     void TileMap::remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num) {
@@ -107,20 +109,36 @@ namespace map {
         };
 
         // checkig tiles around entity
-        std::vector<Tile*> tiles_around_player;
-        tiles_around_player.reserve(9 * map.get_layers_num()); // FIXME maybe optimize
+        std::set<Tile*> tiles_around_player;
+        // tiles_around_player.reserve(9 * map.get_layers_num()); // FIXME maybe optimize
+        auto map_size = map.get_size();
 
-        for (int x = -1, end_x = 1; x < end_x; ++x)
-            for (int y = -1, end_y = 1; y < end_y; ++y)
+        for (int x = -5, end_x = 5; x < end_x; ++x)
+            for (int y = -5, end_y = 5; y < end_y; ++y)
                 for (int layer_num = 0; layer_num < map.get_layers_num(); ++layer_num) {
-                    tiles_around_player.push_back(
-                        map[entity_grid_pos.x + x, entity_grid_pos.y + y, layer_num].get()
-                    );
+                    
+                    #define get_tile_coord_in_bounds(coord)                                             \
+                        tile_##coord = tile_##coord >= 0 ? tile_##coord : 0;                            \
+                        tile_##coord = tile_##coord < map_size.coord ? tile_##coord : map_size.coord;
+
+                    auto tile_x = entity_grid_pos.x + x;
+                    auto tile_y =  entity_grid_pos.y + y;
+                    get_tile_coord_in_bounds(x)
+                    get_tile_coord_in_bounds(y)
+
+                    if (auto tile = map[tile_x, tile_y, layer_num].get())
+                        tiles_around_player.insert(tile);
                 }
 
         for (auto& tile : tiles_around_player) {
             if (tile->is_collidable() and tile->intersects(entity.get_global_bounds())) {
-                std::cout << "COLLISION AT " << tile->get_shape().getPosition().x << ":" << tile->get_shape().getPosition().y << "\n";
+                
+                entity.get_movement_component()->stop();
+                std::cout << "COLLISION AT " 
+                          << static_cast<int>(tile->get_shape().getPosition().x) / static_cast<int>(grid_size) 
+                          << ":" 
+                          << static_cast<int>(tile->get_shape().getPosition().y) / static_cast<int>(grid_size)  
+                          << "\n";
             }
         }
     }
@@ -141,8 +159,8 @@ namespace map {
         /*
             Saves map in next format:
             map_size_x map_size_y map_layers_num grid_size map_texture_id
-            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y 
-            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y
+            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y collidable
+            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y collidable
             ...
         */
 
@@ -161,8 +179,8 @@ namespace map {
         /*
             Loads map in next format:
             map_size_x map_size_y map_layers_num grid_size map_texture_id
-            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y 
-            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y
+            tile1_x tile1_y tile1_layer_num tile1_texture_rect_x tile1_texture_rect_y collidable 
+            tile2_x tile2_y tile2_layer_num tile2_texture_rect_x tile2_texture_rect_y collidable
             ...
         */
 
@@ -180,9 +198,10 @@ namespace map {
 
         uint32_t x, y, layer_num;
         sf::IntRect texture_rect;
+        bool collidable;
         texture_rect.width = texture_rect.height = grid_size;
-        while (file_content >> x >> y >> layer_num >> texture_rect.left >> texture_rect.top) {
-            loaded_map.add_tile(x, y, layer_num, texture_rect);
+        while (file_content >> x >> y >> layer_num >> texture_rect.left >> texture_rect.top >> collidable) {
+            loaded_map.add_tile(x, y, layer_num, texture_rect, collidable);
         }
 
         return loaded_map;

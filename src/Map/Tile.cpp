@@ -9,7 +9,8 @@
 namespace map {
     
     Tile::Tile(const sf::Vector2f position, const float grid_size, 
-               const sf::Texture &tile_texture, const sf::IntRect texture_rect) {
+               const sf::Texture &tile_texture, const sf::IntRect texture_rect,
+               const bool collidable_): collidable(collidable_) {
         
         shape.setPosition(position);
         shape.setSize({grid_size, grid_size});
@@ -17,6 +18,12 @@ namespace map {
         shape.setTexture(&tile_texture);
         shape.setTextureRect(texture_rect);
         
+        if (collidable) {
+            shape.setOutlineColor(sf::Color::Red); // TODO remove
+            shape.setOutlineThickness(1.f);
+        }
+        else 
+            shape.setOutlineColor(sf::Color::Transparent); 
     }
 
 //----------------------------------------GETTERS----------------------------------------
@@ -54,6 +61,7 @@ namespace map {
 //----------------------------------------DRAWING----------------------------------------
 
     void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+            
         target.draw(shape, states);
     }
 
@@ -63,7 +71,8 @@ namespace map {
         std::stringstream result_ss;
         
         auto& texture_rect = shape.getTextureRect();
-        result_ss << texture_rect.left  << " " << texture_rect.top;
+        result_ss << texture_rect.left  << " " << texture_rect.top << " " 
+                  << collidable;
 
         return result_ss.str();
     } 

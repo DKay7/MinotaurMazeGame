@@ -14,7 +14,8 @@ namespace map {
     class Tile final: public sf::Drawable, public interfaces::Saveable<Tile> {
     public:
         Tile(const sf::Vector2f position, const float grid_size, 
-             const sf::Texture& tile_texture, const sf::IntRect texture_rect);
+             const sf::Texture& tile_texture, const sf::IntRect texture_rect,
+             const bool collidable = false);
              
         
         // getters

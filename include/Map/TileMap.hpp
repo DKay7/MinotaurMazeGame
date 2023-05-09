@@ -43,7 +43,9 @@ namespace map {
         const sf::FloatRect get_global_bounds() const;
         
         // add/remove tiles
-        void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, const sf::IntRect texture_rect);
+        void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, 
+                      const sf::IntRect texture_rect, const bool collidable);
+                      
         void remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num);
         
         // staticly inherited from Saveable and Loadable CRTP classes
