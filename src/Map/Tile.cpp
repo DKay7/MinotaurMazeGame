@@ -20,7 +20,7 @@ namespace map {
         
         if (collidable) {
             shape.setOutlineColor(sf::Color::Red); // TODO remove
-            shape.setOutlineThickness(1.f);
+            shape.setOutlineThickness(-1.f);
         }
         else 
             shape.setOutlineColor(sf::Color::Transparent); 

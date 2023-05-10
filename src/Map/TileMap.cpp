@@ -103,7 +103,7 @@ namespace map {
         }
     }
 
-    void TileMap::update_tiles_collision(entities::Entity& entity) {
+    void TileMap::update_tiles_collision(entities::Entity& entity, const float delta_time) {
         auto entity_pos = entity.get_position();
         auto entity_grid_pos = sf::Vector2i{
             static_cast<int>(entity_pos.x) / static_cast<int>(grid_size),
@@ -112,9 +112,7 @@ namespace map {
 
         // checkig tiles around entity
         std::set<Tile*> tiles_around_player;
-        // tiles_around_player.reserve(9 * map.get_layers_num()); // FIXME maybe optimize
-        auto map_size = map.get_size();
-
+        auto map_size = map.get_size(); // FIXME maybe optimize
 
         for (int x = -5, end_x = 5; x < end_x; ++x)
             for (int y = -5, end_y = 5; y < end_y; ++y)
@@ -133,15 +131,24 @@ namespace map {
                         tiles_around_player.insert(tile);
                 }
 
+        auto movement_component = entity.get_movement_component();
+        auto vel = movement_component->get_velocity();
+        auto next_pos = entity.get_hitbox_component()->get_next_position_bounds(vel * delta_time);
+        
         for (auto& tile : tiles_around_player) {
-            if (tile->is_collidable() and tile->intersects(entity.get_global_bounds())) {
-                
+            auto cur_pos = entity.get_hitbox_position();
+            auto bounds = entity.get_global_bounds();
+
+            if (tile->is_collidable() and tile->intersects(next_pos)) {
                 entity.get_movement_component()->stop();
+                entity.set_position(cur_pos);
+
                 std::cout << "COLLISION AT " 
                           << static_cast<int>(tile->get_shape().getPosition().x) / static_cast<int>(grid_size) 
                           << ":" 
                           << static_cast<int>(tile->get_shape().getPosition().y) / static_cast<int>(grid_size)  
                           << "\n";
+
             }
         }
     }

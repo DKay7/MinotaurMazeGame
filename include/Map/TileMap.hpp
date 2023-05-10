@@ -32,7 +32,7 @@ namespace map {
         // updating
         void update(const float delta_time);
         void update_world_bounds_collision(entities::Entity& entity);
-        void update_tiles_collision(entities::Entity& entity);
+        void update_tiles_collision(entities::Entity& entity, const float delta_time);
 
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

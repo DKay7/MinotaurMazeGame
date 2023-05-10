@@ -58,14 +58,17 @@ namespace game {
             if (kb::isKeyPressed(get_keybind(KEYBINDS::key_code)))      \
                 player->move(delta_time, {direction_x, direction_y});   \
 
+
         move_player(MOVE_UP,    0, -1)
         move_player(MOVE_DOWN,  0,  1)
         move_player(MOVE_RIGHT, 1,  0)
         move_player(MOVE_LEFT, -1,  0)
+        
+        map->update_tiles_collision(*player, delta_time);
 
         player->update(delta_time);
+
         map->update_world_bounds_collision(*player);
-        map->update_tiles_collision(*player);
         
         map->update(delta_time);
         update_view(delta_time);

@@ -1,5 +1,6 @@
 #include "Entities/Entity.hpp"
 #include "Components/AnimationComponent.hpp"
+#include "Components/HitboxComponent.hpp"
 #include "Components/MovementComponent.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -17,7 +18,6 @@ namespace entities {
             movement_component->move(delta_time, direction);
         if (hitbox_component)
             hitbox_component->update_rotation(direction);
-
     }
 
     void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -31,6 +31,10 @@ namespace entities {
     
     components::MovementComponent* Entity::get_movement_component() const {
         return movement_component.get();
+    }
+
+    components::HitboxComponent* Entity::get_hitbox_component() const {
+        return hitbox_component.get();
     }
 
     const sf::Vector2f Entity::get_position() const{
@@ -62,15 +66,6 @@ namespace entities {
         else
             sprite.setPosition(position);
     }
-    
-    // void Entity::set_hitbox_position(sf::Vector2f position) {
-    //     if (hitbox_component)
-    //         hitbox_component->set_hitbox_position(position);
-    //     else
-    //         sprite.setPosition(position);
-    // }
-
-
 }
 
 

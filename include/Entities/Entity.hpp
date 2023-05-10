@@ -31,6 +31,7 @@ namespace entities {
         const sf::Vector2f get_hitbox_position() const;
         const sf::FloatRect get_global_bounds() const;
         components::MovementComponent* get_movement_component() const;
+        components::HitboxComponent* get_hitbox_component() const;
 
         // setters         
         void set_sprite_texture(const sf::Texture &texture);

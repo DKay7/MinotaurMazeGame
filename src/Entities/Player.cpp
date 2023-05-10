@@ -12,7 +12,6 @@ namespace entities {
     Player::Player(sf::Vector2f position, const sf::Texture& texture_sheet) {
 
         set_sprite_texture(texture_sheet);
-
         
         animation_component = std::make_unique<components::AnimationComponent>(sprite, texture_sheet);
         

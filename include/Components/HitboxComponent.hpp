@@ -19,7 +19,7 @@ namespace components {
         const sf::Vector2f get_position() const;
         const sf::FloatRect get_global_bounds() const;
         const bool intersects(const sf::FloatRect& rect) const;
-        const sf::FloatRect& get_next_position(const sf::Vector2f& delta_pos);
+        const sf::FloatRect& get_next_position_bounds(const sf::Vector2f& delta_pos);
         
         // setters
         void set_hitbox_position(const sf::Vector2f& position);

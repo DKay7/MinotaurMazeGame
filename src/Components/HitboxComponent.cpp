@@ -3,11 +3,12 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
+#include <iostream>
 #include <numbers>
 
 namespace components {
     HitboxComponent::HitboxComponent(sf::Sprite& sprite_, sf::Vector2f offset_, sf::Vector2f size):
-        sprite(sprite_), offset(offset_) 
+        sprite(sprite_), offset(offset_)
     {   
         hitbox.setSize(size);
         hitbox.setFillColor(sf::Color::Transparent);
@@ -23,22 +24,31 @@ namespace components {
             {0.f, 0.f}, size
         };
 
-        hitbox.setOutlineThickness(1.f); // TODO
+        hitbox.setOutlineThickness(-1.f); // TODO
         hitbox.setOutlineColor(sf::Color::Magenta); // TODO
     }
 
 //----------------------------------------GETTERS----------------------------------------
 
-    const sf::FloatRect& HitboxComponent::get_next_position(const sf::Vector2f& delta_pos) {
+    const sf::FloatRect& HitboxComponent::get_next_position_bounds(const sf::Vector2f& delta_pos) {
         auto hitbox_pos = get_position();
-        next_position.left = hitbox_pos.x + delta_pos.x;
-        next_position.top = hitbox_pos.y + delta_pos.y;
+        auto hitbox_bounds = get_global_bounds();
+        next_position = {
+            hitbox_pos.x + delta_pos.x,
+            hitbox_pos.y + delta_pos.y,
+            hitbox_bounds.width, hitbox_bounds.height,
+        };
+
+        std::cout << "CUR: " << hitbox_pos.x << ", " << hitbox_pos.y << "\n"
+                  << "DEL: " << delta_pos.x << ", " << delta_pos.y << "\n"
+                  << "NEX: " << next_position.left << ", " << next_position.top 
+                  << "[" << next_position.height << " " << next_position.width << "]\n";
 
         return next_position;
     } 
 
     const sf::Vector2f HitboxComponent::get_position() const {
-        auto bounds = hitbox.getGlobalBounds();
+        auto bounds = get_global_bounds();
 
         return {
             hitbox.getPosition().x - bounds.width  / 2,
@@ -58,12 +68,13 @@ namespace components {
 //----------------------------------------SETTERS----------------------------------------
 
     void HitboxComponent::set_hitbox_position(const sf::Vector2f& position) {
-        auto bounds = hitbox.getGlobalBounds();
+        auto bounds = get_global_bounds();
         hitbox.setPosition({
             position.x + bounds.width  / 2,
             position.y + bounds.height / 2
         });
 
+        // after we set hitbox position we have to update the sprite position
         auto hitbox_pos = hitbox.getPosition();
         auto sprite_bounds = sprite.getGlobalBounds();
 
@@ -76,6 +87,8 @@ namespace components {
 //----------------------------------------UPDATING----------------------------------------
 
     void HitboxComponent::update_hitbox_position() {
+
+        // updating hitbox position to make it coordinated with sprite position
         auto position = sprite.getPosition();
         auto bounds = sprite.getGlobalBounds();
         hitbox.setPosition({
@@ -85,18 +98,15 @@ namespace components {
     }
 
     void HitboxComponent::update_rotation(const sf::Vector2f movement_direction) {
-        auto move_vec_len = std::sqrt(movement_direction.x * movement_direction.x + 
-                                      movement_direction.y * movement_direction.y);
-        
-        auto angle = std::asin(movement_direction.y / move_vec_len) * (180 / std::numbers::pi) - 90;
+        // movement direction is always unit vector      
+        auto angle = std::asin(movement_direction.y) * (180 / std::numbers::pi) - 90;
 
         hitbox.setRotation(angle);
     }
 //----------------------------------------DRAW----------------------------------------
 
     void HitboxComponent::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-        target.draw(hitbox, states);
-        
+        target.draw(hitbox, states); 
     }
 
 }
