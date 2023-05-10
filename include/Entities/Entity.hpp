@@ -28,13 +28,14 @@ namespace entities {
 
         // getters
         virtual const sf::Vector2f get_position() const;
+        const sf::Vector2f get_hitbox_position() const;
         const sf::FloatRect get_global_bounds() const;
-        const sf::FloatRect get_global_hitbox() const;
         components::MovementComponent* get_movement_component() const;
 
         // setters         
         void set_sprite_texture(const sf::Texture &texture);
         void set_position(const sf::Vector2f position);
+
 
     protected:
         std::unique_ptr<components::AnimationComponent> animation_component;

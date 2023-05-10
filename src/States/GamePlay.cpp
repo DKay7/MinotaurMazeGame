@@ -13,7 +13,11 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath>
 #include <exception>
-#include <iostream>
+
+#ifndef NDEBUG
+    #include <iostream>
+#endif
+
 #include <memory>
 #include <stdexcept>
 #include <utility>
@@ -27,7 +31,7 @@ namespace game {
 
         auto& ass_mgr = context->asset_manager;
         auto texture_added = ass_mgr->add_texture(TEXTURE_ID::PLAYER_SHEET, Constants::player_sheet_texture_path);
-        player = std::make_unique<entities::Player>(sf::Vector2f(0, 0), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
+        player = std::make_unique<entities::Player>(sf::Vector2f(60, 60), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
     }
 
 //-------------------------------------PROCESS INPUT-------------------------------------------
@@ -68,6 +72,24 @@ namespace game {
     }
 
     void GamePlay::update_view(const float delta_time) {
+         // TODO remove
+        context->window->setView(view);
+        auto mouse_pos_view = utils::get_mouse_position(*context->window);
+        context->window->setView(context->window->getDefaultView());
+        auto mouse_pos = utils::get_mouse_position(*context->window);
+
+        std::stringstream mouse_text_ss;
+        mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y 
+                      << " {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}";
+        mouse_coords_text.setString(mouse_text_ss.str());
+
+        mouse_coords_text.setPosition({
+            mouse_pos.x + Constants::mouse_text_indent, mouse_pos.y - Constants::mouse_text_indent
+        });
+        mouse_coords_text.setFont(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
+        mouse_coords_text.setCharacterSize(12);
+        // TODO remove 
+
         view.setCenter(player->get_position());
 
     }
@@ -79,9 +101,14 @@ namespace game {
         auto &window = context->window;
         window->clear();
         window->setView(view);
-
         window->draw(*map);
         window->draw(*player);
+
+        // TODO REMOVE
+        window->setView(window->getDefaultView());
+        window->draw(mouse_coords_text);
+        // TODO REMOVE
+
         window->display();
     }
 

@@ -11,6 +11,7 @@
 #include <array>
 #include <cstdint>
 #include <fstream>
+#include <ios>
 #include <iostream>
 #include <memory>
 #include <assert.h>
@@ -61,7 +62,7 @@ namespace map {
     void TileMap::update(const float delta_time) { }
 
     void TileMap::update_world_bounds_collision(entities::Entity& entity) {
-        auto entity_pos = entity.get_position();
+        auto entity_pos = entity.get_hitbox_position();
         auto entity_bounds = entity.get_global_bounds();
         auto map_gridded_size =  map.get_size();
         auto map_size = sf::Vector2f{
@@ -76,7 +77,7 @@ namespace map {
             movement_component->stop_x();
         }
 
-        else if (entity_pos.x + entity_bounds.width > map_size.x) {
+        else if (entity_pos.x + entity_bounds.width >= map_size.x) {
             entity.set_position({
                 map_size.x - entity_bounds.width,
                 entity_pos.y 
@@ -85,14 +86,15 @@ namespace map {
             movement_component->stop_x();
         }
 
-        entity_pos = entity.get_position();
-
+        entity_pos = entity.get_hitbox_position();
+        entity_bounds = entity.get_global_bounds();
+        
         if (entity_pos.y < 0) {
             entity.set_position({entity_pos.x, 0});
             movement_component->stop_y();
         }
 
-        else if (entity_pos.y + entity_bounds.height > map_size.y) {
+        else if (entity_pos.y + entity_bounds.height >= map_size.y) {
             entity.set_position({
                 entity_pos.x,
                 map_size.y - entity_bounds.height
@@ -113,13 +115,14 @@ namespace map {
         // tiles_around_player.reserve(9 * map.get_layers_num()); // FIXME maybe optimize
         auto map_size = map.get_size();
 
+
         for (int x = -5, end_x = 5; x < end_x; ++x)
             for (int y = -5, end_y = 5; y < end_y; ++y)
                 for (int layer_num = 0; layer_num < map.get_layers_num(); ++layer_num) {
                     
                     #define get_tile_coord_in_bounds(coord)                                             \
                         tile_##coord = tile_##coord >= 0 ? tile_##coord : 0;                            \
-                        tile_##coord = tile_##coord < map_size.coord ? tile_##coord : map_size.coord;
+                        tile_##coord = tile_##coord < map_size.coord ? tile_##coord : map_size.coord - 1;
 
                     auto tile_x = entity_grid_pos.x + x;
                     auto tile_y =  entity_grid_pos.y + y;

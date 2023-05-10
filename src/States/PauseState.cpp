@@ -12,7 +12,11 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <functional>
-#include <iostream>
+
+#ifndef NDEBUG
+    #include <iostream>
+#endif
+
 #include <memory>
 #include <string>
 #include <type_traits>

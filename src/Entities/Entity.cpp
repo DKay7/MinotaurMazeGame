@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <memory>
 
@@ -33,10 +34,13 @@ namespace entities {
     }
 
     const sf::Vector2f Entity::get_position() const{
+        return sprite.getPosition();
+    }
+
+    const sf::Vector2f Entity::get_hitbox_position() const {
         if (hitbox_component)
             return hitbox_component->get_position();
-        
-        return sprite.getPosition();
+        return get_position();
     }
 
     const sf::FloatRect Entity::get_global_bounds() const {
@@ -54,10 +58,19 @@ namespace entities {
 
     void Entity::set_position(sf::Vector2f position) {
         if (hitbox_component)
-            hitbox_component->set_position(position);
+            hitbox_component->set_hitbox_position(position);
         else
             sprite.setPosition(position);
     }
+    
+    // void Entity::set_hitbox_position(sf::Vector2f position) {
+    //     if (hitbox_component)
+    //         hitbox_component->set_hitbox_position(position);
+    //     else
+    //         sprite.setPosition(position);
+    // }
+
+
 }
 
 

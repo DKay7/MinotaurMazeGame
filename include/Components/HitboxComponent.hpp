@@ -22,10 +22,10 @@ namespace components {
         const sf::FloatRect& get_next_position(const sf::Vector2f& delta_pos);
         
         // setters
-        void set_position(const sf::Vector2f& position);
+        void set_hitbox_position(const sf::Vector2f& position);
 
         // update
-        void update_position();
+        void update_hitbox_position();
         void update_rotation(const sf::Vector2f movement_direction);
 
         // draw

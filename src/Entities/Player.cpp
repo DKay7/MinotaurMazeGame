@@ -12,7 +12,7 @@ namespace entities {
     Player::Player(sf::Vector2f position, const sf::Texture& texture_sheet) {
 
         set_sprite_texture(texture_sheet);
-        set_position(position);
+
         
         animation_component = std::make_unique<components::AnimationComponent>(sprite, texture_sheet);
         
@@ -25,6 +25,8 @@ namespace entities {
             sprite, Constants::player_hitbox_offset, 
             Constants::player_hitbox_size
         );   
+
+        set_position(position);
 
         animation_component->add_animation(ANIMATION_ID::PLAYER_IDLE,       Constants::idle_tpf,      {0, 8}, 8, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT, Constants::movement_tpf,  {0, 7}, 8, Constants::default_frame_size);
@@ -41,7 +43,7 @@ namespace entities {
     void Player::update(const float delta_time) {
         
         movement_component->update(delta_time);
-        hitbox_component->update_position();
+        hitbox_component->update_hitbox_position();
 
         auto &max_speed = movement_component->get_max_velocity();
         

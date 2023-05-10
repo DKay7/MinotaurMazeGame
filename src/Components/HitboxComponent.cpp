@@ -3,7 +3,6 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
-#include <iostream>
 #include <numbers>
 
 namespace components {
@@ -14,11 +13,11 @@ namespace components {
         hitbox.setFillColor(sf::Color::Transparent);
         
         hitbox.setOrigin({
-            hitbox.getLocalBounds().width / 2,
+            hitbox.getLocalBounds().width  / 2,
             hitbox.getLocalBounds().height / 2,
         });
 
-        update_position();
+        update_hitbox_position();
 
         next_position = {
             {0.f, 0.f}, size
@@ -39,39 +38,49 @@ namespace components {
     } 
 
     const sf::Vector2f HitboxComponent::get_position() const {
+        auto bounds = hitbox.getGlobalBounds();
+
         return {
-            hitbox.getPosition().x - sprite.getGlobalBounds().width / 2,
-            hitbox.getPosition().y - sprite.getGlobalBounds().height / 2,
+            hitbox.getPosition().x - bounds.width  / 2,
+            hitbox.getPosition().y - bounds.height / 2
         };
     }
 
     const sf::FloatRect HitboxComponent::get_global_bounds() const {
-        return hitbox.getGlobalBounds();
+        auto bounds = hitbox.getGlobalBounds();
+        return bounds;
     }
 
     const bool HitboxComponent::intersects(const sf::FloatRect& rect) const {
-        return hitbox.getGlobalBounds().intersects(rect);
+        return get_global_bounds().intersects(rect);
     }
 
 //----------------------------------------SETTERS----------------------------------------
 
-    void HitboxComponent::set_position(const sf::Vector2f& position) {
-        sprite.setPosition({
-            position.x - offset.x,
-            position.y - offset.y
+    void HitboxComponent::set_hitbox_position(const sf::Vector2f& position) {
+        auto bounds = hitbox.getGlobalBounds();
+        hitbox.setPosition({
+            position.x + bounds.width  / 2,
+            position.y + bounds.height / 2
         });
 
-        update_position();
+        auto hitbox_pos = hitbox.getPosition();
+        auto sprite_bounds = sprite.getGlobalBounds();
+
+        sprite.setPosition({
+            hitbox_pos.x - sprite_bounds.width  / 2,
+            hitbox_pos.y - sprite_bounds.height / 2,
+        });
     }
 
 //----------------------------------------UPDATING----------------------------------------
 
-    void HitboxComponent::update_position() {
+    void HitboxComponent::update_hitbox_position() {
         auto position = sprite.getPosition();
         auto bounds = sprite.getGlobalBounds();
         hitbox.setPosition({
-            position.x + offset.x + bounds.width / 2,
-            position.y + offset.y + bounds.height / 2
+            position.x + bounds.width  / 2,
+            position.y + bounds.height / 2 
         });
     }
 
