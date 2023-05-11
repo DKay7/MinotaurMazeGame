@@ -42,14 +42,39 @@ namespace map {
     }
 
 //----------------------------------------ADD/REMOVE TILES----------------------------------------
-    
+    const bool TileMap::add_tile_on_top_layer(const uint32_t x, const uint32_t y, const sf::IntRect texture_rect, 
+                                        const bool collidable) {
+
+        for (int layer_num = 0; layer_num < map.get_layers_num(); ++layer_num) {
+            if (map[x, y, layer_num] == nullptr) {
+                auto coord = sf::Vector2f(x * grid_size, y * grid_size);
+                map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect, collidable), 
+                           x, y, layer_num);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void TileMap::add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, 
                           const sf::IntRect texture_rect, const bool collidable) {
-        if (map[x, y, layer_num].get() != nullptr)
+        if (map[x, y, layer_num] != nullptr)
             return;
 
         auto coord = sf::Vector2f(x * grid_size, y * grid_size);
         map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect, collidable), x, y, layer_num);
+    }
+
+    const bool TileMap::remove_tile_on_top_layer(const uint32_t x, const uint32_t y) {
+        for (int layer_num = map.get_layers_num() - 1; layer_num >= 0; --layer_num) {
+            if (map[x, y, layer_num] != nullptr) {
+                map[x, y, layer_num].reset();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void TileMap::remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num) {

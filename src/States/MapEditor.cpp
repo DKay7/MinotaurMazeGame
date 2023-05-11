@@ -88,14 +88,15 @@ namespace game {
 
                 if (texture_selector->active())
                     tile_texture_rect = texture_selector->get_texture_rect();
-                else if (mouse_picker_active)
-                    tile_map->add_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0,
-                                       tile_texture_rect, tile_collidable);
+                else if (mouse_picker_active) {
+                    tile_map->add_tile_on_top_layer(mouse_pos_grid.x, mouse_pos_grid.y,
+                                                    tile_texture_rect, tile_collidable);
+                }
             }
 
             if (!texture_selector->active() and mouse_picker_active) {
                 if (event.mouseButton.button == mouse::Right)
-                    tile_map->remove_tile(mouse_pos_grid.x, mouse_pos_grid.y, 0);
+                    tile_map->remove_tile_on_top_layer(mouse_pos_grid.x, mouse_pos_grid.y);
 
                 if (event.mouseButton.button == mouse::Middle)
                     tile_collidable = !tile_collidable;
@@ -153,10 +154,10 @@ namespace game {
         auto mouse_pos = utils::get_mouse_position(*context->window);
 
         std::stringstream mouse_text_ss;
-        mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y 
-                      << " {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}" 
-                      << " [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y  << "]"
-                      << " collision: [" << std::boolalpha << tile_collidable << "]";
+        mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y << "\n" 
+                      << "view: {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}\n" 
+                      << "grid: [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y  << "]\n"
+                      << "collision: [" << std::boolalpha << tile_collidable << "]";
         mouse_coords_text.setString(mouse_text_ss.str());
 
         mouse_coords_text.setPosition({

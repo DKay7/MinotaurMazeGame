@@ -45,9 +45,13 @@ namespace map {
         // add/remove tiles
         void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, 
                       const sf::IntRect texture_rect, const bool collidable);
-                      
+
+        const bool add_tile_on_top_layer(const uint32_t x, const uint32_t y, const sf::IntRect texture_rect, 
+                                   const bool collidable);  
+  
         void remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num);
-        
+        const bool remove_tile_on_top_layer(const uint32_t x, const uint32_t y);
+
         // staticly inherited from Saveable and Loadable CRTP classes
         std::string serialize() const;
         static TileMap deserialize(std::stringstream file_content, game_engine::Context* context);
