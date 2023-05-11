@@ -9,6 +9,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <fstream>
 #include <ios>
@@ -112,7 +113,7 @@ namespace map {
 
         // checkig tiles around entity
         std::set<Tile*> tiles_around_player;
-        auto map_size = map.get_size(); // FIXME maybe optimize
+        auto map_size = map.get_size();
 
         for (int x = -5, end_x = 5; x < end_x; ++x)
             for (int y = -5, end_y = 5; y < end_y; ++y)
@@ -132,23 +133,35 @@ namespace map {
                 }
 
         auto movement_component = entity.get_movement_component();
+        auto hitbox_component = entity.get_hitbox_component();
         auto vel = movement_component->get_velocity();
+        auto cur_pos = entity.get_hitbox_position();
+        auto bounds = entity.get_global_bounds();
         auto next_pos = entity.get_hitbox_component()->get_next_position_bounds(vel * delta_time);
-        
+
         for (auto& tile : tiles_around_player) {
-            auto cur_pos = entity.get_hitbox_position();
-            auto bounds = entity.get_global_bounds();
-
             if (tile->is_collidable() and tile->intersects(next_pos)) {
+                auto tile_pos = tile->get_shape().getPosition(); 
+                #define distance(x1, y1, x2, y2)\
+                    std::sqrt(\
+                        std::pow(x1 - x2, 2) + std::pow(y1 - y2, 2)   \
+                    ) 
+                auto cur_distance = distance(tile_pos.x, tile_pos.y, cur_pos.x, cur_pos.y);
+                auto next_distance = distance(tile_pos.x, tile_pos.y, next_pos.left, next_pos.top);
+                if (cur_distance <= next_distance)
+                    continue;
+
                 entity.get_movement_component()->stop();
-                entity.set_position(cur_pos);
 
-                std::cout << "COLLISION AT " 
-                          << static_cast<int>(tile->get_shape().getPosition().x) / static_cast<int>(grid_size) 
-                          << ":" 
-                          << static_cast<int>(tile->get_shape().getPosition().y) / static_cast<int>(grid_size)  
-                          << "\n";
+                entity.set_position({
+                    #define sign(num)\
+                        (-2 * std::signbit(num) + 1)
 
+                    cur_pos.x - sign(vel.x) * (vel.x != 0) * 2,
+                    cur_pos.y - sign(vel.y) * (vel.y != 0) * 2
+                    
+                    #undef sign
+                });
             }
         }
     }

@@ -20,12 +20,6 @@ namespace utils {
         text.setPosition(position);
     }
 
-    void center_shape_on_window(sf::Shape& shape, sf::Vector2f position) { // TODO maybe unused
-        auto shape_bounds = shape.getLocalBounds();
-        shape.setOrigin({shape_bounds.width / 2, shape_bounds.height / 2});
-        shape.setPosition(position);
-    }
-
     const sf::Vector2f get_mouse_position(const sf::RenderWindow& window) {
         return window.mapPixelToCoords(sf::Mouse::getPosition(window));
     }

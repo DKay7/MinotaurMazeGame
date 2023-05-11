@@ -13,7 +13,7 @@ namespace components {
 
     class HitboxComponent final : public sf::Drawable {
     public:
-        HitboxComponent(sf::Sprite& sprite, sf::Vector2f offset, sf::Vector2f size);
+        HitboxComponent(sf::Sprite& sprite, sf::Vector2f offset, sf::Vector2f size, sf::Vector2f idle_size);
 
         // getters
         const sf::Vector2f get_position() const;
@@ -27,11 +27,14 @@ namespace components {
         // update
         void update_hitbox_position();
         void update_rotation(const sf::Vector2f movement_direction);
+        void update_idle(const bool is_idle);
 
         // draw
         void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
+        sf::Vector2f default_size;
+        sf::Vector2f idle_size;
         sf::FloatRect next_position;
         sf::RectangleShape hitbox;
         sf::Sprite& sprite;

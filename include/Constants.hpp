@@ -38,7 +38,7 @@ enum class ANIMATION_ID {
 
 //--------------------------------------------------------------------------------
 
-enum KEYBINDS: int {  // TODO maybe fix here!
+enum KEYBINDS: int {
     MOVE_UP     =  sf::Keyboard::W,
     MOVE_DOWN   =  sf::Keyboard::S,
     MOVE_LEFT   =  sf::Keyboard::A,
@@ -71,6 +71,7 @@ namespace Constants  {
     const sf::Color texture_selector_bg_color = {50, 50, 50, 100};
     const sf::Color texture_selector_outline_color = {255, 255, 255, 200};
     const float texture_selector_outline_thick = 1;
+
 //--------------------------------------------------------------------------------
 
     // map
@@ -137,6 +138,8 @@ namespace Constants  {
     const float default_deceleration = 600;
     const sf::Vector2f player_hitbox_offset = {0, 0};
     const sf::Vector2f player_hitbox_size = {24, 48};
+    const sf::Vector2f player_hitbox_idle_size = {24, 24};
+
 //--------------------------------------------------------------------------------
 
     // camera state

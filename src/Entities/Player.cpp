@@ -22,7 +22,7 @@ namespace entities {
 
         hitbox_component = std::make_unique<components::HitboxComponent>(
             sprite, Constants::player_hitbox_offset, 
-            Constants::player_hitbox_size
+            Constants::player_hitbox_size, Constants::player_hitbox_idle_size
         );   
 
         set_position(position);
@@ -43,6 +43,7 @@ namespace entities {
         
         movement_component->update(delta_time);
         hitbox_component->update_hitbox_position();
+        hitbox_component->update_idle(movement_component->idle());
 
         auto &max_speed = movement_component->get_max_velocity();
         

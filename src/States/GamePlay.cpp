@@ -51,6 +51,10 @@ namespace game {
 //-------------------------------------UPDATE-------------------------------------------
 
     void GamePlay::update(const float delta_time) {
+        #ifndef NDEBUG
+            update_debug_text();
+        #endif
+
         using kb = sf::Keyboard;
         using managers::get_keybind;
 
@@ -65,36 +69,35 @@ namespace game {
         move_player(MOVE_LEFT, -1,  0)
         
         map->update_tiles_collision(*player, delta_time);
-
         player->update(delta_time);
-
         map->update_world_bounds_collision(*player);
         
         map->update(delta_time);
         update_view(delta_time);
     }
 
+    #ifndef NDEBUG
+    void GamePlay::update_debug_text() {
+            context->window->setView(view);
+            auto mouse_pos_view = utils::get_mouse_position(*context->window);
+            context->window->setView(context->window->getDefaultView());
+            auto mouse_pos = utils::get_mouse_position(*context->window);
+
+            std::stringstream mouse_text_ss;
+            mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y 
+                        << " {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}";
+            mouse_coords_text.setString(mouse_text_ss.str());
+
+            mouse_coords_text.setPosition({
+                mouse_pos.x + Constants::mouse_text_indent, mouse_pos.y - Constants::mouse_text_indent
+            });
+            mouse_coords_text.setFont(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
+            mouse_coords_text.setCharacterSize(12);
+    }
+    #endif
+
     void GamePlay::update_view(const float delta_time) {
-         // TODO remove
-        context->window->setView(view);
-        auto mouse_pos_view = utils::get_mouse_position(*context->window);
-        context->window->setView(context->window->getDefaultView());
-        auto mouse_pos = utils::get_mouse_position(*context->window);
-
-        std::stringstream mouse_text_ss;
-        mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y 
-                      << " {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}";
-        mouse_coords_text.setString(mouse_text_ss.str());
-
-        mouse_coords_text.setPosition({
-            mouse_pos.x + Constants::mouse_text_indent, mouse_pos.y - Constants::mouse_text_indent
-        });
-        mouse_coords_text.setFont(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
-        mouse_coords_text.setCharacterSize(12);
-        // TODO remove 
-
         view.setCenter(player->get_position());
-
     }
 
 //-------------------------------------DRAW-------------------------------------------
@@ -107,10 +110,10 @@ namespace game {
         window->draw(*map);
         window->draw(*player);
 
-        // TODO REMOVE
-        window->setView(window->getDefaultView());
-        window->draw(mouse_coords_text);
-        // TODO REMOVE
+        #ifndef NDEBUG
+            window->setView(window->getDefaultView());
+            window->draw(mouse_coords_text);
+        #endif
 
         window->display();
     }
@@ -126,12 +129,17 @@ namespace game {
 //-------------------------------------SERIALIZATION-------------------------------------------
 
     std::string GamePlay::serialize() const {
-        std::cout << "GAME SAVED\n";
+        #ifndef NDEBUG
+            std::cout << "GAME SAVED\n";
+        #endif
         return map->serialize();
     }
 
     void GamePlay::deserialize(std::stringstream file_content) {
-        std::cout << "GAME LOADED\n";
+        #ifndef NDEBUG
+            std::cout << "GAME LOADED\n";
+        #endif
+
         map.reset();
         map = std::make_unique<map::TileMap>(
             map::TileMap::deserialize(std::move(file_content), context)

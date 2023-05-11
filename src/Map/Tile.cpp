@@ -18,11 +18,13 @@ namespace map {
         shape.setTexture(&tile_texture);
         shape.setTextureRect(texture_rect);
         
-        if (collidable) {
-            shape.setOutlineColor(sf::Color::Red); // TODO remove
-            shape.setOutlineThickness(-1.f);
-        }
-        else 
+        #ifndef NDEBUG
+            if (collidable) {
+                shape.setOutlineColor(sf::Color::Red);
+                shape.setOutlineThickness(-1.f);
+            }
+            else
+        #endif 
             shape.setOutlineColor(sf::Color::Transparent); 
     }
 
