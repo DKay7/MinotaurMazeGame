@@ -2,6 +2,7 @@
 #include "Constants.hpp"
 #include "Context.hpp"
 #include "Map/Tile.hpp"
+#include "Utils/Utils.hpp"
 #include <SFML/Config.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -62,7 +63,7 @@ namespace map {
 
     void TileMap::update(const float delta_time) { }
 
-    void TileMap::update_world_bounds_collision(entities::Entity& entity) {
+    void TileMap::update_world_bounds_collision(entities::Entity& entity, const float delta_time) {
         auto entity_pos = entity.get_hitbox_position();
         auto entity_bounds = entity.get_global_bounds();
         auto map_gridded_size =  map.get_size();
@@ -72,7 +73,7 @@ namespace map {
         };
         
         auto movement_component = entity.get_movement_component();
-
+ 
         if (entity_pos.x < 0) {
             entity.set_position({0, entity_pos.y});
             movement_component->stop_x();
@@ -83,7 +84,6 @@ namespace map {
                 map_size.x - entity_bounds.width,
                 entity_pos.y 
             });
-
             movement_component->stop_x();
         }
 
@@ -111,14 +111,15 @@ namespace map {
             static_cast<int>(entity_pos.y) / static_cast<int>(grid_size)
         };
 
-        // checkig tiles around entity
+        // only checkig tiles around entity
         std::set<Tile*> tiles_around_player;
         auto map_size = map.get_size();
 
-        for (int x = -5, end_x = 5; x < end_x; ++x)
-            for (int y = -5, end_y = 5; y < end_y; ++y)
+        for (int x = -Constants::tiles_to_check, end_x = Constants::tiles_to_check; x < end_x; ++x)
+            for (int y = -Constants::tiles_to_check, end_y = Constants::tiles_to_check; y < end_y; ++y)
                 for (int layer_num = 0; layer_num < map.get_layers_num(); ++layer_num) {
                     
+                    // checks that tile belongs to tilemap
                     #define get_tile_coord_in_bounds(coord)                                             \
                         tile_##coord = tile_##coord >= 0 ? tile_##coord : 0;                            \
                         tile_##coord = tile_##coord < map_size.coord ? tile_##coord : map_size.coord - 1;
@@ -135,33 +136,28 @@ namespace map {
         auto movement_component = entity.get_movement_component();
         auto hitbox_component = entity.get_hitbox_component();
         auto vel = movement_component->get_velocity();
-        auto cur_pos = entity.get_hitbox_position();
         auto bounds = entity.get_global_bounds();
-        auto next_pos = entity.get_hitbox_component()->get_next_position_bounds(vel * delta_time);
 
         for (auto& tile : tiles_around_player) {
-            if (tile->is_collidable() and tile->intersects(next_pos)) {
+            auto cur_pos = entity.get_hitbox_position();
+            auto next_pos = hitbox_component->get_next_position_bounds(vel * delta_time);
+
+            if (tile->is_collidable() and tile->intersects(next_pos)) {                
                 auto tile_pos = tile->get_shape().getPosition(); 
-                #define distance(x1, y1, x2, y2)\
-                    std::sqrt(\
-                        std::pow(x1 - x2, 2) + std::pow(y1 - y2, 2)   \
-                    ) 
-                auto cur_distance = distance(tile_pos.x, tile_pos.y, cur_pos.x, cur_pos.y);
-                auto next_distance = distance(tile_pos.x, tile_pos.y, next_pos.left, next_pos.top);
+                
+                auto cur_distance  = utils::distance(tile_pos, cur_pos);
+                auto next_distance = utils::distance(tile_pos, {next_pos.left, next_pos.top});
+                
+                // check collision only is we are going towards the wall
                 if (cur_distance <= next_distance)
                     continue;
 
                 entity.get_movement_component()->stop();
-
+                
                 entity.set_position({
-                    #define sign(num)\
-                        (-2 * std::signbit(num) + 1)
-
-                    cur_pos.x - sign(vel.x) * (vel.x != 0) * 2,
-                    cur_pos.y - sign(vel.y) * (vel.y != 0) * 2
-                    
-                    #undef sign
-                });
+                    cur_pos.x - utils::sign(vel.x) * (vel.x != 0) * Constants::rebound_coef,
+                    cur_pos.y - utils::sign(vel.y) * (vel.y != 0) * Constants::rebound_coef                    
+                });                
             }
         }
     }
