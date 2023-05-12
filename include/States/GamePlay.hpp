@@ -53,6 +53,7 @@ namespace game {
             sf::Text mouse_coords_text; // text for debug 
         #endif
 
+        sf::Sprite background;
         std::unique_ptr<map::TileMap> map;
         std::unique_ptr<entities::Player> player;
         game_engine::Context *context;

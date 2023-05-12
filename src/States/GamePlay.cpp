@@ -32,6 +32,9 @@ namespace game {
         auto& ass_mgr = context->asset_manager;
         auto texture_added = ass_mgr->add_texture(TEXTURE_ID::PLAYER_SHEET, Constants::player_sheet_texture_path);
         player = std::make_unique<entities::Player>(sf::Vector2f(60, 60), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
+
+        background.setTexture(ass_mgr->get_texture(TEXTURE_ID::TILE_SHEET));
+        
     }
 
 //-------------------------------------PROCESS INPUT-------------------------------------------
@@ -108,7 +111,8 @@ namespace game {
         auto &window = context->window;
         window->clear();
         window->setView(view);
-        window->draw(*map);
+        // window->draw(*map);
+        map->draw_fogged_at_position(*window, player->get_position());
         window->draw(*player);
 
         #ifndef NDEBUG

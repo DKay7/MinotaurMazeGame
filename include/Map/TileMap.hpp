@@ -34,7 +34,9 @@ namespace map {
         void update_world_bounds_collision(entities::Entity& entity, const float delta_time);
         void update_tiles_collision(entities::Entity& entity, const float delta_time);
 
+        // drawing
         void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+        void draw_fogged_at_position(sf::RenderTarget& target, const sf::Vector2f position);
 
         // getters
         const float get_grid_size() const;

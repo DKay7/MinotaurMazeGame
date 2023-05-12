@@ -6,6 +6,7 @@
 #include <SFML/Config.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
@@ -154,6 +155,7 @@ namespace map {
                     get_tile_coord_in_bounds(x)
                     get_tile_coord_in_bounds(y)
 
+                    #undef get_tile_coord_in_bounds
                     if (auto tile = map[tile_x, tile_y, layer_num].get())
                         tiles_around_player.insert(tile);
                 }
@@ -197,6 +199,37 @@ namespace map {
         target.draw(tilemap_bounds);
     }
 
+    void TileMap::draw_fogged_at_position(sf::RenderTarget& target, const sf::Vector2f position) {
+        std::set<Tile*> tiles_around_position;
+        auto map_size = map.get_size();
+        auto grid_position = sf::Vector2i{
+            static_cast<int>(position.x) / static_cast<int>(grid_size),
+            static_cast<int>(position.y) / static_cast<int>(grid_size)
+        };
+
+        for (int x = -Constants::fogged_map_size, end_x = Constants::fogged_map_size; x < end_x; ++x)
+            for (int y = -Constants::fogged_map_size, end_y = Constants::fogged_map_size; y < end_y; ++y)
+                for (int layer_num = 0; layer_num < map.get_layers_num(); ++layer_num) {
+                    
+                    // checks that tile belongs to tilemap
+                    #define get_tile_coord_in_bounds(coord)                                             \
+                        tile_##coord = tile_##coord >= 0 ? tile_##coord : 0;                            \
+                        tile_##coord = tile_##coord < map_size.coord ? tile_##coord : map_size.coord - 1;
+
+                    auto tile_x = grid_position.x + x;
+                    auto tile_y =  grid_position.y + y;
+                    get_tile_coord_in_bounds(x)
+                    get_tile_coord_in_bounds(y)
+
+                    if (auto tile = map[tile_x, tile_y, layer_num].get())
+                        tiles_around_position.insert(tile);
+                }
+        
+        for (auto& tile: tiles_around_position) {
+            if (tile)
+                target.draw(*tile);
+        }
+    }
 //----------------------------------------SAVE/LOAD----------------------------------------
 
     std::string TileMap::serialize() const {
