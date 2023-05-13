@@ -9,9 +9,12 @@
 //--------------------------------------------------------------------------------
 
 enum class TEXTURE_ID {
-    MAIN_MENU_BG = 0,
-    PLAYER_SHEET = 1,
-    TILE_SHEET   = 2,
+    MAIN_MENU_BG    = 0,
+    PLAYER_SHEET    = 1,
+    TILE_SHEET      = 2,
+    GAME_FOG_BACK   = 3,
+    GAME_FOG_FRONT  = 4,
+    GAME_BLACKOUT   = 5,
 };
 
 //--------------------------------------------------------------------------------
@@ -34,6 +37,13 @@ enum class ANIMATION_ID {
     PLAYER_MOVE_LEFT_DOWN   = 6,
     PLAYER_MOVE_RIGHT_UP    = 7,
     PLAYER_MOVE_RIGHT_DOWN  = 8,
+};
+
+//--------------------------------------------------------------------------------
+
+enum class SHADER_ID {
+    BG_MOVING       = 0,
+    BG_BLACKOUTING  = 1,
 };
 
 //--------------------------------------------------------------------------------
@@ -84,7 +94,7 @@ namespace Constants  {
     
 //--------------------------------------------------------------------------------
 
-    //buttons
+    // buttons
     const int default_bt_text_size = 15;
     const sf::Vector2f button_size = {75, 35};
     const sf::Color button_bg_color    = sf::Color::Transparent;
@@ -95,7 +105,7 @@ namespace Constants  {
 
 //--------------------------------------------------------------------------------
 
-    //menu gui element
+    // menu gui element
     const int menu_bg_indent = 20;
     const int menu_button_indent = 5;
 
@@ -119,7 +129,7 @@ namespace Constants  {
     
 //--------------------------------------------------------------------------------
 
-    //pause menu
+    // pause menu
     const std::string pause_menu_title            = "Paused";
     const std::string pause_menu_resume_bt_text   = "resume";
     const std::string pause_menu_save_bt_text     = "save";
@@ -151,9 +161,22 @@ namespace Constants  {
 
 //--------------------------------------------------------------------------------
 
+    // gameplay state
+    const sf::Color game_bg_back_color  = {255, 255, 255, 240};
+    const sf::Color game_bg_front_color = {255, 255, 255, 100};
+    const float bg_back_offset_coef  = 300;
+    const float bg_front_offset_coef = 600;
+
+//--------------------------------------------------------------------------------
+
     // assets parameters
     // TODO solve issue with relative paths.
     const std::string tile_sheet_texture_path = "../assets/images/tiles/Dung_tileset.png";
+    const std::string bg_shader_path = "../assets/shaders/bg_shader.vert";
+    const std::string game_fog_front_texture_path = "../assets/images/backgrounds/game_fog_bg_front.png";
+    const std::string game_fog_back_texture_path = "../assets/images/backgrounds/game_fog_bg_back.png";
+    const std::string game_blackout_texture_path = "../assets/images/backgrounds/bg_blackouting_5.png";
+
     const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf"; 
     const std::string main_menu_bg_image_path = "../assets/images/backgrounds/main_menu_bg_image.jpg";
     const std::string player_sheet_texture_path = "../assets/images/sprites/black_4.png";

@@ -9,7 +9,9 @@
 #include "States/CameraState.hpp"
 #include "States/SaveableLoadableState.hpp"
 #include "States/State.hpp"
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <array>
 #include <cmath>
@@ -29,7 +31,6 @@ namespace game {
 
         // updating
         void update(const float delta_time) override;
-        void update_view(const float delta_time) override;
         #ifndef NDEBUG
             void update_debug_text();
         #endif
@@ -49,11 +50,26 @@ namespace game {
         #endif 
 
     private:
+        // init
+        void init_textures();
+        void init_background();
+        void init_shaders();
+
+        // updating
+        void update_shaders(const float delta_time); 
+        void update_view(const float delta_time) override;
+
         #ifndef NDEBUG
             sf::Text mouse_coords_text; // text for debug 
         #endif
 
-        sf::Sprite background;
+        sf::Sprite background_back;
+        sf::Sprite background_front;
+        sf::Sprite background_blackout;
+
+        sf::Vector2f bg_back_offset =  {0, 0};
+        sf::Vector2f bg_front_offset = {0, 0};
+
         std::unique_ptr<map::TileMap> map;
         std::unique_ptr<entities::Player> player;
         game_engine::Context *context;
