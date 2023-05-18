@@ -3,7 +3,6 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
-#include <iostream>
 #include <numbers>
 
 namespace components {
@@ -11,7 +10,7 @@ namespace components {
                                      sf::Vector2f size, sf::Vector2f idle_size_):
         sprite(sprite_), offset(offset_), default_size(size), idle_size(idle_size_)
     {   
-        hitbox.setSize(size);
+        hitbox.setSize(idle_size_);
         hitbox.setFillColor(sf::Color::Transparent);
         
         update_hitbox_position();
@@ -72,8 +71,8 @@ namespace components {
         auto sprite_bounds = sprite.getGlobalBounds();
 
         sprite.setPosition({
-            hitbox_pos.x - sprite_bounds.width  / 2,
-            hitbox_pos.y - sprite_bounds.height / 2,
+            hitbox_pos.x - sprite_bounds.width  / 2.f,
+            hitbox_pos.y - sprite_bounds.height / 2.f,
         });
     }
 
@@ -90,8 +89,8 @@ namespace components {
         auto position = sprite.getPosition();
         auto bounds = sprite.getGlobalBounds();
         hitbox.setPosition({
-            position.x + bounds.width  / 2,
-            position.y + bounds.height / 2 
+            position.x + bounds.width  / 2.f,
+            position.y + bounds.height / 2.f 
         });
     }
 

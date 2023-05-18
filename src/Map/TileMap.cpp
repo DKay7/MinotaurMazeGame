@@ -3,6 +3,7 @@
 #include "Constants/Map.hpp"
 #include "Context.hpp"
 #include "Map/Tile.hpp"
+#include "Map/TileMapCore.hpp"
 #include "Utils/Utils.hpp"
 #include <SFML/Config.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -15,6 +16,7 @@
 #include <cmath>
 #include <cstdint>
 #include <fstream>
+#include <functional>
 #include <ios>
 #include <iostream>
 #include <memory>
@@ -38,12 +40,13 @@ namespace map {
             static_cast<sf::Vector2f>(map_size) * grid_size
         );
 
-        tilemap_bounds.setFillColor(sf::Color::Transparent); // TODO
+        tilemap_bounds.setFillColor(sf::Color::Transparent);
         tilemap_bounds.setOutlineColor(sf::Color::Magenta);
         tilemap_bounds.setOutlineThickness(3.f);
     }
 
 //----------------------------------------ADD/REMOVE TILES----------------------------------------
+
     const bool TileMap::add_tile_on_top_layer(const uint32_t x, const uint32_t y, const sf::IntRect texture_rect, 
                                         const int tile_type) {
 
@@ -231,6 +234,7 @@ namespace map {
                 target.draw(*tile);
         }
     }
+
 //----------------------------------------SAVE/LOAD----------------------------------------
 
     std::string TileMap::serialize() const {
@@ -285,6 +289,8 @@ namespace map {
         return loaded_map;
     }
 
+//-------------------------------------GETTERS-------------------------------------------
+
     const float TileMap::get_grid_size() const {
         return grid_size;
     } 
@@ -300,4 +306,37 @@ namespace map {
     const sf::FloatRect TileMap::get_global_bounds() const {
         return tilemap_bounds.getGlobalBounds();
     }
+
+    const std::set<TileMap::coord_t> TileMap::get_tiles_coords_on_condition(std::function<bool(Tile*)> condition) const {
+        std::set<coord_t> tiles_coords;
+
+        int tile_idx = 0;
+        for (auto& tile : map) {
+            if (tile and condition(tile.get())) {
+                auto coords = map.get_coords_from_idx(tile_idx);
+                float x_coord = std::get<0>(coords) * grid_size; 
+                float y_coord = std::get<1>(coords) * grid_size; 
+                uint32_t layer = std::get<2>(coords);
+
+                tiles_coords.insert({x_coord, y_coord, layer});
+            }
+
+            ++tile_idx;
+        }
+
+        return tiles_coords;
+    }
+
+    const std::set<TileMap::coord_t> TileMap::get_win_points_coords() const {
+        return get_tiles_coords_on_condition([](Tile* tile){ 
+            return !tile->is_collidable() and tile->is_win_point();
+        });
+    }
+
+    const std::set<TileMap::coord_t> TileMap::get_spawn_points_coords() const {
+        return get_tiles_coords_on_condition([](Tile* tile){ 
+            return !tile->is_collidable() and tile->is_spawn_point();
+        });
+    }
+
 }

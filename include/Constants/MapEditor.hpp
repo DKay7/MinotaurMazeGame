@@ -9,5 +9,5 @@ namespace Constants {
     const sf::Color mouse_rect_outline_color = sf::Color::Cyan;
     const sf::Vector2f selector_gui_pos = {40, 40};
     const int mouse_text_size = 12;
-    const float mouse_text_indent = 7;
+    const float editor_mouse_text_indent = 7;
 }

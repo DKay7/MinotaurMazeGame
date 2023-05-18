@@ -15,6 +15,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -43,7 +44,12 @@ namespace map {
         const sf::Vector2u get_map_size() const;
         const sf::Texture& get_texture_sheet() const;
         const sf::FloatRect get_global_bounds() const;
-        
+
+        using coord_t = std::tuple<float, float, uint32_t>;
+        const std::set<coord_t> get_spawn_points_coords() const;
+        const std::set<coord_t> get_win_points_coords() const;
+        const std::set<coord_t> get_tiles_coords_on_condition(std::function<bool(Tile*)> condition) const;
+
         // add/remove tiles
         void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, 
                       const sf::IntRect texture_rect, const int tile_type = TILE_TYPES_ID::DEFAULT);

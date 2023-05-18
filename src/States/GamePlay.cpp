@@ -3,6 +3,7 @@
 #include "Constants/AssetParamentes.hpp"
 #include "Constants/GamePlayState.hpp"
 #include "Managers/KeybindsManager.hpp"
+#include "Map/Tile.hpp"
 #include "Map/TileMap.hpp"
 #include "States/PauseState.hpp"
 #include "Utils/Utils.hpp"
@@ -15,6 +16,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <cmath>
 #include <exception>
+#include <iterator>
 
 #ifndef NDEBUG
     #include <iostream>
@@ -34,12 +36,30 @@ namespace game {
         map = std::make_unique<map::TileMap>(TEXTURE_ID::TILE_SHEET, context, Constants::map_size, 
                                              Constants::layers_num, Constants::grid_size);
 
-        auto& ass_mgr = context->asset_manager;
-        player = std::make_unique<entities::Player>(sf::Vector2f(60, 60), ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET)); // TODO position!
-
+        init_player(map->get_spawn_points_coords());
     }
 
 //-------------------------------------INIT METHODS-------------------------------------------
+    void GamePlay::init_player(std::set<map::TileMap::coord_t> spawn_points) {
+        sf::Vector2f spawn_coords;
+
+        if (!spawn_points.empty()) {
+            srand(time(NULL));
+            int spawn_point_idx = rand() % spawn_points.size();
+            auto spawn_point_it = spawn_points.begin();
+            std::advance(spawn_point_it, spawn_point_idx);
+            spawn_coords = sf::Vector2f {
+                std::get<0>(*spawn_point_it), 
+                std::get<1>(*spawn_point_it)
+            };
+        }
+        else
+            spawn_coords = {600, 600};
+
+        auto& ass_mgr = context->asset_manager;
+        player = std::make_unique<entities::Player>(spawn_coords, ass_mgr->get_texture(TEXTURE_ID::PLAYER_SHEET));
+    }
+
     void GamePlay::init_shaders() {
         auto& ass_mgr = context->asset_manager;
         ass_mgr->add_shader(SHADER_ID::BG_MOVING, sf::Shader::Vertex, Constants::bg_shader_path);
@@ -77,7 +97,6 @@ namespace game {
 
         background_blackout.setTextureRect({0, 0, Constants::window_width, Constants::window_height});
         background_blackout.setTexture(ass_mgr->get_texture(TEXTURE_ID::GAME_BLACKOUT));
-        // background_blackout.setColor({0, 0, 0, 200});
     }
 
 //-------------------------------------PROCESS INPUT-------------------------------------------
@@ -144,7 +163,8 @@ namespace game {
                 mouse_coords_text.setString(mouse_text_ss.str());
 
                 mouse_coords_text.setPosition({
-                    mouse_pos.x + Constants::mouse_text_indent, mouse_pos.y - Constants::mouse_text_indent
+                    mouse_pos.x + Constants::game_debug_mouse_text_indent,
+                    mouse_pos.y - Constants::game_debug_mouse_text_indent
                 });
                 mouse_coords_text.setFont(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
                 mouse_coords_text.setCharacterSize(12);
@@ -218,6 +238,9 @@ namespace game {
         map = std::make_unique<map::TileMap>(
             map::TileMap::deserialize(std::move(file_content), context)
         );
+
+        player.reset();
+        init_player(map->get_spawn_points_coords());
     }
 
 //-------------------------------------DEBUG-------------------------------------------

@@ -20,7 +20,7 @@ namespace map {
         shape.setTextureRect(texture_rect);
         
         #ifndef NDEBUG
-            if (collidable) {
+            if (tile_type & TILE_TYPES_ID::COLLIDABLE) {
                 shape.setOutlineColor(sf::Color::Red);
                 shape.setOutlineThickness(-1.f);
             }

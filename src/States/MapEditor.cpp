@@ -172,7 +172,7 @@ namespace game {
         mouse_coords_text.setString(mouse_text_ss.str());
 
         mouse_coords_text.setPosition({
-            mouse_pos.x + Constants::mouse_text_indent, mouse_pos.y - Constants::mouse_text_indent
+            mouse_pos.x + Constants::editor_mouse_text_indent, mouse_pos.y - Constants::editor_mouse_text_indent
         });
     }
 

@@ -27,8 +27,7 @@ namespace entities {
             Constants::player_hitbox_size, Constants::player_hitbox_idle_size
         );   
 
-        set_position(position);
-
+       
         animation_component->add_animation(ANIMATION_ID::PLAYER_IDLE,       Constants::idle_tpf,      {0, 8}, 8, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT, Constants::movement_tpf,  {0, 7}, 8, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT,  Constants::movement_tpf,  {0, 2}, 8, Constants::default_frame_size);
@@ -39,6 +38,11 @@ namespace entities {
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_DOWN,  Constants::movement_tpf,  {0, 1}, 8, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_UP,   Constants::movement_tpf,  {0, 5}, 8, Constants::default_frame_size);
         animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_DOWN, Constants::movement_tpf,  {0, 6}, 8, Constants::default_frame_size);
+
+        // it's important to set position AFTER adding animations
+        // 'cuz animations sets texture rect of the sprite
+        // otherwise sprite size is incorrect
+        set_position(position);
     }
 
     void Player::update(const float delta_time) {

@@ -38,4 +38,11 @@ namespace game {
         window->display();
     }
 
+    //-------------------------------------DEBUG-------------------------------------------
+
+    #ifndef NDEBUG
+        std::string GameWin::get_state_name() const {
+            return "GameWin";
+        }
+    #endif
 }

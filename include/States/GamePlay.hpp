@@ -54,15 +54,18 @@ namespace game {
         void init_textures();
         void init_background();
         void init_shaders();
+        void init_player(std::set<map::TileMap::coord_t> spawn_points);
 
         // updating
+        bool check_win_and_update();
         void update_shaders(const float delta_time); 
         void update_view(const float delta_time) override;
+
+        std::set<map::Tile> win_points;  
 
         #ifndef NDEBUG
             sf::Text mouse_coords_text; // text for debug 
         #endif
-
         sf::Sprite background_back;
         sf::Sprite background_front;
         sf::Sprite background_blackout;

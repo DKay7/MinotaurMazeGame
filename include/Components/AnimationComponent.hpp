@@ -32,7 +32,7 @@ namespace components {
                                            (start_frame.y)                    * frame_size.y,
                                            frame_size.x, frame_size.y);
 
-                    sprite.setTexture(texture_sheet, true);
+                    sprite.setTexture(texture_sheet);
                     sprite.setTextureRect(start_rect);
                 }
 

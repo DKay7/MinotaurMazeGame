@@ -7,4 +7,5 @@ namespace Constants {
     const sf::Color game_bg_front_color = {255, 255, 255, 100};
     const float bg_back_offset_coef  = 300;
     const float bg_front_offset_coef = 600;
+    const int game_debug_mouse_text_indent = 7;
 }

@@ -57,7 +57,7 @@ namespace entities {
     //----------------------------------------SETTERS----------------------------------------
     
     void Entity::set_sprite_texture(const sf::Texture &texture_) {
-        sprite.setTexture(texture_, true);
+        sprite.setTexture(texture_);
     }
 
     void Entity::set_position(sf::Vector2f position) {
