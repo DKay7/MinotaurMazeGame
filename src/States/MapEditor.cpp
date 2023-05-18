@@ -93,7 +93,7 @@ namespace game {
                     tile_texture_rect = texture_selector->get_texture_rect();
                 else if (mouse_picker_active) {
                     tile_map->add_tile_on_top_layer(mouse_pos_grid.x, mouse_pos_grid.y,
-                                                    tile_texture_rect, tile_collidable);
+                                                    tile_texture_rect, current_tile_type);
                 }
             }
 
@@ -102,15 +102,21 @@ namespace game {
                     tile_map->remove_tile_on_top_layer(mouse_pos_grid.x, mouse_pos_grid.y);
 
                 if (event.mouseButton.button == mouse::Middle)
-                    tile_collidable = !tile_collidable;
+                    current_tile_type ^= TILE_TYPES_ID::COLLIDABLE;
             }
 
         }
 
         using kb = sf::Keyboard;
 
-        if (event.type == sf::Event::KeyPressed and event.key.code == kb::Tab)
-            texture_selector->change_shown();
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == kb::Tab)
+                texture_selector->change_shown();
+            if (event.key.code == kb::E)
+                current_tile_type ^= TILE_TYPES_ID::SPAWN_POINT;
+            if (event.key.code == kb::R)
+                current_tile_type ^= TILE_TYPES_ID::WIN_POINT;
+        }
     }
 
 //----------------------------------------UPDATING----------------------------------------
@@ -156,11 +162,13 @@ namespace game {
         context->window->setView(context->window->getDefaultView());
         auto mouse_pos = utils::get_mouse_position(*context->window);
 
+        std::string cur_tile_type_str = utils::get_string_tile_types(current_tile_type);
+
         std::stringstream mouse_text_ss;
         mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y << "\n" 
                       << "view: {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}\n" 
                       << "grid: [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y  << "]\n"
-                      << "collision: [" << std::boolalpha << tile_collidable << "]";
+                      << "tile type: {\n" << std::boolalpha << cur_tile_type_str << "}";
         mouse_coords_text.setString(mouse_text_ss.str());
 
         mouse_coords_text.setPosition({

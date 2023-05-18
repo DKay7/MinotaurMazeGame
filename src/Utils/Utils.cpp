@@ -1,5 +1,6 @@
 #include "Utils/Utils.hpp"
 #include "Constants/Buttons.hpp"
+#include "Constants/Enums.hpp"
 #include "Entities/Entity.hpp"
 #include "GUIElements/Button.hpp"
 #include "Map/TileMap.hpp"
@@ -11,6 +12,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <sstream>
 
 namespace utils {
 
@@ -34,5 +36,23 @@ namespace utils {
             static_cast<int>(mouse_pos.x) / static_cast<int>(grid_size),
             static_cast<int>(mouse_pos.y) / static_cast<int>(grid_size),
         };
+    }
+
+    std::string get_string_tile_types(const int tile_type) { 
+        std::stringstream result;
+
+        if (tile_type == TILE_TYPES_ID::DEFAULT)
+            result << "\tdefault\n";
+
+        if (tile_type & TILE_TYPES_ID::COLLIDABLE)
+            result << "\tcollidable,\n";
+
+        if (tile_type & TILE_TYPES_ID::SPAWN_POINT)
+            result << "\tspawn point,\n";
+        
+        if (tile_type & TILE_TYPES_ID::WIN_POINT)
+            result << "\twin point,\n";
+
+        return result.str();
     }
 }

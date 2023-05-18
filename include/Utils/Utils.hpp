@@ -14,6 +14,7 @@ namespace utils {
     const sf::Vector2f get_mouse_position(const sf::RenderWindow& window);
     gui::Button create_default_button(sf::Vector2f position, const sf::Font& font, std::string text, bool centering=true);
     sf::Vector2i get_gridded_mouse(const sf::Vector2f mouse_pos, const float grid_size);
+    std::string get_string_tile_types(const int tile_type);
 
     inline const float distance(sf::Vector2f v1, sf::Vector2f v2) {
         return std::sqrt(

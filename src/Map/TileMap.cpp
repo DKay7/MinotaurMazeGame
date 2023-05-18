@@ -1,4 +1,5 @@
 #include "Map/TileMap.hpp"
+#include "Constants/Enums.hpp"
 #include "Constants/Map.hpp"
 #include "Context.hpp"
 #include "Map/Tile.hpp"
@@ -44,12 +45,12 @@ namespace map {
 
 //----------------------------------------ADD/REMOVE TILES----------------------------------------
     const bool TileMap::add_tile_on_top_layer(const uint32_t x, const uint32_t y, const sf::IntRect texture_rect, 
-                                        const bool collidable) {
+                                        const int tile_type) {
 
         for (int layer_num = 0; layer_num < map.get_layers_num(); ++layer_num) {
             if (map[x, y, layer_num] == nullptr) {
                 auto coord = sf::Vector2f(x * grid_size, y * grid_size);
-                map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect, collidable), 
+                map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect, tile_type), 
                            x, y, layer_num);
                 return true;
             }
@@ -59,12 +60,12 @@ namespace map {
     }
 
     void TileMap::add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, 
-                          const sf::IntRect texture_rect, const bool collidable) {
+                          const sf::IntRect texture_rect, const int tile_type) {
         if (map[x, y, layer_num] != nullptr)
             return;
 
         auto coord = sf::Vector2f(x * grid_size, y * grid_size);
-        map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect, collidable), x, y, layer_num);
+        map.insert(std::make_unique<Tile>(coord, grid_size, tilemap_texture_sheet, texture_rect, tile_type), x, y, layer_num);
     }
 
     const bool TileMap::remove_tile_on_top_layer(const uint32_t x, const uint32_t y) {
@@ -275,10 +276,10 @@ namespace map {
 
         uint32_t x, y, layer_num;
         sf::IntRect texture_rect;
-        bool collidable;
+        int tile_type;
         texture_rect.width = texture_rect.height = grid_size;
-        while (file_content >> x >> y >> layer_num >> texture_rect.left >> texture_rect.top >> collidable) {
-            loaded_map.add_tile(x, y, layer_num, texture_rect, collidable);
+        while (file_content >> x >> y >> layer_num >> texture_rect.left >> texture_rect.top >> tile_type) {
+            loaded_map.add_tile(x, y, layer_num, texture_rect, tile_type);
         }
 
         return loaded_map;

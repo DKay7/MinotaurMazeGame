@@ -1,5 +1,6 @@
 
 #include "Map/Tile.hpp"
+#include "Constants/Enums.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -10,7 +11,7 @@ namespace map {
     
     Tile::Tile(const sf::Vector2f position, const float grid_size, 
                const sf::Texture &tile_texture, const sf::IntRect texture_rect,
-               const bool collidable_): collidable(collidable_) {
+               const int type): tile_type(type) {
         
         shape.setPosition(position);
         shape.setSize({grid_size, grid_size});
@@ -39,7 +40,19 @@ namespace map {
     }
 
     const bool Tile::is_collidable() const {
-        return collidable;
+        return tile_type & TILE_TYPES_ID::COLLIDABLE;
+    }
+
+    const bool Tile::is_spawn_point() const {
+        return tile_type & TILE_TYPES_ID::SPAWN_POINT;
+    }
+
+    const bool Tile::is_win_point() const {
+        return tile_type & TILE_TYPES_ID::WIN_POINT;
+    }
+
+    const int Tile::get_tile_type() const {
+        return tile_type;
     }
 
 //----------------------------------------SETTERS----------------------------------------
@@ -52,8 +65,12 @@ namespace map {
         shape.setTextureRect(texture_rect);
     }
 
-    void Tile::set_collidable(const bool collidable_) {
-        collidable = collidable_;
+    void Tile::add_type(const TILE_TYPES_ID type) {
+        tile_type &= type;
+    }
+
+    void Tile::set_type(const TILE_TYPES_ID type) {
+        tile_type = type;
     }
 
 //----------------------------------------UPDATING----------------------------------------
@@ -74,7 +91,7 @@ namespace map {
         
         auto& texture_rect = shape.getTextureRect();
         result_ss << texture_rect.left  << " " << texture_rect.top << " " 
-                  << collidable;
+                  << tile_type;
 
         return result_ss.str();
     } 

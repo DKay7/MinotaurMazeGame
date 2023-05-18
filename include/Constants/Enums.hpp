@@ -41,7 +41,7 @@ enum class SHADER_ID {
 
 //--------------------------------------------------------------------------------
 
-enum class TILE_TYPES_ID {
+enum TILE_TYPES_ID: int {
     DEFAULT     = 0,
     COLLIDABLE  = 1 << 0,
     SPAWN_POINT = 1 << 2,

@@ -46,10 +46,10 @@ namespace map {
         
         // add/remove tiles
         void add_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num, 
-                      const sf::IntRect texture_rect, const bool collidable);
+                      const sf::IntRect texture_rect, const int tile_type = TILE_TYPES_ID::DEFAULT);
 
         const bool add_tile_on_top_layer(const uint32_t x, const uint32_t y, const sf::IntRect texture_rect, 
-                                   const bool collidable);  
+                                   const int tile_type = TILE_TYPES_ID::DEFAULT);  
   
         void remove_tile(const uint32_t x, const uint32_t y, const uint32_t layer_num);
         const bool remove_tile_on_top_layer(const uint32_t x, const uint32_t y);
