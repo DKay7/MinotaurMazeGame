@@ -1,5 +1,5 @@
 #include "GUIElements/Menu.hpp"
-#include "Constants/MenuGuiElement.hpp"
+#include "Settings/MenuGuiElement.hpp"
 #include "GUIElements/Button.hpp"
 #include "Utils/Utils.hpp"
 #include "Context.hpp"
@@ -19,7 +19,7 @@ namespace gui {
         title.setString(titile_text);
         title.setFont(font);
         
-        background.setSize({size.x, size.y + Constants::menu_bg_indent});
+        background.setSize({size.x, size.y + settings::menu_bg_indent});
         background.setFillColor(bg_color);
         
         if (centering)
@@ -28,12 +28,12 @@ namespace gui {
             title.setPosition(position);
 
         if (title.getGlobalBounds().width > background.getGlobalBounds().width)
-            background.setSize({title.getGlobalBounds().width + Constants::menu_bg_indent, background.getSize().y});
+            background.setSize({title.getGlobalBounds().width + settings::menu_bg_indent, background.getSize().y});
 
         if (centering)
             background.setPosition({
                 title.getGlobalBounds().left + title.getGlobalBounds().width / 2 - background.getSize().x / 2.f, 
-                position.y - Constants::menu_bg_indent
+                position.y - settings::menu_bg_indent
             });
         else
             background.setPosition({
@@ -41,7 +41,7 @@ namespace gui {
                 position.y
             });
 
-        position.y += title.getGlobalBounds().height + Constants::menu_bg_indent + 2 * button_indent;
+        position.y += title.getGlobalBounds().height + settings::menu_bg_indent + 2 * button_indent;
     }
 
     void Menu::add_button(const std::string button_text, callback_t callback, bool centering) {
@@ -55,7 +55,7 @@ namespace gui {
         buttons.emplace_back(std::move(button), callback);
 
         if (position.y > background.getSize().y)
-            background.setSize({background.getSize().x, position.y - title.getPosition().y + Constants::menu_bg_indent});
+            background.setSize({background.getSize().x, position.y - title.getPosition().y + settings::menu_bg_indent});
         
     } 
 

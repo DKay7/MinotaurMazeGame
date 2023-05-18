@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace Constants {
+namespace settings {
     // pause menu
     const std::string pause_menu_title            = "Paused";
     const std::string pause_menu_resume_bt_text   = "resume";

@@ -1,8 +1,8 @@
 #include "States/MapEditor.hpp"
-#include "Constants/AssetParamentes.hpp"
-#include "Constants/Enums.hpp"
-#include "Constants/MapEditor.hpp"
-#include "Constants/TextureSelector.hpp"
+#include "Settings/AssetParamentes.hpp"
+#include "Settings/Enums.hpp"
+#include "Settings/MapEditor.hpp"
+#include "Settings/TextureSelector.hpp"
 #include "Context.hpp"
 #include "GUIElements/Menu.hpp"
 #include "GUIElements/TextureSelector.hpp"
@@ -31,21 +31,21 @@
 namespace game {
     MapEditor::MapEditor(game_engine::Context *context_, std::unique_ptr<map::TileMap> tile_map_) : context(context_) {
 
-        context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, Constants::tile_sheet_texture_path);
+        context->asset_manager->add_texture(TEXTURE_ID::TILE_SHEET, settings::tile_sheet_texture_path);
 
         if (tile_map_)
             tile_map = std::move(tile_map_);
         else
             tile_map = std::make_unique<map::TileMap>(
                 TEXTURE_ID::TILE_SHEET, context,
-                Constants::map_size, Constants::layers_num, Constants::grid_size
+                settings::map_size, settings::layers_num, settings::grid_size
             );
 
         tile_texture_rect =
             sf::IntRect(0, 0, tile_map->get_grid_size(), tile_map->get_grid_size());
         
         mouse_coords_text.setFont(context->asset_manager->get_font(FONT_ID::MAIN_FONT));
-        mouse_coords_text.setCharacterSize(Constants::mouse_text_size);
+        mouse_coords_text.setCharacterSize(settings::mouse_text_size);
 
         init_texture_selector_gui();
     }
@@ -54,15 +54,15 @@ namespace game {
     
     void MapEditor::init_texture_selector_gui() {
         texture_selector = std::make_unique<gui::TextureSelector>(
-            Constants::selector_gui_pos, tile_map->get_texture_sheet(),
+            settings::selector_gui_pos, tile_map->get_texture_sheet(),
             tile_map->get_grid_size()
         );
 
         auto grid_size = tile_map->get_grid_size();
         mouse_rectangle.setSize({grid_size, grid_size});
-        mouse_rectangle.setFillColor(Constants::mouse_rect_bg_color);
-        mouse_rectangle.setOutlineColor(Constants::mouse_rect_outline_color);
-        mouse_rectangle.setOutlineThickness(Constants::texture_selector_outline_thick);
+        mouse_rectangle.setFillColor(settings::mouse_rect_bg_color);
+        mouse_rectangle.setOutlineColor(settings::mouse_rect_outline_color);
+        mouse_rectangle.setOutlineThickness(settings::texture_selector_outline_thick);
 
         mouse_rectangle.setTexture(&tile_map->get_texture_sheet());
         mouse_rectangle.setTextureRect(tile_texture_rect);
@@ -172,7 +172,7 @@ namespace game {
         mouse_coords_text.setString(mouse_text_ss.str());
 
         mouse_coords_text.setPosition({
-            mouse_pos.x + Constants::editor_mouse_text_indent, mouse_pos.y - Constants::editor_mouse_text_indent
+            mouse_pos.x + settings::editor_mouse_text_indent, mouse_pos.y - settings::editor_mouse_text_indent
         });
     }
 

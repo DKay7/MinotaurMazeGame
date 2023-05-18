@@ -1,6 +1,6 @@
 #include "Utils/Utils.hpp"
-#include "Constants/Buttons.hpp"
-#include "Constants/Enums.hpp"
+#include "Settings/Buttons.hpp"
+#include "Settings/Enums.hpp"
 #include "Entities/Entity.hpp"
 #include "GUIElements/Button.hpp"
 #include "Map/TileMap.hpp"
@@ -27,8 +27,8 @@ namespace utils {
     }
 
     gui::Button create_default_button(sf::Vector2f position, const sf::Font& font, std::string text, bool centering) {
-        return gui::Button(position, Constants::button_size, font, text, 
-                           Constants::button_text_idle, Constants::button_text_hover, Constants::button_text_active, centering);
+        return gui::Button(position, settings::button_size, font, text, 
+                           settings::button_text_idle, settings::button_text_hover, settings::button_text_active, centering);
     }
 
     sf::Vector2i get_gridded_mouse(const sf::Vector2f mouse_pos, const float grid_size) {

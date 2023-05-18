@@ -3,7 +3,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 
-namespace Constants {
+namespace settings {
     // map editor
     const sf::Color mouse_rect_bg_color = {255, 255, 255, 150};
     const sf::Color mouse_rect_outline_color = sf::Color::Cyan;

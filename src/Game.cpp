@@ -1,6 +1,6 @@
 #include "Game.hpp"
 #include "States/MainMenu.hpp"
-#include "Constants/WindowParameters.hpp"
+#include "Settings/WindowParameters.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
 #include <memory>
@@ -10,8 +10,8 @@
 namespace game {
     Game::Game() {
         context = std::make_unique<game_engine::Context>();
-        context->window->create(sf::VideoMode(Constants::window_width, Constants::window_height), Constants::game_title, sf::Style::Close);
-        context->window->setFramerateLimit(Constants::frame_limit);
+        context->window->create(sf::VideoMode(settings::window_width, settings::window_height), settings::game_title, sf::Style::Close);
+        context->window->setFramerateLimit(settings::frame_limit);
         context->state_manager->add_state(std::make_unique<MainMenu>(context.get()));
     
     }   

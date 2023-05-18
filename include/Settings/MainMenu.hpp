@@ -3,7 +3,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <string>
 
-namespace Constants {
+namespace settings {
     // main menu
     const sf::Color bg_sprite_color = {255, 255, 255, 50};
     const std::string main_menu_title = "Minotaur Maze";

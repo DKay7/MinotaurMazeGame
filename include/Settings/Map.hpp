@@ -2,7 +2,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-namespace Constants {
+namespace settings {
     // map
     const sf::Vector2u map_size = {20, 20};
     const int layers_num = 3;

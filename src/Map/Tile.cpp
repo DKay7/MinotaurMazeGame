@@ -1,6 +1,6 @@
 
 #include "Map/Tile.hpp"
-#include "Constants/Enums.hpp"
+#include "Settings/Enums.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>

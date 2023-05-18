@@ -6,7 +6,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <memory>
 #include <string>
-#include "Constants/Enums.hpp"
+#include "Settings/Enums.hpp"
 
 namespace managers
 {   

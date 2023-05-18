@@ -1,6 +1,6 @@
 #include "States/GameWin.hpp"
-#include "Constants/Enums.hpp"
-#include "Constants/GameWinState.hpp"
+#include "Settings/Enums.hpp"
+#include "Settings/GameWinState.hpp"
 #include "GUIElements/Menu.hpp"
 #include "States/MainMenu.hpp"
 #include "Utils/Utils.hpp"
@@ -8,17 +8,18 @@
 
 namespace game {        
     GameWin::GameWin(game_engine::Context* context_): context(context_) {
-        menu = std::make_unique<gui::Menu>(context->asset_manager->get_font(FONT_ID::MAIN_FONT), Constants::game_win_title);
+        menu = std::make_unique<gui::Menu>(context->asset_manager->get_font(FONT_ID::MAIN_FONT), settings::game_win_title);
 
-        menu->add_button(Constants::game_win_get_home_btn_text, [&] {
-            context->state_manager->add_state(std::make_unique<MainMenu>(context));
-        });
-
-        menu->add_button(Constants::game_win_continue_btn_text, [&] {
+        menu->add_button(settings::game_win_get_home_btn_text, [&] {
             auto& state_manager = context->state_manager;
             state_manager->pop_state(); // popping game win state;
             state_manager->pop_state(); // popping game play state;
-            context->state_manager->add_state(std::make_unique<MainMenu>(context));
+            state_manager->add_state(std::make_unique<MainMenu>(context));
+        });
+
+        menu->add_button(settings::game_win_continue_btn_text, [&] {
+            auto& state_manager = context->state_manager;
+            state_manager->pop_state(); // popping game win state;
         });
     }
 

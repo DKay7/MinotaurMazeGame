@@ -1,6 +1,6 @@
 #include "Map/TileMap.hpp"
-#include "Constants/Enums.hpp"
-#include "Constants/Map.hpp"
+#include "Settings/Enums.hpp"
+#include "Settings/Map.hpp"
 #include "Context.hpp"
 #include "Map/Tile.hpp"
 #include "Map/TileMapCore.hpp"
@@ -145,8 +145,8 @@ namespace map {
         std::set<Tile*> tiles_around_player;
         auto map_size = map.get_size();
 
-        for (int x = -Constants::tiles_to_check, end_x = Constants::tiles_to_check; x < end_x; ++x)
-            for (int y = -Constants::tiles_to_check, end_y = Constants::tiles_to_check; y < end_y; ++y)
+        for (int x = -settings::tiles_to_check, end_x = settings::tiles_to_check; x < end_x; ++x)
+            for (int y = -settings::tiles_to_check, end_y = settings::tiles_to_check; y < end_y; ++y)
                 for (int layer_num = 0; layer_num < map.get_layers_num(); ++layer_num) {
                     
                     // checks that tile belongs to tilemap
@@ -186,8 +186,8 @@ namespace map {
                 entity.get_movement_component()->stop();
                 
                 entity.set_position({
-                    cur_pos.x - utils::sign(vel.x) * (vel.x != 0) * Constants::rebound_coef,
-                    cur_pos.y - utils::sign(vel.y) * (vel.y != 0) * Constants::rebound_coef                    
+                    cur_pos.x - utils::sign(vel.x) * (vel.x != 0) * settings::rebound_coef,
+                    cur_pos.y - utils::sign(vel.y) * (vel.y != 0) * settings::rebound_coef                    
                 });                
             }
         }
@@ -211,8 +211,8 @@ namespace map {
             static_cast<int>(position.y) / static_cast<int>(grid_size)
         };
 
-        for (int x = -Constants::fogged_map_size, end_x = Constants::fogged_map_size; x < end_x; ++x)
-            for (int y = -Constants::fogged_map_size, end_y = Constants::fogged_map_size; y < end_y; ++y)
+        for (int x = -settings::fogged_map_size, end_x = settings::fogged_map_size; x < end_x; ++x)
+            for (int y = -settings::fogged_map_size, end_y = settings::fogged_map_size; y < end_y; ++y)
                 for (int layer_num = 0; layer_num < map.get_layers_num(); ++layer_num) {
                     
                     // checks that tile belongs to tilemap

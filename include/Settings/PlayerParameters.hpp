@@ -2,7 +2,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-namespace Constants {
+namespace settings {
     // player parameters
     const float player_movement_max_speed = 250;
     const float default_acceleration = 900;

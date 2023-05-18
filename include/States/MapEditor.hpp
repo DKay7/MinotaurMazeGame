@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Constants/Enums.hpp"
+#include "Settings/Enums.hpp"
 #include "Context.hpp"
 #include "GUIElements/Menu.hpp"
 #include "GUIElements/TextureSelector.hpp"

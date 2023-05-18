@@ -57,11 +57,11 @@ namespace game {
         void init_player(std::set<map::TileMap::coord_t> spawn_points);
 
         // updating
-        bool check_win_and_update();
+        void check_win_and_update();
         void update_shaders(const float delta_time); 
         void update_view(const float delta_time) override;
 
-        std::set<map::Tile> win_points;  
+        std::set<map::TileMap::coord_t> win_points;  
 
         #ifndef NDEBUG
             sf::Text mouse_coords_text; // text for debug 
@@ -75,6 +75,8 @@ namespace game {
 
         std::unique_ptr<map::TileMap> map;
         std::unique_ptr<entities::Player> player;
+        bool exploring_mode = false;
+        
         game_engine::Context *context;
     };
 

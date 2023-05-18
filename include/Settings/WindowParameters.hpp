@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace Constants {
+namespace settings {
     // window parameters
     const int window_height = 720;
     const int window_width  = 1280;

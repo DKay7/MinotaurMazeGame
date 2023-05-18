@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Constants/Enums.hpp"
+#include "Settings/Enums.hpp"
 
 namespace managers {
 

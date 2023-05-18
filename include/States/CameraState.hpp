@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Constants/WindowParameters.hpp"
-#include "Constants/CameraState.hpp"
-#include "Constants/Enums.hpp"
+#include "Settings/WindowParameters.hpp"
+#include "Settings/CameraState.hpp"
+#include "Settings/Enums.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -12,13 +12,13 @@ namespace states_engine {
     public:
         CameraState() {
             view.setSize({
-                Constants::window_width,
-                Constants::window_height,
+                settings::window_width,
+                settings::window_height,
             });
             
             view.setCenter({
-                Constants::window_width / 2.f,
-                Constants::window_height / 2.f,
+                settings::window_width / 2.f,
+                settings::window_height / 2.f,
             });
         }
 
@@ -30,8 +30,8 @@ namespace states_engine {
                 #define move_view(key_code, x, y)                                       \
                     case key_code:                                                      \
                         view_move_dir = {                                               \
-                            x * Constants::view_move,                                   \
-                            y * Constants::view_move                                    \
+                            x * settings::view_move,                                   \
+                            y * settings::view_move                                    \
                         };                                                              \
                         break;
                 

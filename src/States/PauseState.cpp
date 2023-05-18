@@ -1,6 +1,6 @@
 #include "States/PauseState.hpp"
-#include "Constants/WindowParameters.hpp"
-#include "Constants/PauseMenu.hpp"
+#include "Settings/WindowParameters.hpp"
+#include "Settings/PauseMenu.hpp"
 #include "GUIElements/Menu.hpp"
 #include "States/MainMenu.hpp"
 #include "Interfaces/SaveableInterface.hpp"
@@ -25,13 +25,13 @@
 namespace game {
     GamePause::GamePause(game_engine::Context *context_):context(context_) {
 
-        render_texture.create(Constants::window_width, Constants::window_height);
+        render_texture.create(settings::window_width, settings::window_height);
 
         menu = std::make_unique<gui::Menu>(
             context->asset_manager->get_font(FONT_ID::MAIN_FONT),
-            Constants::pause_menu_title);
+            settings::pause_menu_title);
 
-        menu->add_button(Constants::pause_menu_resume_bt_text, [&]() {
+        menu->add_button(settings::pause_menu_resume_bt_text, [&]() {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state();
         });
@@ -44,14 +44,14 @@ namespace game {
         // FIXME Sorry I don't know how to do it without dynamic_cast ;C
         // checks if state is saveable to add "save" and "load" buttons
         if (dynamic_cast<states_engine::SaveableLoadableState*>(caller_state.get())) {
-            menu->add_button(Constants::pause_menu_save_bt_text, [&]() {
+            menu->add_button(settings::pause_menu_save_bt_text, [&]() {
                 auto &state_mgr = context->state_manager;   
                 const auto& states_vec = state_mgr->get_states_vector();
                 const auto& prev_state = states_vec.rbegin()[1]; // getting previous state
                 dynamic_cast<states_engine::SaveableLoadableState*>(prev_state.get())->save_state("aboba.map"); // TODO
             });
 
-            menu->add_button(Constants::pause_menu_load_bt_text, [&]() {
+            menu->add_button(settings::pause_menu_load_bt_text, [&]() {
                 auto &state_mgr = context->state_manager;
                 const auto& states_vec = state_mgr->get_states_vector();
                 const auto& prev_state = states_vec.rbegin()[1]; // getting previous state
@@ -60,7 +60,7 @@ namespace game {
             });
         }
         
-        menu->add_button(Constants::pause_menu_back_bt_text, [&]() {
+        menu->add_button(settings::pause_menu_back_bt_text, [&]() {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state(); // popping pause state
             state_mgr->pop_state(); // popping previous state

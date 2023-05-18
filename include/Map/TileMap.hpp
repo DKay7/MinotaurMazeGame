@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Constants/Map.hpp"
+#include "Settings/Map.hpp"
 #include "Context.hpp"
 #include "Entities/Entity.hpp"
 #include "Interfaces/SaveableInterface.hpp"
@@ -26,9 +26,9 @@ namespace map {
                          public interfaces::Loadable<TileMap> {
     public:
         TileMap(const TEXTURE_ID map_texture_id_, game_engine::Context* context,
-                sf::Vector2u map_size=Constants::map_size, 
-                uint32_t layers_num=Constants::layers_num, 
-                const float grid_size=Constants::grid_size);
+                sf::Vector2u map_size=settings::map_size, 
+                uint32_t layers_num=settings::layers_num, 
+                const float grid_size=settings::grid_size);
 
         // updating
         void update(const float delta_time);

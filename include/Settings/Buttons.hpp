@@ -3,7 +3,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 
-namespace Constants {
+namespace settings {
     // buttons
     const int default_bt_text_size = 15;
     const sf::Vector2f button_size = {75, 35};

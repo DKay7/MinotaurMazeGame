@@ -1,5 +1,5 @@
 #include "GUIElements/TextureSelector.hpp"
-#include "Constants/TextureSelector.hpp"
+#include "Settings/TextureSelector.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -12,14 +12,14 @@ namespace gui {
     {   
         bounds.setSize(static_cast<sf::Vector2f>(texture.getSize()));
         bounds.setPosition(position);
-        bounds.setFillColor(Constants::texture_selector_bg_color);
-        bounds.setOutlineColor(Constants::texture_selector_outline_color);
-        bounds.setOutlineThickness(Constants::texture_selector_outline_thick);
+        bounds.setFillColor(settings::texture_selector_bg_color);
+        bounds.setOutlineColor(settings::texture_selector_outline_color);
+        bounds.setOutlineThickness(settings::texture_selector_outline_thick);
 
         selector.setPosition(position);
         selector.setSize({grid_size, grid_size});
-        selector.setOutlineColor(Constants::texture_selector_select_color);
-        selector.setOutlineThickness(Constants::texture_selector_outline_thick);
+        selector.setOutlineColor(settings::texture_selector_select_color);
+        selector.setOutlineThickness(settings::texture_selector_outline_thick);
         selector.setFillColor(sf::Color::Transparent);
 
         sheet.setTexture(texture);

@@ -6,7 +6,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <string>
-#include "Constants/Buttons.hpp"
+#include "Settings/Buttons.hpp"
 #include "Utils/Utils.hpp"
 
 namespace gui {
@@ -29,7 +29,7 @@ namespace gui {
         
         text.setFont(font);
         text.setString(button_text);
-        text.setCharacterSize(Constants::default_bt_text_size);
+        text.setCharacterSize(settings::default_bt_text_size);
         text.setFillColor(default_text_color);
         
         if (centering) {
@@ -39,7 +39,7 @@ namespace gui {
         text.setPosition(position);
 
         if (text.getLocalBounds().width > shape.getSize().x) {
-            shape.setSize({text.getGlobalBounds().width + Constants::button_bg_indent, shape.getSize().y});
+            shape.setSize({text.getGlobalBounds().width + settings::button_bg_indent, shape.getSize().y});
         }
 
         if (centering)

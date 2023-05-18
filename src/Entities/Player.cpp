@@ -1,8 +1,8 @@
 #include "Entities/Player.hpp"
 #include "Components/HitboxComponent.hpp"
-#include "Constants/PlayerParameters.hpp"
-#include "Constants/Enums.hpp"
-#include "Constants/AnimationParameters.hpp"
+#include "Settings/PlayerParameters.hpp"
+#include "Settings/Enums.hpp"
+#include "Settings/AnimationParameters.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -18,26 +18,26 @@ namespace entities {
         animation_component = std::make_unique<components::AnimationComponent>(sprite, texture_sheet);
         
         movement_component = std::make_unique<components::MovementComponent>(
-            sprite, Constants::player_movement_max_speed, 
-            Constants::default_acceleration, Constants::default_deceleration
+            sprite, settings::player_movement_max_speed, 
+            settings::default_acceleration, settings::default_deceleration
         );
 
         hitbox_component = std::make_unique<components::HitboxComponent>(
-            sprite, Constants::player_hitbox_offset, 
-            Constants::player_hitbox_size, Constants::player_hitbox_idle_size
+            sprite, settings::player_hitbox_offset, 
+            settings::player_hitbox_size, settings::player_hitbox_idle_size
         );   
 
        
-        animation_component->add_animation(ANIMATION_ID::PLAYER_IDLE,       Constants::idle_tpf,      {0, 8}, 8, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT, Constants::movement_tpf,  {0, 7}, 8, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT,  Constants::movement_tpf,  {0, 2}, 8, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_UP,    Constants::movement_tpf,  {0, 4}, 8, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_DOWN,  Constants::movement_tpf,  {0, 0}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_IDLE,       settings::idle_tpf,      {0, 8}, 8, settings::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT, settings::movement_tpf,  {0, 7}, 8, settings::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT,  settings::movement_tpf,  {0, 2}, 8, settings::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_UP,    settings::movement_tpf,  {0, 4}, 8, settings::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_DOWN,  settings::movement_tpf,  {0, 0}, 8, settings::default_frame_size);
 
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_UP,    Constants::movement_tpf,  {0, 3}, 8, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_DOWN,  Constants::movement_tpf,  {0, 1}, 8, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_UP,   Constants::movement_tpf,  {0, 5}, 8, Constants::default_frame_size);
-        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_DOWN, Constants::movement_tpf,  {0, 6}, 8, Constants::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_UP,    settings::movement_tpf,  {0, 3}, 8, settings::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_LEFT_DOWN,  settings::movement_tpf,  {0, 1}, 8, settings::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_UP,   settings::movement_tpf,  {0, 5}, 8, settings::default_frame_size);
+        animation_component->add_animation(ANIMATION_ID::PLAYER_MOVE_RIGHT_DOWN, settings::movement_tpf,  {0, 6}, 8, settings::default_frame_size);
 
         // it's important to set position AFTER adding animations
         // 'cuz animations sets texture rect of the sprite

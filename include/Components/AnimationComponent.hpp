@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Constants/Enums.hpp"
+#include "Settings/Enums.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>

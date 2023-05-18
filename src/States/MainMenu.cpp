@@ -1,7 +1,7 @@
 #include "States/MainMenu.hpp"
-#include "Constants/Enums.hpp"
-#include "Constants/AssetParamentes.hpp"
-#include "Constants/MainMenu.hpp"
+#include "Settings/Enums.hpp"
+#include "Settings/AssetParamentes.hpp"
+#include "Settings/MainMenu.hpp"
 #include "GUIElements/Button.hpp"
 #include "Managers/AssetManager.hpp"
 #include "States/GamePlay.hpp"
@@ -19,30 +19,30 @@ namespace game {
     MainMenu::MainMenu(game_engine::Context *context_) : context(context_) {
 
 
-        context->asset_manager->add_font(FONT_ID::MAIN_FONT, Constants::main_font_path);
-        context->asset_manager->add_texture(TEXTURE_ID::MAIN_MENU_BG, Constants::main_menu_bg_image_path);
+        context->asset_manager->add_font(FONT_ID::MAIN_FONT, settings::main_font_path);
+        context->asset_manager->add_texture(TEXTURE_ID::MAIN_MENU_BG, settings::main_menu_bg_image_path);
 
-        background.setColor(Constants::bg_sprite_color);
+        background.setColor(settings::bg_sprite_color);
         background.setTexture(context->asset_manager->get_texture(TEXTURE_ID::MAIN_MENU_BG));
 
 
         menu = std::make_unique<gui::Menu>(
             context->asset_manager->get_font(FONT_ID::MAIN_FONT),
-            Constants::main_menu_title);
+            settings::main_menu_title);
 
-        menu->add_button(Constants::main_menu_play_bt_text, [&]() {
+        menu->add_button(settings::main_menu_play_bt_text, [&]() {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state();
             state_mgr->add_state(std::make_unique<GamePlay>(context));
         });
 
-        menu->add_button(Constants::main_menu_editor_bt_text, [&]() {
+        menu->add_button(settings::main_menu_editor_bt_text, [&]() {
             auto &state_mgr = context->state_manager;
             state_mgr->pop_state();
             state_mgr->add_state(std::make_unique<MapEditor>(context));
         });
 
-        menu->add_button(Constants::main_menu_exit_bt_text, [&]() { 
+        menu->add_button(settings::main_menu_exit_bt_text, [&]() { 
             context->window->close(); 
         });
     }

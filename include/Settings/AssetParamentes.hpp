@@ -1,5 +1,5 @@
 #pragma once
-namespace Constants {
+namespace settings {
     // assets parameters
     // TODO solve issue with relative paths.
     const std::string tile_sheet_texture_path = "../assets/images/tiles/Dung_tileset.png";

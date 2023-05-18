@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 
-namespace Constants {
+namespace settings {
     // texture selector
     const sf::Color texture_selector_select_color = sf::Color::Red;
     const sf::Color texture_selector_bg_color = {50, 50, 50, 100};

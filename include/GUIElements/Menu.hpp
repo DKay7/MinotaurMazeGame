@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Constants/WindowParameters.hpp"
-#include "Constants/MenuGuiElement.hpp"
+#include "Settings/WindowParameters.hpp"
+#include "Settings/MenuGuiElement.hpp"
 #include "Context.hpp"
 #include "GUIElements/Button.hpp"
 #include <SFML/Graphics/Color.hpp>
@@ -24,9 +24,9 @@ namespace gui {
 
         Menu(const sf::Font& font, const std::string titile_text="",
              sf::Color bg_color=sf::Color::Transparent,
-             sf::Vector2f size = sf::Vector2f({Constants::window_width / 4.f , Constants::window_height / 4.}),
-             sf::Vector2f position = sf::Vector2f({Constants::window_width / 2.f , Constants::window_height / 2.}),
-             const float button_indent=Constants::menu_button_indent, 
+             sf::Vector2f size = sf::Vector2f({settings::window_width / 4.f , settings::window_height / 4.}),
+             sf::Vector2f position = sf::Vector2f({settings::window_width / 2.f , settings::window_height / 2.}),
+             const float button_indent=settings::menu_button_indent, 
              bool centering = true);
 
 
