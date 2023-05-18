@@ -48,7 +48,7 @@ namespace game {
                 auto &state_mgr = context->state_manager;   
                 const auto& states_vec = state_mgr->get_states_vector();
                 const auto& prev_state = states_vec.rbegin()[1]; // getting previous state
-                dynamic_cast<states_engine::SaveableLoadableState*>(prev_state.get())->save_state("aboba.map"); // TODO
+                dynamic_cast<states_engine::SaveableLoadableState*>(prev_state.get())->save_state("../assets/map/aboba.map"); // TODO
             });
 
             menu->add_button(settings::pause_menu_load_bt_text, [&]() {
@@ -56,7 +56,7 @@ namespace game {
                 const auto& states_vec = state_mgr->get_states_vector();
                 const auto& prev_state = states_vec.rbegin()[1]; // getting previous state
 
-                dynamic_cast<states_engine::SaveableLoadableState*>(prev_state.get())->load_state("aboba.map"); // TODO
+                dynamic_cast<states_engine::SaveableLoadableState*>(prev_state.get())->load_state("../assets/map/aboba.map"); // TODO
             });
         }
         

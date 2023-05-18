@@ -29,10 +29,8 @@ namespace game {
         
         std::function<void()> save_function;
 
-        bool end_pause = false;
         sf::Sprite bg_sprite;
         sf::RenderTexture render_texture;
-        sf::Text pause_text;
         game_engine::Context *context;
     };
 } // namespace game
