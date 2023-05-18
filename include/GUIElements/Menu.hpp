@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Constants.hpp"
+#include "Constants/WindowParameters.hpp"
+#include "Constants/MenuGuiElement.hpp"
 #include "Context.hpp"
 #include "GUIElements/Button.hpp"
 #include <SFML/Graphics/Color.hpp>

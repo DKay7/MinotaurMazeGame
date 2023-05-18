@@ -1,6 +1,7 @@
 #include "States/GamePlay.hpp"
 #include "Managers/AssetManager.hpp"
-#include "Constants.hpp"
+#include "Constants/AssetParamentes.hpp"
+#include "Constants/GamePlayState.hpp"
 #include "Managers/KeybindsManager.hpp"
 #include "Map/TileMap.hpp"
 #include "States/PauseState.hpp"

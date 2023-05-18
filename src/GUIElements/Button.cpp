@@ -6,7 +6,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <string>
-#include "Constants.hpp"
+#include "Constants/Buttons.hpp"
 #include "Utils/Utils.hpp"
 
 namespace gui {

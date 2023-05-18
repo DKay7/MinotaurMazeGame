@@ -1,6 +1,8 @@
 #include "Entities/Player.hpp"
 #include "Components/HitboxComponent.hpp"
-#include "Constants.hpp"
+#include "Constants/PlayerParameters.hpp"
+#include "Constants/Enums.hpp"
+#include "Constants/AnimationParameters.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>

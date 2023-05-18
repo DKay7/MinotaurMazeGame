@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Constants.hpp"
+#include "Constants/WindowParameters.hpp"
+#include "Constants/CameraState.hpp"
+#include "Constants/Enums.hpp"
 #include "States/State.hpp"
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Vector2.hpp>

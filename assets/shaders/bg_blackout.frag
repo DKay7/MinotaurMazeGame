@@ -1,6 +1,8 @@
 uniform vec2 u_lightPosition;
 uniform float u_radius;
 
+// TODO Fix it!
+
 void main()                             
 {
     float distance  = length( u_lightPosition - gl_FragCoord.xy );

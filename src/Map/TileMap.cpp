@@ -1,5 +1,5 @@
 #include "Map/TileMap.hpp"
-#include "Constants.hpp"
+#include "Constants/Map.hpp"
 #include "Context.hpp"
 #include "Map/Tile.hpp"
 #include "Utils/Utils.hpp"

@@ -3,7 +3,6 @@
 #include "Components/AnimationComponent.hpp"
 #include "Components/HitboxComponent.hpp"
 #include "Components/MovementComponent.hpp"
-#include "Constants.hpp"
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>

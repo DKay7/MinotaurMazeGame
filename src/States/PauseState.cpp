@@ -1,5 +1,6 @@
 #include "States/PauseState.hpp"
-#include "Constants.hpp"
+#include "Constants/WindowParameters.hpp"
+#include "Constants/PauseMenu.hpp"
 #include "GUIElements/Menu.hpp"
 #include "States/MainMenu.hpp"
 #include "Interfaces/SaveableInterface.hpp"

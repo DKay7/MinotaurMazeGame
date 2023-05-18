@@ -1,5 +1,5 @@
 #include "GUIElements/TextureSelector.hpp"
-#include "Constants.hpp"
+#include "Constants/TextureSelector.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>

@@ -1,5 +1,6 @@
 #include "States/GameWin.hpp"
-#include "Constants.hpp"
+#include "Constants/Enums.hpp"
+#include "Constants/GameWinState.hpp"
 #include "GUIElements/Menu.hpp"
 #include "States/MainMenu.hpp"
 #include "Utils/Utils.hpp"

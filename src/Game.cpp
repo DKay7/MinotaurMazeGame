@@ -1,6 +1,6 @@
 #include "Game.hpp"
 #include "States/MainMenu.hpp"
-#include "Constants.hpp"
+#include "Constants/WindowParameters.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
 #include <memory>

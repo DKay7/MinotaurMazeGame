@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Constants.hpp"
+#include "Constants/WindowParameters.hpp"
 #include "Entities/Entity.hpp"
 #include "GUIElements/Button.hpp"
 #include "Map/TileMap.hpp"
