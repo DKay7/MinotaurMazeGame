@@ -1,6 +1,5 @@
 uniform vec2 u_lightPosition;
 uniform float u_radius;
-uniform sampler2D texture;
 
 void main()                             
 {

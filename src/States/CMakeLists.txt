@@ -3,4 +3,5 @@ add_sources(
     GamePlay.cpp
     MapEditor.cpp
     PauseState.cpp
+    GameWin.cpp
 )

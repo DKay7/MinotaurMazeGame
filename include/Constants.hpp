@@ -169,6 +169,13 @@ namespace Constants  {
 
 //--------------------------------------------------------------------------------
 
+    // gamewin state
+    const std::string game_win_title = "Meow!\nYou win!";
+    const std::string game_win_continue_btn_text = "Continue exploring maze";
+    const std::string game_win_get_home_btn_text = "Go back to main menu";
+    
+//--------------------------------------------------------------------------------
+
     // assets parameters
     // TODO solve issue with relative paths.
     const std::string tile_sheet_texture_path = "../assets/images/tiles/Dung_tileset.png";
