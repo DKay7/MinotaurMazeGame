@@ -10,6 +10,7 @@ enum class TEXTURE_ID {
     GAME_FOG_BACK   = 3,
     GAME_FOG_FRONT  = 4,
     GAME_BLACKOUT   = 5,
+    WINNER_BG       = 6,
 };
 
 //--------------------------------------------------------------------------------

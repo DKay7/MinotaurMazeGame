@@ -3,6 +3,7 @@
 #include "Context.hpp"
 #include "GUIElements/Menu.hpp"
 #include "States/State.hpp"
+#include <SFML/Graphics/Sprite.hpp>
 #include <memory>
 
 namespace game {
@@ -19,6 +20,7 @@ namespace game {
             #endif
 
         private:
+            sf::Sprite bg_sprite;
             game_engine::Context* context;
             std::unique_ptr<gui::Menu> menu;
     };

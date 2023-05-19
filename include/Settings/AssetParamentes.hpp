@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 namespace settings {
     // assets parameters
     // TODO solve issue with relative paths.
@@ -11,4 +13,6 @@ namespace settings {
     const std::string main_font_path = "../assets/fonts/RubikMonoOne-Regular.ttf"; 
     const std::string main_menu_bg_image_path = "../assets/images/backgrounds/main_menu_bg_image.jpg";
     const std::string player_sheet_texture_path = "../assets/images/sprites/black_4.png";
+
+    const std::string winner_bg_image_path = "../assets/images/backgrounds/winner_bg.png";
 }

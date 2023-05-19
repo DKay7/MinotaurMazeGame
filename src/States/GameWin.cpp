@@ -1,7 +1,9 @@
 #include "States/GameWin.hpp"
+#include "Settings/AssetParamentes.hpp"
 #include "Settings/Enums.hpp"
 #include "Settings/GameWinState.hpp"
 #include "GUIElements/Menu.hpp"
+#include "Settings/MainMenu.hpp"
 #include "States/MainMenu.hpp"
 #include "Utils/Utils.hpp"
 #include <memory>
@@ -21,6 +23,11 @@ namespace game {
             auto& state_manager = context->state_manager;
             state_manager->pop_state(); // popping game win state;
         });
+
+        context->asset_manager->add_texture(TEXTURE_ID::WINNER_BG, settings::winner_bg_image_path);
+        bg_sprite.setTexture(context->asset_manager->get_texture(TEXTURE_ID::WINNER_BG));
+        bg_sprite.setColor(settings::bg_sprite_color);
+
     }
 
     void GameWin::process_input(sf::Event& event) {
@@ -35,6 +42,7 @@ namespace game {
     void GameWin::draw() {
         auto &window = context->window;
         window->clear(); 
+        window->draw(bg_sprite);
         window->draw(*menu);
         window->display();
     }

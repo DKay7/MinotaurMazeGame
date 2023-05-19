@@ -14,6 +14,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <functional>
 #include <memory>
 #include <set>
 #include <string>
