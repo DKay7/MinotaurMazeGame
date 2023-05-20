@@ -165,10 +165,15 @@ namespace game {
         std::string cur_tile_type_str = utils::get_string_tile_types(current_tile_type);
 
         std::stringstream mouse_text_ss;
-        mouse_text_ss << mouse_pos.x << ", " << mouse_pos.y << "\n" 
-                      << "view: {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}\n" 
-                      << "grid: [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y  << "]\n"
+
+        #ifndef NDEBUG
+            mouse_text_ss   << mouse_pos.x << ", " << mouse_pos.y << "\n"
+                            << "view: {" << mouse_pos_view.x << ":" << mouse_pos_view.y  << "}\n";
+        #endif
+
+        mouse_text_ss << "grid: [" << mouse_pos_grid.x << ":" << mouse_pos_grid.y  << "]\n"
                       << "tile type: {\n" << std::boolalpha << cur_tile_type_str << "}";
+
         mouse_coords_text.setString(mouse_text_ss.str());
 
         mouse_coords_text.setPosition({
